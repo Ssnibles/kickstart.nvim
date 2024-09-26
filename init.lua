@@ -1,6 +1,3 @@
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-
 vim.g.have_nerd_font = true
 
 --  To check the current status of your plugins, run
@@ -57,4 +54,10 @@ ui = {
   lazy = "💤 ",
  },
 }
+
+vim.loader.enable()
+
+require ("binds")
+require ("settings")
+require ("autocommands")
 
