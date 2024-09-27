@@ -3,10 +3,17 @@
 --  /  '_// / __/  '_/(_-</ __/ _ `/ __/ __/ / _ \ |/ / /  ' \
 -- /_/\_\/_/\__/_/\_\/___/\__/\_,_/_/  \__(_)_//_/___/_/_/_/_/
 
+vim.loader.enable()
+
+require "binds"
+require "settings"
+require "autocommands"
 --  To check the current status of your plugins, run
 --    :Lazy
 --  To update plugins you can run
 --    :Lazy update
+
+-- All lazy plugins can be found in the lua/plugins folder
 
 -- Bootstrap lazy plugin manager
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
@@ -57,14 +64,3 @@ ui = {
     lazy = "💤 ",
   },
 }
-
---                                 ____ __
---   ___ ___  __ _____________    / _(_) /__ ___
---  (_-</ _ \/ // / __/ __/ -_)  / _/ / / -_|_-<
--- /___/\___/\_,_/_/  \__/\__/  /_//_/_/\__/___/
-
-vim.loader.enable()
-
-require "binds"
-require "settings"
-require "autocommands"

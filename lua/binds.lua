@@ -9,6 +9,9 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+-- vim keymaps are declared like this;
+-- vim.keymap.set(<"MODE">,<"KEY">, <COMMAND>)
+
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
@@ -42,3 +45,5 @@ vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper win
 -- Key mapping to delete the current line using the black hole register
 vim.keymap.set("n", "<C-x>", '"_dd:echo "Line deleted"<CR>', { noremap = true, silent = true })
 vim.keymap.set("i", "<C-x>", '<Esc>"_dd:echo "Line deleted"<CR>i', { noremap = true, silent = true })
+
+vim.keymap.set("n", "<leader>th", ":Themery<CR>", { desc = "Themery" }) -- Themery
