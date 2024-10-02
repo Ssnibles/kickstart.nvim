@@ -18,8 +18,10 @@ return {
     -- kanagawa
     { "rebelot/kanagawa.nvim", name = "kanagawa", lazy = false, priority = 1000 },
     -- sononaki
-    { "sainnhe/sonokai", name = "sonokai", 
-lazy = false, priority = 1000 },
+    { "sainnhe/sonokai", name = "sonokai", lazy = false, priority = 1000 },
+    { "rose-pine/neovim", name = "rose-pine", opts = {
+      variant = "moon",
+    }, lazy = false, priority = 1000 },
   },
   config = function()
     require("themery").setup {
@@ -39,6 +41,10 @@ lazy = false, priority = 1000 },
         {
           name = "Sonokai",
           colorscheme = "sonokai",
+        },
+        {
+          name = "Rose-pine",
+          colorscheme = "rose-pine",
         },
       },
       livePreview = true, -- Live Preview of theme change
