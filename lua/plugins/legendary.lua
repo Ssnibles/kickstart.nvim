@@ -1,9 +1,22 @@
 return {
   "mrjones2014/legendary.nvim",
-  -- since legendary.nvim handles all your keymaps/commands,
-  -- its recommended to load legendary.nvim before other plugins
   priority = 10000,
   lazy = false,
-  -- sqlite is only needed if you want to use frecency sorting
-  -- dependencies = { 'kkharji/sqlite.lua' }
+  dependencies = {
+    "kkharji/sqlite.lua",
+    "stevearc/dressing.nvim", -- Optional: Enhances UI appearance
+  },
+  opts = {
+    extensions = {
+      which_key = { auto_register = true },
+      lazy_nvim = { auto_register = true },
+    },
+    include_builtin = true,
+    include_legendary_cmds = true,
+    select_prompt = " Legendary ",
+    col_separator_char = "│",
+  },
+  keys = {
+    { "<leader>l", "<cmd>Legendary<cr>", desc = "Open Legendary" },
+  },
 }
