@@ -46,4 +46,4 @@ vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper win
 vim.keymap.set("n", "<C-x>", '"_dd:echo "Line deleted"<CR>', { noremap = true, silent = true })
 vim.keymap.set("i", "<C-x>", '<Esc>"_dd:echo "Line deleted"<CR>i', { noremap = true, silent = true })
 
-vim.keymap.set("n", "<leader>th", ":Themery<CR>", { desc = "Themery" }) -- Themery
+-- vim.keymap.set("n", "<leader>th", ":Themery<CR>", { desc = "Themery" }) -- Themery

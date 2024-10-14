@@ -7,6 +7,9 @@ return {
 		{ "sainnhe/sonokai", name = "sonokai", lazy = false, priority = 1000 },
 		{ "rose-pine/neovim", name = "rose-pine", opts = { variant = "moon" }, lazy = false, priority = 1000 },
 	},
+	keys = {
+		{ "<leader>th", "<cmd>Themery<cr>", desc = "Themery" }, -- Themery
+	},
 	config = function()
 		require("themery").setup({
 			themes = {

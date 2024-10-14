@@ -4,7 +4,6 @@ return {
 		"williamboman/mason-lspconfig.nvim",
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 		"neovim/nvim-lspconfig",
-		"hrsh7th/cmp-nvim-lsp",
 	},
 	event = { "BufReadPre", "BufNewFile" },
 	cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUninstallAll", "MasonLog" },
@@ -34,6 +33,7 @@ return {
 				"tsserver",
 				"pyright",
 				"tailwindcss",
+				"bashls",
 			},
 		})
 
@@ -47,23 +47,5 @@ return {
 				"eslint_d",
 			},
 		})
-
-		local lspconfig = require("lspconfig")
-		local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-		local servers = {
-			"cssls",
-			"eslint",
-			"html",
-			"jsonls",
-			"tsserver",
-			"pyright",
-			"tailwindcss",
-		}
-		for _, lsp in ipairs(servers) do
-			lspconfig[lsp].setup({
-				capabilities = capabilities,
-			})
-		end
 	end,
 }
