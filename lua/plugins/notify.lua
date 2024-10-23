@@ -10,28 +10,28 @@ return {
       stages = "slide",
 
       -- Default timeout for notifications
-      timeout = 5000,
+      timeout = 3000,
 
       -- For stages that change opacity, this is treated as the highlight behind the window
-      background_colour = "#",
+      -- background_colour = "#00FFFFFF",
 
       -- Icons for the different levels
       icons = {
-        ERROR = "",
-        WARN = "",
-        INFO = "",
-        DEBUG = "",
-        TRACE = "✎",
+        ERROR = "",
+        WARN = "",
+        INFO = "",
+        DEBUG = "",
+        TRACE = "󱍼",
       },
 
       -- Minimum width for notification windows
-      minimum_width = 50,
+      minimum_width = 35,
 
       -- Render function for notifications. See notify-render()
       render = "default",
 
       -- Max number of columns for messages
-      max_width = 50,
+      max_width = 35,
       -- Max number of lines for a message
       max_height = nil,
 
@@ -45,10 +45,7 @@ return {
       render = "default",
 
       -- Highlight behind the window for stages that change opacity
-      background_colour = "Normal",
-
-      -- Minimum width for notification windows
-      minimum_width = 50,
+      -- background_colour = "Normal",
 
       -- Top down strategy
       top_down = true,
@@ -94,9 +91,9 @@ return {
 
     -- Optional: Example usage
     notify("Welcome Traveler", "info", {
-      title = "Notification Title",
+      -- title = "Notification Title",
       timeout = 3000,
-      render = "minimal",
+      render = "compact",
     })
   end,
 }

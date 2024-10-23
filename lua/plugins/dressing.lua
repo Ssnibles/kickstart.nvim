@@ -19,7 +19,7 @@ return {
 
       win_options = {
         winblend = 10,
-        wrap = false,
+        wrap = true,
         list = true,
         listchars = "precedes:…,extends:…",
         sidescrolloff = 0,
@@ -68,7 +68,7 @@ return {
       fzf = {
         window = {
           width = 0.5,
-          height = 0.4,
+          height = 0.5,
         },
         winopts = {
           height = 0.5,
