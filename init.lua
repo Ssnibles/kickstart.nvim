@@ -1,6 +1,18 @@
 -- Enable Lua module loader for better performance
 vim.loader.enable()
 
+-- Performance profiler using snacks.nvim
+-- Start the profiler by running nvim like this "PROF=1 nvim"
+if vim.env.PROF then
+  local snacks = vim.fn.stdpath "data" .. "/lazy/snacks.nvim"
+  vim.opt.rtp:append(snacks)
+  require("snacks.profiler").startup {
+    startup = {
+      event = "VimEnter",
+    },
+  }
+end
+
 -- Core configuration
 local core_modules = {
   "core.options",
@@ -27,6 +39,8 @@ if not vim.loop.fs_stat(lazypath) then
   }
 end
 vim.opt.rtp:prepend(lazypath)
+
+vim.opt.lazyredraw = false
 
 -- Plugin configuration
 require("lazy").setup {

@@ -1,6 +1,7 @@
 return {
   "folke/trouble.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
+  event = "VeryLazy",
   opts = {
     position = "bottom", -- position of the list can be: bottom, top, left, right
     height = 10, -- height of the trouble list when position is top or bottom

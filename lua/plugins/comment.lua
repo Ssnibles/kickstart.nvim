@@ -1,3 +1,4 @@
+-- Don't take this out LSP wont work without it for some reason... gotta fix that
 return {
   "numToStr/Comment.nvim",
   event = { "BufReadPre", "BufNewFile" },

@@ -1,7 +1,6 @@
 return {
   "mrjones2014/legendary.nvim",
-  priority = 10000,
-  lazy = false,
+  event = "VeryLazy",
   dependencies = {
     "kkharji/sqlite.lua",
     "stevearc/dressing.nvim", -- Optional: Enhances UI appearance
