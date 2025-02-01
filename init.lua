@@ -1,5 +1,7 @@
 -- Enable Lua module loader for better performance
-vim.loader.enable()
+if vim.loader then
+  vim.loader.enable()
+end
 
 -- Performance profiler using snacks.nvim
 -- Start the profiler by running nvim like this "PROF=1 nvim"

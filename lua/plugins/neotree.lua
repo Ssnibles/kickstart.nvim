@@ -40,7 +40,7 @@ return {
 
     -- Window options
     window = {
-      position = "right",
+      position = "left",
       width = 30,
       mappings = {
         ["<space>"] = "none",

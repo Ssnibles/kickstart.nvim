@@ -17,7 +17,7 @@ return {
       require("mini.surround").setup()
       require("mini.tabline").setup()
       require("mini.starter").setup()
-      require("mini.animate").setup()
+      -- require("mini.animate").setup()
 
       -- You can add more mini modules or customize their setup here
     end,
