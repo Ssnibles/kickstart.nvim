@@ -1,5 +1,6 @@
 return {
   "folke/snacks.nvim",
+  event = "VimEnter",
   opts = {
     dim = {
       scope = {
@@ -29,3 +30,4 @@ return {
     -- require("snacks").indent(opts)
   end
 }
+
