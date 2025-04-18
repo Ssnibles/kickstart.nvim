@@ -28,7 +28,7 @@ return {
       " ∧,,,∧",
       "(• ⩊ •)",
       "|￣U U￣￣￣￣￣￣￣￣￣|",
-      "| Just give up          |",
+      "|     Just give up      |",
       "|                       |",
       " ￣￣￣￣￣￣￣￣￣￣￣￣",
     }
@@ -36,16 +36,16 @@ return {
 
     -- Set menu buttons
     dashboard.section.buttons.val = {
-      dashboard.button("f", "  Find File", "<cmd>Telescope find_files<cr>"),
-      dashboard.button("t", "  Find Text", "<cmd>Telescope live_grep<cr>"),
-      dashboard.button("r", "  Recent Files", "<cmd>Telescope oldfiles<cr>"),
+      dashboard.button("f", "󰈞  Find File", "<cmd>Telescope find_files<cr>"),
+      dashboard.button("t", "  Find Text", "<cmd>Telescope live_grep<cr>"),
+      dashboard.button("r", "󰞌  Recent Files", "<cmd>Telescope oldfiles<cr>"),
       dashboard.button("n", "  New File", "<cmd>ene | startinsert<cr>"),
-      dashboard.button("c", "  Config", "<cmd>Telescope find_files cwd=" .. vim.fn.stdpath("config") .. "<cr>"),
-      dashboard.button("q", "  Quit", "<cmd>qa<cr>"),
+      dashboard.button("c", "  Config", "<cmd>Telescope find_files cwd=" .. vim.fn.stdpath("config") .. "<cr>"),
+      dashboard.button("q", "  Quit", "<cmd>qa<cr>"),
     }
 
     -- Set footer
-    dashboard.section.footer.val = "What the sigma"
+    dashboard.section.footer.val = "󰝗 It's not worth it 󰉾 - Socrates"
     dashboard.section.footer.opts.hl = "Comment"
 
     -- Set layout with dynamic padding
