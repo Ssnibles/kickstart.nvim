@@ -24,7 +24,6 @@ return {
     config = function()
       require("mason-tool-installer").setup({
         ensure_installed = {
-          -- LSP Servers
           "lua-language-server",
           "gopls",
           "typescript-language-server",
@@ -34,8 +33,6 @@ return {
           "marksman",
           "texlab",
           "eslint-lsp",
-
-          -- Formatters/Linters
           "stylua",
           "prettier",
           "eslint_d",
@@ -56,7 +53,7 @@ return {
       "neovim/nvim-lspconfig",
     },
     config = function()
-      -- 1. Diagnostic configuration (with numhl support)
+      -- 1. Diagnostic configuration
       vim.diagnostic.config({
         virtual_text = {
           prefix = "●",
@@ -82,24 +79,23 @@ return {
         },
       })
 
-      -- 2. Define gutter signs with numhl (for colored line numbers)
+      -- 2. Diagnostic signs
       local signs = {
         Error = " ",
         Warn = " ",
         Hint = " ",
         Info = " ",
       }
-
       for type, icon in pairs(signs) do
         local hl = "DiagnosticSign" .. type
         vim.fn.sign_define(hl, {
           text = icon,
           texthl = hl,
-          numhl = hl, -- This enables the colored line numbers
+          numhl = hl,
         })
       end
 
-      -- 3. LSP Capabilities (blink.cmp compatible)
+      -- 3. LSP capabilities
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities.textDocument.completion.completionItem = {
         snippetSupport = true,
@@ -108,27 +104,7 @@ return {
         },
       }
 
-      -- 4. Mason LSP Installer Setup
-      require("mason-lspconfig").setup({
-        ensure_installed = {
-          "lua_ls",
-          "gopls",
-          "ts_ls", -- Using the correct server name now
-          "clangd",
-          "bashls",
-          "taplo",
-          "marksman",
-          "texlab",
-          "eslint",
-          "hyprls",
-        },
-        automatic_installation = true,
-      })
-
-      local lspconfig = require("lspconfig")
-      local util = require("lspconfig/util")
-
-      -- 5. on_attach function with your keymaps
+      -- 4. Common on_attach function
       local on_attach = function(client, bufnr)
         local function map(mode, lhs, rhs, desc)
           vim.keymap.set(mode, lhs, rhs, {
@@ -142,20 +118,16 @@ return {
         -- Navigation
         map("n", "K", vim.lsp.buf.hover, "Hover Documentation")
         map("n", "gd", vim.lsp.buf.definition, "Goto Definition")
+        map("n", "gD", vim.lsp.buf.declaration, "Goto Declaration")
         map("n", "gr", vim.lsp.buf.references, "Goto References")
         map("n", "gi", vim.lsp.buf.implementation, "Goto Implementation")
 
         -- Code actions
         map("n", "<leader>rn", vim.lsp.buf.rename, "Rename Symbol")
         map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code Action")
-
-        -- Formatting
-        map("n", "<leader>cf", function()
-          vim.lsp.buf.format({ async = true })
-        end, "Format Document")
       end
 
-      -- 6. Common server configuration
+      -- 5. Common setup configuration
       local common_setup = {
         on_attach = on_attach,
         capabilities = capabilities,
@@ -164,40 +136,57 @@ return {
         },
       }
 
-      -- 7. Server-specific configurations
-      require("mason-lspconfig").setup_handlers({
-        function(server_name)
-          lspconfig[server_name].setup(common_setup)
-        end,
+      -- 6. Mason LSP configuration (UPDATED SECTION)
+      require("mason-lspconfig").setup({
+        ensure_installed = {
+          "lua_ls",
+          "gopls",
+          "ts_ls",
+          "clangd",
+          "bashls",
+          "taplo",
+          "marksman",
+          "texlab",
+          "eslint",
+        },
+        automatic_installation = false, -- Important change
+        handlers = {
+          -- Default handler for all servers
+          function(server_name)
+            require("lspconfig")[server_name].setup(common_setup)
+          end,
 
-        ["lua_ls"] = function()
-          lspconfig.lua_ls.setup(vim.tbl_deep_extend("force", common_setup, {
-            settings = {
-              Lua = {
-                runtime = { version = "LuaJIT" },
-                diagnostics = { globals = { "vim" } },
-                workspace = {
-                  checkThirdParty = false,
-                  library = vim.api.nvim_get_runtime_file("", true),
+          -- Lua-specific configuration
+          ["lua_ls"] = function()
+            require("lspconfig").lua_ls.setup(vim.tbl_deep_extend("force", common_setup, {
+              settings = {
+                Lua = {
+                  runtime = { version = "LuaJIT" },
+                  diagnostics = { globals = { "vim" } },
+                  workspace = {
+                    checkThirdParty = false,
+                    library = vim.api.nvim_get_runtime_file("", true),
+                  },
+                  telemetry = { enable = false },
                 },
-                telemetry = { enable = false },
               },
-            },
-          }))
-        end,
+            }))
+          end,
 
-        ["ts_ls"] = function() -- Using the correct server name now
-          lspconfig.ts_ls.setup(vim.tbl_deep_extend("force", common_setup, {
-            root_dir = util.root_pattern("package.json", "tsconfig.json"),
-            settings = {
-              completions = { completeFunctionCalls = true },
-              typescript = { inlayHints = { includeInlayParameterNameHints = "all" } },
-            },
-          }))
-        end,
+          -- TypeScript configuration
+          ["ts_ls"] = function()
+            require("lspconfig").ts_ls.setup(vim.tbl_deep_extend("force", common_setup, {
+              root_dir = require("lspconfig.util").root_pattern("package.json", "tsconfig.json"),
+              settings = {
+                completions = { completeFunctionCalls = true },
+                typescript = { inlayHints = { includeInlayParameterNameHints = "all" } },
+              },
+            }))
+          end,
+        },
       })
 
-      -- 8. Hover diagnostics enhancement
+      -- 7. Hover diagnostics enhancement
       vim.api.nvim_create_autocmd("CursorHold", {
         pattern = "*",
         callback = function()
