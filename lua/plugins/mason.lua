@@ -20,6 +20,7 @@ return {
 
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
+    cmd = { "MasonToolsInstall", "MasonToolsInstallSync" },
     dependencies = "williamboman/mason.nvim",
     config = function()
       require("mason-tool-installer").setup({
