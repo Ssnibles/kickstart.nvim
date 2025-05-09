@@ -31,7 +31,7 @@ return {
       scss = { "prettier" },
       sh = { "shfmt" },
       go = { "gofumpt", "goimports" },
-      rust = { "ast_grep" },
+      rust = { "rustfmt" },
       ruby = { "rubyfmt" },
       php = { "php-cs-fixer" },
       java = { "google-java-format" },

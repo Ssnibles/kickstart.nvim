@@ -239,4 +239,8 @@ return {
   {
     "pogyomo/winresize.nvim",
   },
+  {
+    "shortcuts/no-neck-pain.nvim",
+    version = "*",
+  },
 }
