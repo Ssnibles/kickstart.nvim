@@ -2,20 +2,8 @@ return {
   "folke/noice.nvim",
   dependencies = {
     "MunifTanjim/nui.nvim",
-    "rcarriga/nvim-notify",
   },
   opts = {
-
-    -- Customising routes
-    routes = {
-      filter = {
-        event = "msg_show",
-        kind = "",
-        find = "written",
-      },
-      opts = { skip = true },
-    },
-
     -- Customising views
     views = {
       cmdline_popup = { -- The nice cmdline UI
@@ -61,6 +49,6 @@ return {
     lsp = {
       hover = { enabled = false },
       signature = { enabled = false },
-    }
+    },
   },
 }
