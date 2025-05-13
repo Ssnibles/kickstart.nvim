@@ -32,7 +32,6 @@ return {
     },
   },
   {
-    -- enabled = false,
     "j-hui/fidget.nvim",
     event = "LspAttach",
     opts = {
@@ -82,7 +81,7 @@ return {
             filename = "[No Name]"
           end
 
-          local ft_icon, ft_color = devicons.get_icon_color(filename)
+          local ft_icon = devicons.get_icon_color(filename)
           local modified = vim.bo[props.buf].modified
 
           return {

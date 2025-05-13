@@ -55,46 +55,46 @@ return {
     },
     config = function()
       -- 1. Diagnostic configuration
-      vim.diagnostic.config({
-        virtual_text = {
-          prefix = "●",
-          spacing = 4,
-        },
-        signs = true,
-        underline = true,
-        update_in_insert = false,
-        severity_sort = true,
-        float = {
-          border = "rounded",
-          source = "always",
-          header = "",
-          prefix = "",
-          format = function(diagnostic)
-            return string.format(
-              "%s [%s] (%s)",
-              diagnostic.message,
-              diagnostic.code or diagnostic.user_data.lsp.code,
-              diagnostic.source
-            )
-          end,
-        },
-      })
+      -- vim.diagnostic.config({
+      --   virtual_text = {
+      --     prefix = "●",
+      --     spacing = 4,
+      --   },
+      --   signs = true,
+      --   underline = true,
+      --   update_in_insert = false,
+      --   severity_sort = true,
+      --   float = {
+      --     border = "rounded",
+      --     source = "always",
+      --     header = "",
+      --     prefix = "",
+      --     format = function(diagnostic)
+      --       return string.format(
+      --         "%s [%s] (%s)",
+      --         diagnostic.message,
+      --         diagnostic.code or diagnostic.user_data.lsp.code,
+      --         diagnostic.source
+      --       )
+      --     end,
+      --   },
+      -- })
 
       -- 2. Diagnostic signs
-      local signs = {
-        Error = " ",
-        Warn = " ",
-        Hint = " ",
-        Info = " ",
-      }
-      for type, icon in pairs(signs) do
-        local hl = "DiagnosticSign" .. type
-        vim.fn.sign_define(hl, {
-          text = icon,
-          texthl = hl,
-          numhl = hl,
-        })
-      end
+      -- local signs = {
+      --   Error = " ",
+      --   Warn = " ",
+      --   Hint = " ",
+      --   Info = " ",
+      -- }
+      -- for type, icon in pairs(signs) do
+      --   local hl = "DiagnosticSign" .. type
+      --   vim.fn.sign_define(hl, {
+      --     text = icon,
+      --     texthl = hl,
+      --     numhl = hl,
+      --   })
+      -- end
 
       -- 3. LSP capabilities
       local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -188,21 +188,21 @@ return {
       })
 
       -- 7. Hover diagnostics enhancement
-      vim.api.nvim_create_autocmd("CursorHold", {
-        pattern = "*",
-        callback = function()
-          local opts = {
-            focusable = false,
-            close_events = { "CursorMoved", "InsertEnter" },
-            border = "rounded",
-            source = "always",
-            prefix = function(diagnostic)
-              return string.format("(%s) ", diagnostic.source)
-            end,
-          }
-          vim.diagnostic.open_float(nil, opts)
-        end,
-      })
+      --     vim.api.nvim_create_autocmd("CursorHold", {
+      --       pattern = "*",
+      --       callback = function()
+      --         local opts = {
+      --           focusable = false,
+      --           close_events = { "CursorMoved", "InsertEnter" },
+      --           border = "rounded",
+      --           source = "always",
+      --           prefix = function(diagnostic)
+      --             return string.format("(%s) ", diagnostic.source)
+      --           end,
+      --         }
+      --         vim.diagnostic.open_float(nil, opts)
+      --       end,
+      --     })
     end,
   },
 }
