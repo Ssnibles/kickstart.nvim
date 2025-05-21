@@ -112,22 +112,22 @@ return {
       layout = "qwerty",
     },
   },
-  {
-    "toppair/peek.nvim",
-    event = { "VeryLazy" },
-    build = "deno task --quiet build:fast",
-    config = function()
-      require("peek").setup({
-        auto_load = true,
-        -- theme = "dark",
-        update_on_change = true,
-        filetype = { "markdown" },
-        app = { "zen-browser", "--new-window" },
-      })
-      vim.api.nvim_create_user_command("PeekOpen", require("peek").open, {})
-      vim.api.nvim_create_user_command("PeekClose", require("peek").close, {})
-    end,
-  },
+  -- {
+  --   "toppair/peek.nvim",
+  --   event = { "VeryLazy" },
+  --   build = "deno task --quiet build:fast",
+  --   config = function()
+  --     require("peek").setup({
+  --       auto_load = true,
+  --       -- theme = "dark",
+  --       update_on_change = true,
+  --       filetype = { "markdown" },
+  --       app = { "zen-browser", "--new-window" },
+  --     })
+  --     vim.api.nvim_create_user_command("PeekOpen", require("peek").open, {})
+  --     vim.api.nvim_create_user_command("PeekClose", require("peek").close, {})
+  --   end,
+  -- },
   {
     -- TODO:
     "folke/todo-comments.nvim",
@@ -240,6 +240,24 @@ return {
   },
   {
     "shortcuts/no-neck-pain.nvim",
+    cmd = { "NoNeckPain" },
     version = "*",
+  },
+  {
+    "m4xshen/hardtime.nvim",
+    lazy = false,
+    dependencies = { "MunifTanjim/nui.nvim" },
+    opts = {
+      disable_mouse = true,
+      notification = true,
+
+      -- Only disable arrow keys in normal mode
+      disabled_keys = {
+        ["<Up>"] = { "", "n" },
+        ["<Down>"] = { "", "n" },
+        ["<Left>"] = { "", "n" },
+        ["<Right>"] = { "", "n" },
+      },
+    },
   },
 }

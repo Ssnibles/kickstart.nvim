@@ -104,10 +104,10 @@ keymap("n", "<leader>@@", "@@", { noremap = true, desc = "Play Last Recorded Mac
 -- ╰─────────────────────────────────────────────────────────────╯
 
 -- Uncomment to discourage arrow key use (suggest hjkl instead)
-local arrow_keys = { "<Left>", "<Right>", "<Up>", "<Down>" }
-for _, key in ipairs(arrow_keys) do
-  keymap("n", key, '<cmd>echo "Use hjkl!"<CR>', { noremap = true, silent = true })
-end
+-- local arrow_keys = { "<Left>", "<Right>", "<Up>", "<Down>" }
+-- for _, key in ipairs(arrow_keys) do
+--   keymap("n", key, '<cmd>echo "Use hjkl!"<CR>', { noremap = true, silent = true })
+-- end
 
 -- ╭─────────────────────────────────────────────────────────────╮
 -- │                  OPTIONAL: NUMBER INCREMENT                 │
