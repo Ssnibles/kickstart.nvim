@@ -17,10 +17,6 @@ return {
           border = "border",
           scrollbar = true,
         },
-        hl = {
-          border = "FloatBorder", -- Match Telescope border color
-          preview = "Normal",
-        },
         -- Padding can be increased with margin if needed (not always supported)
         -- margin = { top = 1, bottom = 1, left = 2, right = 2 },
       },
