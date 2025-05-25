@@ -101,18 +101,20 @@ set_options({
   },
 
   fillchars = {
-    eob = " ", -- Works as-is
-    fold = " ", -- Works, but consider "foldopen=,foldsep=│,foldclose="
-    foldopen = "",
-    foldclose = "",
-    foldsep = "│",
-    vert = "▕", -- Vertical split
-    horiz = "─", -- Horizontal split (recommend using a visible character)
-    horizup = " ", -- Rarely used
-    horizdown = " ", -- Rarely used
-    vertleft = "▏", -- Left vertical split
-    vertright = "▕", -- Right vertical split
-    verthoriz = "╋", -- Cross junction
+    eob = " ", -- End of buffer: keep as space
+    fold = " ", -- Fold: space, but see below for fold chars
+    foldopen = "", -- Custom fold open icon
+    foldclose = "", -- Custom fold close icon
+    foldsep = "│", -- Fold separator: vertical bar
+
+    -- Borders for splits:
+    vert = "│", -- Vertical split: solid vertical bar aligns with intersections
+    horiz = "─", -- Horizontal split: solid horizontal bar
+    horizup = "┴", -- Upward T-junction (bottom of a pane meeting a vertical split)
+    horizdown = "┬", -- Downward T-junction (top of a pane meeting a vertical split)
+    vertleft = "┤", -- Left T-junction (right edge of a pane meeting a horizontal split)
+    vertright = "├", -- Right T-junction (left edge of a pane meeting a horizontal split)
+    verthoriz = "┼", -- Cross junction (intersection of vertical and horizontal splits)
   },
 
   -- Search behavior

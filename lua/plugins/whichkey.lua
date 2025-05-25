@@ -3,10 +3,10 @@ return {
   lazy = false,
   keys = {
     { "<leader>", mode = { "n", "v" } },
-    { "g", mode = { "n", "v" } },
-    { "z", mode = { "n", "v" } },
-    { "]", mode = { "n", "v" } },
-    { "[", mode = { "n", "v" } },
+    { "g",        mode = { "n", "v" } },
+    { "z",        mode = { "n", "v" } },
+    { "]",        mode = { "n", "v" } },
+    { "[",        mode = { "n", "v" } },
   },
   init = function()
     vim.o.timeout = true

@@ -9,10 +9,10 @@ return {
         width = 0.80,
         row = 0.5,
         col = 0.5,
-        border = "rounded", -- Telescope-like rounded borders
-        title = "Files", -- Main window title
+        border = "rounded",       -- Telescope-like rounded borders
+        title = "Files",          -- Main window title
         preview = {
-          layout = "vertical", -- Preview on the right
+          layout = "vertical",    -- Preview on the right
           vertical = "right:60%", -- 60% of window width for preview
           border = "border",
           scrollbar = true,
@@ -65,12 +65,13 @@ return {
         builtin = {
           syntax = true,
           treesitter = true,
+          -- snacks_image = { enabled = true },
         },
       },
       keymap = {
         fzf = {
-          ["ctrl-j"] = "down",
-          ["ctrl-k"] = "up",
+          ["ctrl-j"] = "preview-down",
+          ["ctrl-k"] = "preview-up",
           ["ctrl-d"] = "preview-half-page-down",
           ["ctrl-u"] = "preview-half-page-up",
         },

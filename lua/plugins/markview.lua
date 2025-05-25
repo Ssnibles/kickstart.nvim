@@ -6,7 +6,7 @@ return {
     "nvim-tree/nvim-web-devicons",
   },
   keys = {
-    { "<leader>mtc", "<Cmd>Checkbox<CR>", desc = "Toggle Checkboxes" },
+    { "<leader>mtc", "<Cmd>Checkbox<CR>",         desc = "Toggle Checkboxes" },
     { "<leader>mhi", "<Cmd>Heading increase<CR>", desc = "Increase Heading" },
     { "<leader>mhd", "<Cmd>Heading decrease<CR>", desc = "Decrease Heading" },
   },

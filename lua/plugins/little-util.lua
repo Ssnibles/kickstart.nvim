@@ -191,18 +191,18 @@ return {
         mode = { "n", "x" },
         desc = "Put yanked text before selection",
       },
-      { "<c-p>", "<Plug>(YankyPreviousEntry)", desc = "Select previous entry through yank history" },
-      { "<c-n>", "<Plug>(YankyNextEntry)", desc = "Select next entry through yank history" },
-      { "]p", "<Plug>(YankyPutIndentAfterLinewise)", desc = "Put indented after cursor (linewise)" },
-      { "[p", "<Plug>(YankyPutIndentBeforeLinewise)", desc = "Put indented before cursor (linewise)" },
-      { "]P", "<Plug>(YankyPutIndentAfterLinewise)", desc = "Put indented after cursor (linewise)" },
-      { "[P", "<Plug>(YankyPutIndentBeforeLinewise)", desc = "Put indented before cursor (linewise)" },
-      { ">p", "<Plug>(YankyPutIndentAfterShiftRight)", desc = "Put and indent right" },
-      { "<p", "<Plug>(YankyPutIndentAfterShiftLeft)", desc = "Put and indent left" },
-      { ">P", "<Plug>(YankyPutIndentBeforeShiftRight)", desc = "Put before and indent right" },
-      { "<P", "<Plug>(YankyPutIndentBeforeShiftLeft)", desc = "Put before and indent left" },
-      { "=p", "<Plug>(YankyPutAfterFilter)", desc = "Put after applying a filter" },
-      { "=P", "<Plug>(YankyPutBeforeFilter)", desc = "Put before applying a filter" },
+      { "<c-p>", "<Plug>(YankyPreviousEntry)",             desc = "Select previous entry through yank history" },
+      { "<c-n>", "<Plug>(YankyNextEntry)",                 desc = "Select next entry through yank history" },
+      { "]p",    "<Plug>(YankyPutIndentAfterLinewise)",    desc = "Put indented after cursor (linewise)" },
+      { "[p",    "<Plug>(YankyPutIndentBeforeLinewise)",   desc = "Put indented before cursor (linewise)" },
+      { "]P",    "<Plug>(YankyPutIndentAfterLinewise)",    desc = "Put indented after cursor (linewise)" },
+      { "[P",    "<Plug>(YankyPutIndentBeforeLinewise)",   desc = "Put indented before cursor (linewise)" },
+      { ">p",    "<Plug>(YankyPutIndentAfterShiftRight)",  desc = "Put and indent right" },
+      { "<p",    "<Plug>(YankyPutIndentAfterShiftLeft)",   desc = "Put and indent left" },
+      { ">P",    "<Plug>(YankyPutIndentBeforeShiftRight)", desc = "Put before and indent right" },
+      { "<P",    "<Plug>(YankyPutIndentBeforeShiftLeft)",  desc = "Put before and indent left" },
+      { "=p",    "<Plug>(YankyPutAfterFilter)",            desc = "Put after applying a filter" },
+      { "=P",    "<Plug>(YankyPutBeforeFilter)",           desc = "Put before applying a filter" },
     },
   },
   {
@@ -236,9 +236,6 @@ return {
     },
   },
   {
-    "pogyomo/winresize.nvim",
-  },
-  {
     "shortcuts/no-neck-pain.nvim",
     cmd = { "NoNeckPain" },
     version = "*",
@@ -258,6 +255,43 @@ return {
         ["<Left>"] = { "", "n" },
         ["<Right>"] = { "", "n" },
       },
+    },
+  },
+  {
+    "mrjones2014/smart-splits.nvim",
+    keys = {
+      {
+        "<C-S-h>",
+        function()
+          require("smart-splits").resize_left()
+        end,
+        desc = "Resize split left",
+      },
+      {
+        "<C-S-j>",
+        function()
+          require("smart-splits").resize_down()
+        end,
+        desc = "Resize split down",
+      },
+      {
+        "<C-S-k>",
+        function()
+          require("smart-splits").resize_up()
+        end,
+        desc = "Resize split up",
+      },
+      {
+        "<C-S-l>",
+        function()
+          require("smart-splits").resize_right()
+        end,
+        desc = "Resize split right",
+      },
+    },
+    opts = {
+      -- Optional: you can set options here, or leave empty for defaults
+      default_amount = 3, -- Number of columns/rows to resize by
     },
   },
 }

@@ -70,17 +70,6 @@ keymap("n", "<C-j>", "<C-w>j", { desc = "Focus lower window" })
 keymap("n", "<C-k>", "<C-w>k", { desc = "Focus upper window" })
 keymap("n", "<C-l>", "<C-w>l", { desc = "Focus right window" })
 
--- Resize windows
-local resize = function(win, amt, dir)
-  return function()
-    require("winresize").resize(win, amt, dir)
-  end
-end
-keymap("n", "<C-S-h>", resize(0, 2, "left"))
-keymap("n", "<C-S-j>", resize(0, 1, "down"))
-keymap("n", "<C-S-k>", resize(0, 1, "up"))
-keymap("n", "<C-S-l>", resize(0, 2, "right"))
-
 -- ╭─────────────────────────────────────────────────────────────╮
 -- │                      LINE OPERATIONS                        │
 -- ╰─────────────────────────────────────────────────────────────╯

@@ -73,7 +73,7 @@ return {
     vim.api.nvim_create_autocmd("BufUnload", {
       buffer = 0,
       callback = function()
-        vim.opt.laststatus = 1 -- Changed from 3 to 1
+        vim.opt.laststatus = 1  -- Changed from 3 to 1
         vim.opt.showtabline = 0 -- Changed from 2 to 0
       end,
     })

@@ -6,7 +6,7 @@ return {
   {
     "stevearc/oil.nvim",
     priority = 1000, -- Critical for directory handling
-    lazy = false, -- Required for proper initialization
+    lazy = false,    -- Required for proper initialization
     dependencies = { "nvim-tree/nvim-web-devicons" },
     keys = {
       { "-", "<cmd>Oil<cr>", desc = "Open parent directory" },

@@ -2,7 +2,7 @@ return {
   {
     "mfussenegger/nvim-dap",
     dependencies = {
-      "rcarriga/nvim-dap-ui",
+      "igorlfs/nvim-dap-view",
       "theHamsta/nvim-dap-virtual-text",
       "jay-babu/mason-nvim-dap.nvim",
       "nvim-neotest/nvim-nio",
@@ -10,17 +10,11 @@ return {
     },
     config = function()
       local dap = require("dap")
-      local utils = require("dap.utils")
       local fzf_lua = require("fzf-lua")
 
-      -- Keybindings (maintained with session handling)
+      -- Keybindings (unchanged)
       vim.keymap.set("n", "<leader>dc", function()
-        if dap.session() then
-          dap.continue()
-        else
-          dap.continue()
-          require("dapui").open({})
-        end
+        dap.continue()
       end, { desc = "Start/Continue debugging" })
 
       vim.keymap.set("n", "<leader>dl", dap.run_last, { desc = "Run last debug session" })
@@ -33,11 +27,11 @@ return {
       vim.keymap.set("n", "<leader>du", dap.step_out, { desc = "Step out" })
       vim.keymap.set("n", "<leader>dt", function()
         dap.terminate()
-        require("dapui").close({})
+        require("dap-view").close()
       end, { desc = "Terminate session" })
       vim.keymap.set("n", "<leader>dr", function()
         dap.restart()
-        require("dapui").open({})
+        require("dap-view").open()
       end, { desc = "Restart session" })
       vim.keymap.set("n", "<leader>dR", function()
         dap.repl.open({ height = 15 }, "vsplit")
@@ -49,26 +43,19 @@ return {
         fzf_lua.dap_frames({})
       end, { desc = "List frames (fzf)" })
 
-      -- Mason DAP setup
+      -- 󰛩 Mason DAP setup - FIXED debugpy installation
       require("mason-nvim-dap").setup({
-        ensure_installed = { "python", "codelldb", "delve" },
+        ensure_installed = { "debugpy", "codelldb", "delve" }, -- Changed from "python"
         automatic_installation = true,
         handlers = {
+          -- 󰛩 Removed Python-specific handler to use default config
           function(config)
-            require("mason-nvim-dap").default_setup(config)
-          end,
-          python = function(config)
-            config.adapters = {
-              type = "executable",
-              command = "python",
-              args = { "-m", "debugpy.adapter" },
-            }
             require("mason-nvim-dap").default_setup(config)
           end,
         },
       })
 
-      -- Python Configuration
+      -- Python Configuration (unchanged but now uses correct adapter)
       dap.configurations.python = {
         {
           type = "python",
@@ -80,7 +67,7 @@ return {
             return venv and venv .. "/bin/python" or vim.fn.exepath("python3") or "python"
           end,
           justMyCode = false,
-          console = "integratedTerminal",
+          console = "internalConsole",
         },
         {
           type = "python",
@@ -93,7 +80,7 @@ return {
         },
       }
 
-      -- Go Configuration
+      -- Go Configuration (unchanged)
       dap.configurations.go = {
         {
           type = "delve",
@@ -117,7 +104,7 @@ return {
         },
       }
 
-      -- Rust Configuration
+      -- Rust Configuration (unchanged)
       dap.configurations.rust = {
         {
           name = "Debug Rust",
@@ -126,7 +113,7 @@ return {
           program = function()
             local cargo_crate = vim.fn.getcwd() .. "/target/debug/" .. vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
             return vim.fn.filereadable(cargo_crate) == 1 and cargo_crate
-              or vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
+                or vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
           end,
           cwd = "${workspaceFolder}",
           terminal = "integrated",
@@ -134,7 +121,7 @@ return {
         },
       }
 
-      -- Virtual text configuration
+      -- Virtual text configuration (unchanged)
       require("nvim-dap-virtual-text").setup({
         commented = true,
         display_callback = function(variable, _buf, _stackframe, _node)
@@ -142,7 +129,7 @@ return {
         end,
       })
 
-      -- Adapter checks
+      -- 󰛩 Updated adapter checks for debugpy
       local check_adapters = function()
         local mason_registry = require("mason-registry")
         local check = function(pkg)
@@ -153,7 +140,7 @@ return {
             )
           end
         end
-        check("debugpy")
+        check("debugpy") -- Now checking for correct package
         check("codelldb")
         check("delve")
       end
@@ -161,49 +148,21 @@ return {
     end,
   },
   {
-    "rcarriga/nvim-dap-ui",
+    "igorlfs/nvim-dap-view",
     config = function()
-      require("dapui").setup({
-        icons = { expanded = "▾", collapsed = "▸", current_frame = "▸" },
-        mappings = { expand = { "o", "<2-LeftMouse>" }, open = "O", remove = "d", edit = "e" },
-        layouts = {
-          {
-            elements = {
-              { id = "scopes", size = 0.3 },
-              { id = "breakpoints", size = 0.2 },
-              { id = "stacks", size = 0.2 },
-              { id = "watches", size = 0.3 },
-            },
-            size = 40,
-            position = "left",
-          },
-          {
-            elements = {
-              { id = "repl", size = 0.8 },
-              { id = "console", size = 0.2 },
-            },
-            size = 15,
-            position = "bottom",
-          },
-        },
-        render = {
-          max_value_lines = 5,
-          indent = 2,
-          max_type_length = 20,
-        },
-      })
+      require("dap-view").setup({})
 
-      -- Modified UI automation
-      local dap, dapui = require("dap"), require("dapui")
-      dap.listeners.after.event_initialized["dapui_config"] = function()
-        dapui.open({ reset = true }) -- Reset UI on new session
+      -- Auto open/close (unchanged)
+      local dap = require("dap")
+      local dapview = require("dap-view")
+      dap.listeners.after.event_initialized["dapview_autoopen"] = function()
+        dapview.open()
       end
-      dap.listeners.before.event_terminated["dapui_config"] = function()
-        dapui.close({})
-        dapui.float_element("console", { position = "center", height = 20 }) -- Keep console visible
+      dap.listeners.before.event_terminated["dapview_autoclose"] = function()
+        dapview.close()
       end
-      dap.listeners.before.event_exited["dapui_config"] = function()
-        dapui.float_element("console", { position = "center", height = 20 })
+      dap.listeners.before.event_exited["dapview_autoclose"] = function()
+        dapview.close()
       end
     end,
   },

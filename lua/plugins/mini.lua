@@ -1,5 +1,4 @@
 return {
-  {
     "echasnovski/mini.nvim",
     version = false,
     config = function()
@@ -68,5 +67,4 @@ return {
       require("mini.pairs").setup()
       require("mini.operators").setup()
     end,
-  },
-}
+  }
