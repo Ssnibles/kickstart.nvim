@@ -1,27 +1,5 @@
--- A few utility plugins
 return {
-  {
-    enabled = false,
-    "norcalli/nvim-colorizer.lua",
-    event = { "BufReadPre", "BufNewFile" },
-    config = function()
-      require("colorizer").setup({
-        "*",
-        css = { rgb_fn = true },
-        html = { names = true },
-      }, {
-        RGB = true,
-        RRGGBB = true,
-        names = true,
-        RRGGBBAA = true,
-        rgb_fn = true,
-        hsl_fn = true,
-        css = true,
-        css_fn = true,
-        mode = "background",
-      })
-    end,
-  },
+  -- Color Related Utilities
   {
     "brenoprata10/nvim-highlight-colors",
     event = "BufReadPost",
@@ -31,6 +9,8 @@ return {
       enable_named_colors = true,
     },
   },
+
+  -- LSP & UI
   {
     "j-hui/fidget.nvim",
     event = "LspAttach",
@@ -40,11 +20,6 @@ return {
           winblend = 0,
           border = "none",
           zindex = 45,
-          max_width = 0,
-          max_height = 0,
-          x_padding = 0,
-          y_padding = 0,
-          align = "bottom",
           relative = "editor",
         },
       },
@@ -52,42 +27,22 @@ return {
         ignore = { "^null-ls" },
         suppress_on_insert = true,
         ignore_done_already = true,
-        ignore_empty_message = true,
       },
-      display = {
-        done_ttl = 3,
-        done_icon = "✔",
-        done_style = "Constant",
-        progress_icon = { "dots" },
-      },
-      view = { stack_upwards = true },
     },
   },
   {
     "b0o/incline.nvim",
     event = "VeryLazy",
-    enabled = false,
     config = function()
       local devicons = require("nvim-web-devicons")
       require("incline").setup({
-        window = {
-          padding = 0,
-          margin = { horizontal = 1 },
-          placement = { horizontal = "right", vertical = "top" },
-        },
+        window = { margin = { horizontal = 1 } },
         render = function(props)
           local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
-          if filename == "" then
-            filename = "[No Name]"
-          end
-
-          local ft_icon = devicons.get_icon_color(filename)
-          local modified = vim.bo[props.buf].modified
-
+          local ft_icon, _ = devicons.get_icon_color(filename)
           return {
             ft_icon and { " ", ft_icon, " " } or "",
-            { filename, gui = modified and "bold,italic" or "bold" },
-            " ",
+            { filename, gui = vim.bo[props.buf].modified and "bold,italic" or "bold" },
             guibg = "#44406e",
             guifg = "#ffffff",
           }
@@ -96,202 +51,205 @@ return {
     end,
     dependencies = { "nvim-tree/nvim-web-devicons" },
   },
+
+  -- Productivity
   {
     "meznaric/key-analyzer.nvim",
     cmd = "KeyAnalyzer",
     opts = {
-      command_name = "KeyAnalyzer",
+      layout = "qwerty",
       highlights = {
         bracket_used = "KeyAnalyzerBracketUsed",
         letter_used = "KeyAnalyzerLetterUsed",
-        bracket_unused = "KeyAnalyzerBracketUnused",
-        letter_unused = "KeyAnalyzerLetterUnused",
-        promo_highlight = "KeyAnalyzerPromo",
-        define_default_highlights = true,
       },
-      layout = "qwerty",
     },
   },
-  -- {
-  --   "toppair/peek.nvim",
-  --   event = { "VeryLazy" },
-  --   build = "deno task --quiet build:fast",
-  --   config = function()
-  --     require("peek").setup({
-  --       auto_load = true,
-  --       -- theme = "dark",
-  --       update_on_change = true,
-  --       filetype = { "markdown" },
-  --       app = { "zen-browser", "--new-window" },
-  --     })
-  --     vim.api.nvim_create_user_command("PeekOpen", require("peek").open, {})
-  --     vim.api.nvim_create_user_command("PeekClose", require("peek").close, {})
-  --   end,
-  -- },
   {
-    -- TODO:
     "folke/todo-comments.nvim",
+    event = "BufEnter",
     dependencies = { "nvim-lua/plenary.nvim" },
-    keys = {
-      {
-        "<leader>tt",
-        function()
-          Snacks.picker.todo_comments({ keywords = { "TODO" } })
-        end,
-        desc = "Todo",
-      },
-    },
     opts = {
       signs = true,
+      keywords = {
+        TODO = { icon = " ", color = "info" },
+      },
+      search = { pattern = [[\b(TODO):]] },
+      keys = {
+        { "<leader>tt", "<cmd>TodoTelescope<cr>", desc = "Todo Telescope" },
+      },
     },
-  },
-  {
-    "gbprod/yanky.nvim",
-    -- event = "InsertEnter",
-    dependencies = {
-      { "kkharji/sqlite.lua" },
-    },
-    opts = {
-      ring = { storage = "sqlite" },
-    },
-    keys = {
-      {
-        "<leader>p",
-        "<cmd>YankyRingHistory<cr>",
-        mode = { "n", "x" },
-        desc = "Open Yank History",
-      },
-      {
-        "y",
-        "<Plug>(YankyYank)",
-        mode = { "n", "x" },
-        desc = "Yank text",
-      },
-      {
-        "p",
-        "<Plug>(YankyPutAfter)",
-        mode = { "n", "x" },
-        desc = "Put yanked text after cursor",
-      },
-      {
-        "P",
-        "<Plug>(YankyPutBefore)",
-        mode = { "n", "x" },
-        desc = "Put yanked text before cursor",
-      },
-      {
-        "gp",
-        "<Plug>(YankyGPutAfter)",
-        mode = { "n", "x" },
-        desc = "Put yanked text after selection",
-      },
-      {
-        "gP",
-        "<Plug>(YankyGPutBefore)",
-        mode = { "n", "x" },
-        desc = "Put yanked text before selection",
-      },
-      { "<c-p>", "<Plug>(YankyPreviousEntry)",             desc = "Select previous entry through yank history" },
-      { "<c-n>", "<Plug>(YankyNextEntry)",                 desc = "Select next entry through yank history" },
-      { "]p",    "<Plug>(YankyPutIndentAfterLinewise)",    desc = "Put indented after cursor (linewise)" },
-      { "[p",    "<Plug>(YankyPutIndentBeforeLinewise)",   desc = "Put indented before cursor (linewise)" },
-      { "]P",    "<Plug>(YankyPutIndentAfterLinewise)",    desc = "Put indented after cursor (linewise)" },
-      { "[P",    "<Plug>(YankyPutIndentBeforeLinewise)",   desc = "Put indented before cursor (linewise)" },
-      { ">p",    "<Plug>(YankyPutIndentAfterShiftRight)",  desc = "Put and indent right" },
-      { "<p",    "<Plug>(YankyPutIndentAfterShiftLeft)",   desc = "Put and indent left" },
-      { ">P",    "<Plug>(YankyPutIndentBeforeShiftRight)", desc = "Put before and indent right" },
-      { "<P",    "<Plug>(YankyPutIndentBeforeShiftLeft)",  desc = "Put before and indent left" },
-      { "=p",    "<Plug>(YankyPutAfterFilter)",            desc = "Put after applying a filter" },
-      { "=P",    "<Plug>(YankyPutBeforeFilter)",           desc = "Put before applying a filter" },
-    },
-  },
-  {
-    "akinsho/toggleterm.nvim",
-    event = { "BufReadPre", "BufNewFile" },
-    cmd = "TogggleTerm",
-    config = function()
-      require("toggleterm").setup({
-        size = function(term)
-          if term.direction == "horizontal" then
-            -- Calculate 30% of the current window width
-            return math.floor(vim.api.nvim_win_get_height(0) * 0.6)
-          end
-        end,
-        direction = "horizontal",
-        open_mapping = [[<c-\>]],
-        shading_factor = 2,
-        close_on_exit = true,
-        shell = vim.o.shell,
-        auto_scroll = true,
-      })
-    end,
-  },
-  {
-    "chrisgrieser/nvim-early-retirement",
-    event = "VeryLazy",
-    opts = {
-      retirementAgeMins = 10,
-      minimumBufferNum = 0,
-      notificationOnAutoClose = true,
-    },
-  },
-  {
-    "shortcuts/no-neck-pain.nvim",
-    cmd = { "NoNeckPain" },
-    version = "*",
-  },
-  {
-    "m4xshen/hardtime.nvim",
-    lazy = false,
-    dependencies = { "MunifTanjim/nui.nvim" },
-    opts = {
-      disable_mouse = true,
-      notification = true,
 
-      -- Only disable arrow keys in normal mode
-      disabled_keys = {
-        ["<Up>"] = { "", "n" },
-        ["<Down>"] = { "", "n" },
-        ["<Left>"] = { "", "n" },
-        ["<Right>"] = { "", "n" },
+    -- Clipboard Management
+    {
+      "gbprod/yanky.nvim",
+      event = "TextYankPost",
+      dependencies = { "kkharji/sqlite.lua" },
+      opts = { ring = { storage = "sqlite" } },
+      keys = {
+        { "<leader>p", "<cmd>YankyRingHistory<cr>", desc = "Yank History" },
+        { "y", "<Plug>(YankyYank)", mode = { "n", "x" } },
+        { "p", "<Plug>(YankyPutAfter)", mode = { "n", "x" } },
+        { "P", "<Plug>(YankyPutBefore)", mode = { "n", "x" } },
+        { "<c-n>", "<Plug>(YankyNextEntry)" },
+        { "<c-p>", "<Plug>(YankyPreviousEntry)" },
       },
     },
-  },
-  {
-    "mrjones2014/smart-splits.nvim",
-    keys = {
-      {
-        "<C-S-h>",
-        function()
-          require("smart-splits").resize_left()
-        end,
-        desc = "Resize split left",
+
+    -- Terminal
+    {
+      "akinsho/toggleterm.nvim",
+      cmd = "ToggleTerm",
+      keys = {
+        {
+          "<leader>th",
+          function()
+            require("toggleterm.terminal").Terminal
+              :new({
+                direction = "horizontal",
+                size = function()
+                  return math.floor(vim.api.nvim_win_get_height(0) * 0.6)
+                end,
+              })
+              :toggle()
+          end,
+          desc = "Horizontal Terminal",
+        },
+        {
+          "<leader>tv",
+          function()
+            require("toggleterm.terminal").Terminal
+              :new({
+                direction = "vertical",
+                size = function()
+                  return math.floor(vim.api.nvim_win_get_width(0) * 0.4)
+                end,
+              })
+              :toggle()
+          end,
+          desc = "Vertical Terminal",
+        },
+        {
+          "<leader>tf",
+          function()
+            require("toggleterm.terminal").Terminal
+              :new({
+                direction = "float",
+                float_opts = {
+                  width = function()
+                    return math.floor(vim.api.nvim_win_get_width(0) * 0.8)
+                  end,
+                  height = function()
+                    return math.floor(vim.api.nvim_win_get_height(0) * 0.8)
+                  end,
+                },
+              })
+              :toggle()
+          end,
+          desc = "Floating Terminal",
+        },
+        {
+          "<leader>ta",
+          function()
+            local terms = require("toggleterm.terminal").get_all()
+            for _, term in ipairs(terms) do
+              term:toggle(false)
+            end
+          end,
+          desc = "Toggle All Terminals",
+        },
+        {
+          "<leader>tt",
+          function()
+            local current_win = vim.api.nvim_get_current_win()
+            local current_buf = vim.api.nvim_win_get_buf(current_win)
+            local terms = require("toggleterm.terminal").get_all()
+
+            for _, term in ipairs(terms) do
+              if term.bufnr == current_buf then
+                term:toggle()
+                return
+              end
+            end
+
+            require("toggleterm").toggle_command("ToggleTerm")
+          end,
+          desc = "Toggle Current/Last Terminal",
+        },
       },
-      {
-        "<C-S-j>",
-        function()
-          require("smart-splits").resize_down()
-        end,
-        desc = "Resize split down",
-      },
-      {
-        "<C-S-k>",
-        function()
-          require("smart-splits").resize_up()
-        end,
-        desc = "Resize split up",
-      },
-      {
-        "<C-S-l>",
-        function()
-          require("smart-splits").resize_right()
-        end,
-        desc = "Resize split right",
+      config = function()
+        require("toggleterm").setup({
+          size = function(term)
+            if term.direction == "horizontal" then
+              return math.floor(vim.api.nvim_win_get_height(0) * 0.6)
+            elseif term.direction == "vertical" then
+              return math.floor(vim.api.nvim_win_get_width(0) * 0.4)
+            end
+          end,
+          direction = "horizontal",
+          close_on_exit = true,
+          auto_scroll = true,
+          persist_mode = false,
+        })
+      end,
+    },
+
+    -- Navigation & Windows
+    {
+      "mrjones2014/smart-splits.nvim",
+      keys = {
+        {
+          "<C-S-h>",
+          function()
+            require("smart-splits").resize_left(3)
+          end,
+        },
+        {
+          "<C-S-j>",
+          function()
+            require("smart-splits").resize_down(3)
+          end,
+        },
+        {
+          "<C-S-k>",
+          function()
+            require("smart-splits").resize_up(3)
+          end,
+        },
+        {
+          "<C-S-l>",
+          function()
+            require("smart-splits").resize_right(3)
+          end,
+        },
       },
     },
-    opts = {
-      -- Optional: you can set options here, or leave empty for defaults
-      default_amount = 3, -- Number of columns/rows to resize by
+    {
+      "thunder-coding/zincoxide",
+      cmd = { "Z", "Zg", "Zt", "Zw" },
+      opts = { behaviour = "tabs" },
+    },
+
+    -- Quality of Life
+    {
+      "chrisgrieser/nvim-early-retirement",
+      event = "BufEnter",
+      opts = { retirementAgeMins = 15 },
+    },
+    {
+      "m4xshen/hardtime.nvim",
+      opts = {
+        disabled_keys = {
+          ["<Up>"] = { "", "n" },
+          ["<Down>"] = { "", "n" },
+          ["<Left>"] = { "", "n" },
+          ["<Right>"] = { "", "n" },
+        },
+      },
+    },
+    {
+      "shortcuts/no-neck-pain.nvim",
+      cmd = "NoNeckPain",
+      opts = { width = 120 }, -- Added sensible default
     },
   },
 }
