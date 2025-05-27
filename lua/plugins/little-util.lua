@@ -32,6 +32,7 @@ return {
   },
   {
     "b0o/incline.nvim",
+    enabled = false,
     event = "VeryLazy",
     config = function()
       local devicons = require("nvim-web-devicons")
@@ -158,7 +159,7 @@ return {
           desc = "Toggle All Terminals",
         },
         {
-          "<leader>tt",
+          "<leader>ts",
           function()
             local current_win = vim.api.nvim_get_current_win()
             local current_buf = vim.api.nvim_win_get_buf(current_win)
