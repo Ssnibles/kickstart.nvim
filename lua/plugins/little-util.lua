@@ -99,99 +99,61 @@ return {
     -- Terminal
     {
       "akinsho/toggleterm.nvim",
+      version = "*",
       cmd = "ToggleTerm",
       keys = {
         {
           "<leader>th",
           function()
-            require("toggleterm.terminal").Terminal
-              :new({
-                direction = "horizontal",
-                size = function()
-                  return math.floor(vim.api.nvim_win_get_height(0) * 0.6)
-                end,
-              })
-              :toggle()
+            require("toggleterm").toggle(1, nil, nil, "horizontal")
           end,
           desc = "Horizontal Terminal",
         },
         {
           "<leader>tv",
           function()
-            require("toggleterm.terminal").Terminal
-              :new({
-                direction = "vertical",
-                size = function()
-                  return math.floor(vim.api.nvim_win_get_width(0) * 0.4)
-                end,
-              })
-              :toggle()
+            require("toggleterm").toggle(1, nil, nil, "vertical")
           end,
           desc = "Vertical Terminal",
         },
         {
           "<leader>tf",
           function()
-            require("toggleterm.terminal").Terminal
-              :new({
-                direction = "float",
-                float_opts = {
-                  width = function()
-                    return math.floor(vim.api.nvim_win_get_width(0) * 0.8)
-                  end,
-                  height = function()
-                    return math.floor(vim.api.nvim_win_get_height(0) * 0.8)
-                  end,
-                },
-              })
-              :toggle()
+            require("toggleterm").toggle(1, nil, nil, "float")
           end,
           desc = "Floating Terminal",
         },
-        {
-          "<leader>ta",
-          function()
-            local terms = require("toggleterm.terminal").get_all()
-            for _, term in ipairs(terms) do
-              term:toggle(false)
-            end
-          end,
-          desc = "Toggle All Terminals",
-        },
-        {
-          "<leader>ts",
-          function()
-            local current_win = vim.api.nvim_get_current_win()
-            local current_buf = vim.api.nvim_win_get_buf(current_win)
-            local terms = require("toggleterm.terminal").get_all()
-
-            for _, term in ipairs(terms) do
-              if term.bufnr == current_buf then
-                term:toggle()
-                return
-              end
-            end
-
-            require("toggleterm").toggle_command("ToggleTerm")
-          end,
-          desc = "Toggle Current/Last Terminal",
-        },
       },
-      config = function()
-        require("toggleterm").setup({
-          size = function(term)
-            if term.direction == "horizontal" then
-              return math.floor(vim.api.nvim_win_get_height(0) * 0.6)
-            elseif term.direction == "vertical" then
-              return math.floor(vim.api.nvim_win_get_width(0) * 0.4)
-            end
+      opts = {
+        size = function(term)
+          local win = vim.api.nvim_get_current_win()
+          if term.direction == "horizontal" then
+            return math.floor(vim.api.nvim_win_get_height(win) * 0.6)
+          elseif term.direction == "vertical" then
+            return math.floor(vim.api.nvim_win_get_width(win) * 0.4)
+          end
+        end,
+        direction = "float",
+        float_opts = {
+          border = "curved",
+          width = function()
+            local win = vim.api.nvim_get_current_win()
+            return math.floor(vim.api.nvim_win_get_width(win) * 0.8)
           end,
-          direction = "horizontal",
-          close_on_exit = true,
-          auto_scroll = true,
-          persist_mode = false,
-        })
-      end,
+          height = function()
+            local win = vim.api.nvim_get_current_win()
+            return math.floor(vim.api.nvim_win_get_height(win) * 0.8)
+          end,
+        },
+        open_mapping = [[<c-\>]],
+        start_in_insert = true,
+        insert_mappings = true,
+        terminal_mappings = true,
+        shade_terminals = true,
+        shading_factor = 2,
+        close_on_exit = true,
+        persist_size = true,
+      },
     },
 
     -- Navigation & Windows
