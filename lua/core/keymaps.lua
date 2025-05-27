@@ -54,6 +54,8 @@ end, { desc = "Clear system clipboard" })
 -- Select all
 keymap("n", "<C-a>", "gg<S-v>G")
 
+keymap("i", "<C-BS>", "<C-w>", { noremap = true, silent = true })
+
 -- ╭─────────────────────────────────────────────────────────────╮
 -- │                      WINDOW MANAGEMENT                      │
 -- ╰─────────────────────────────────────────────────────────────╯
