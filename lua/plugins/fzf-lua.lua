@@ -5,15 +5,15 @@ return {
     require("fzf-lua").setup({
       "telescope",
       winopts = {
-        height = 0.85,
-        width = 0.80,
+        height = 0.95,
+        width = 0.95,
         row = 0.5,
         col = 0.5,
         border = "rounded", -- Telescope-like rounded borders
         title = "Files", -- Main window title
         preview = {
-          layout = "vertical", -- Preview on the right
-          vertical = "right:60%", -- 60% of window width for preview
+          -- layout = "vertical", -- Preview on the right
+          -- vertical = "right:60%", -- 60% of window width for preview
           border = "border",
           scrollbar = true,
         },
