@@ -9,10 +9,10 @@ return {
         width = 0.80,
         row = 0.5,
         col = 0.5,
-        border = "rounded",       -- Telescope-like rounded borders
-        title = "Files",          -- Main window title
+        border = "rounded", -- Telescope-like rounded borders
+        title = "Files", -- Main window title
         preview = {
-          layout = "vertical",    -- Preview on the right
+          layout = "vertical", -- Preview on the right
           vertical = "right:60%", -- 60% of window width for preview
           border = "border",
           scrollbar = true,
@@ -113,6 +113,13 @@ return {
         require("fzf-lua").help_tags()
       end,
       desc = "Help Tags",
+    },
+    {
+      "<leader>fs",
+      function()
+        require("fzf-lua").spell_suggest()
+      end,
+      desc = "Spell suggest",
     },
   },
 }

@@ -54,7 +54,8 @@ end, { desc = "Clear system clipboard" })
 -- Select all
 keymap("n", "<C-a>", "gg<S-v>G")
 
-keymap("i", "<C-BS>", "<C-w>", { noremap = true, silent = true })
+keymap("i", "<C-BS>", "<C-w>", { noremap = true, silent = true }) -- Delete whole word
+keymap("i", "<C-Del>", '<ESC>"ccc', { noremap = true, silent = true }) -- Delte whole line
 
 -- ╭─────────────────────────────────────────────────────────────╮
 -- │                      WINDOW MANAGEMENT                      │
