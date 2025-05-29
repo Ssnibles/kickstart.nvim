@@ -6,8 +6,8 @@ return {
     options = {
       icons_enabled = true,
       theme = "auto",
-      component_separators = { left = "|", right = "|" },
-      section_separators = { left = "", right = "" },
+      component_separators = { left = "│", right = "│" }, -- Thin vertical separators
+      section_separators = { left = "", right = "" }, -- Rounded section dividers
       disabled_filetypes = {
         statusline = {
           "alpha",
@@ -24,38 +24,80 @@ return {
     },
     sections = {
       lualine_a = {
-        "mode",
-        function()
-          if vim.fn.reg_recording() ~= "" then
-            return "[REC " .. vim.fn.reg_recording() .. "]"
-          else
-            return "Nil"
-          end
-        end,
-      },
-      lualine_b = { "branch" },
-      lualine_c = {
         {
-          "filename",
-          path = 1,
-          symbols = { modified = "[+]", readonly = "[RO]" },
+          "mode",
+          -- fmt = function(str)
+          --   return " " .. str
+          -- end, -- Add icon to mode
+          padding = { left = 1, right = 1 },
+        },
+        {
+          function()
+            if vim.fn.reg_recording() ~= "" then
+              return " REC " .. vim.fn.reg_recording()
+            end
+            return ""
+          end,
+          -- color = { fg = "#ff5189", gui = "bold" }, -- Highlight recording
+        },
+      },
+      lualine_b = {
+        "branch",
+        {
+          "diff",
+          symbols = { added = " ", modified = " ", removed = " " },
+          colored = true, -- Show colors for changes
           padding = { left = 1, right = 0 },
         },
       },
+      lualine_c = {
+        {
+          "filename",
+          path = 1, -- Relative path
+          symbols = {
+            modified = " ●",
+            readonly = " ",
+            unnamed = "[No Name]",
+          },
+        },
+        {
+          "diagnostics",
+          sources = { "nvim_diagnostic" },
+          symbols = { error = " ", warn = " ", info = " ", hint = " " },
+          colored = true,
+          update_in_insert = false,
+          padding = { left = 1 },
+        },
+      },
       lualine_x = {
-        function()
-          return " "
-              .. table.concat(
-                vim.tbl_map(function(c)
-                  return c.name
-                end, vim.lsp.get_active_clients()),
-                "|"
-              )
-        end,
+        {
+          function()
+            local clients = vim.lsp.get_active_clients()
+            if #clients > 0 then
+              return clients .. " LSP"
+            end
+            return ""
+          end,
+          icon = "",
+          padding = { left = 1 },
+        },
         "filetype",
+        -- "encoding",
+        -- "fileformat",
       },
       lualine_y = { "progress" },
-      lualine_z = { "location" },
+      lualine_z = {
+        {
+          "location",
+          padding = { left = 0, right = 1 },
+        },
+        -- {
+        --   "datetime",
+        --   style = "%H:%M",
+        --   padding = { left = 1, right = 1 },
+        --   -- color = { fg = "#5de4c7" },
+        -- },
+      },
     },
     inactive_sections = {
       lualine_a = {},

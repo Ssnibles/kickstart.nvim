@@ -1,18 +1,6 @@
 return {
   "folke/snacks.nvim",
   event = "VimEnter",
-  keys = {
-    {
-      "<leader>,",
-      function()
-        local dim_enabled = not require("snacks.dim").config.enabled
-        require("snacks.dim").config.enabled = dim_enabled
-        require("snacks.dim")[dim_enabled and "enable" or "disable"]()
-        print("Snacks.dim " .. (dim_enabled and "enabled (can take a while)" or "disabled"))
-      end,
-      desc = "Toggle Snacks.dim",
-    },
-  },
   opts = {
     dim = {
       enabled = true,
@@ -40,16 +28,6 @@ return {
       },
       style = "compact",
     },
-    lazygit = {
-      enabled = true,
-      configure = true,
-      gui = {
-        nerdFontVersion = "3",
-      },
-      win = {
-        style = "lazygit",
-      },
-    },
     indent = {
       enabled = true,
       priority = 1,
@@ -75,7 +53,7 @@ return {
           {
             win = "input",
             height = 1,
-            border = "single",
+            border = "rounded",
             title = "{title} {live} {flags}",
             title_pos = "center",
           },
@@ -86,7 +64,7 @@ return {
           {
             win = "preview",
             title = "{preview}",
-            border = "single",
+            border = "rounded",
           },
         },
       },
@@ -113,13 +91,9 @@ return {
         finder = "recent_files",
         format = "file",
       },
-      spelling = {
-        finder = "vim_spelling",
-        format = "text",
-        confirm = "item_action",
-      },
     },
     image = {
+      enabled = true,
       formats = {
         "png",
         "jpg",
@@ -146,6 +120,9 @@ return {
         conceal = function(lang, type)
           return type == "math"
         end,
+      },
+      math = {
+        enabled = true,
       },
     },
     profiler = {

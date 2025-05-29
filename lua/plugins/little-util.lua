@@ -12,24 +12,24 @@ return {
   },
 
   -- LSP & UI Progress
-  {
-    "j-hui/fidget.nvim",
-    event = "LspAttach",
-    opts = {
-      notification = {
-        window = {
-          winblend = 0,
-          border = "rounded",
-          zindex = 45,
-        },
-      },
-      progress = {
-        suppress_on_insert = true,
-        ignore_done_already = true,
-        ignore = { "null-ls", "ltex" },
-      },
-    },
-  },
+  -- {
+  --   "j-hui/fidget.nvim",
+  --   event = "LspAttach",
+  --   opts = {
+  --     notification = {
+  --       window = {
+  --         winblend = 0,
+  --         border = "rounded",
+  --         zindex = 45,
+  --       },
+  --     },
+  --     progress = {
+  --       suppress_on_insert = true,
+  --       ignore_done_already = true,
+  --       ignore = { "null-ls", "ltex" },
+  --     },
+  --   },
+  -- },
 
   -- File path in winbar (disabled by default)
   {
@@ -76,6 +76,18 @@ return {
     keys = {
       { "<leader>tt", "<cmd>TodoTelescope<cr>", desc = "Todo Telescope" },
       { "<leader>tT", "<cmd>TodoTrouble<cr>", desc = "Todo Trouble" },
+      -- Add fzf-lua mapping for TODOs:
+      {
+        "<leader>tf",
+        function()
+          require("fzf-lua").grep({
+            search = [[TODO|FIXME|BUG|FIXIT|ISSUE|HACK|WARN|WARNING|XXX|PERF|OPTIM|PERFORMANCE|OPTIMIZE|NOTE|INFO]],
+            no_esc = true,
+            prompt = "TODOs> ",
+          })
+        end,
+        desc = "Todo FzfLua",
+      },
       {
         "]t",
         function()

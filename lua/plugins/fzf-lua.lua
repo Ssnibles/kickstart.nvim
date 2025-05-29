@@ -5,6 +5,7 @@ return {
     require("fzf-lua").setup({
       "telescope",
       winopts = {
+        backdrop = 100,
         height = 0.95,
         width = 0.95,
         row = 0.5,
