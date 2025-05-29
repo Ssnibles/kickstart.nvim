@@ -4,25 +4,36 @@
 -- /___/\__/\__/\__/_/_//_/\_, /___/
 --                        /___/
 
--- Global settings
+-- =========================
+--  GLOBAL & CORE SETTINGS
+-- =========================
+
 local global = vim.g
 local option = vim.opt
 
--- Neovide-specific settings
-if global.neovide then
-  -- Font Configuration
-  option.guifont = "JetBrainsMono Nerd Font:h12" -- Correct way to set font and size
+-- General global Neovim settings
+global.have_nerd_font = true
+-- global.loaded_netrw = 1
+-- global.loaded_netrePlugin = 1
 
-  -- Scaling and Appearance
+-- =========================
+--  NEOVIDE-SPECIFIC SETTINGS
+-- =========================
+
+if global.neovide then
+  -- Font
+  option.guifont = "JetBrainsMono Nerd Font:h12"
+
+  -- Appearance & Scaling
   global.neovide_scale_factor = 1.0
-  global.neovide_refresh_rate = 144 -- Match high-refresh monitors
+  global.neovide_refresh_rate = 144
   global.neovide_hide_mouse_when_typing = true
   global.neovide_floating_shadow = false
 
-  -- Smooth Scrolling
+  -- Scrolling
   global.neovide_scroll_animation_length = 0.3
 
-  -- Cursor Customization
+  -- Cursor
   global.neovide_cursor_animation_length = 0.05
   global.neovide_cursor_trail_length = 0.2
   global.neovide_cursor_vfx_mode = "pixie"
@@ -33,41 +44,36 @@ if global.neovide then
   global.neovide_cursor_animate_in_insert_mode = false
   global.neovide_cursor_animate_command_line = false
 
-  -- Window Padding (Optional)
+  -- Window Padding
   global.neovide_padding_top = 5
   global.neovide_padding_bottom = 5
   global.neovide_padding_left = 5
   global.neovide_padding_right = 5
 
-  -- Fullscreen and Floating Settings
+  -- Fullscreen & Floating
   global.neovide_fullscreen = false
-  global.neovide_floating_blur = false -- Disable for performance
+  global.neovide_floating_blur = false
 
-  -- Advanced Features
+  -- Advanced
   global.neovide_remember_window_size = true
-
-  -- Clipboard Integration (Optional)
   global.neovide_input_use_logo = true -- Enable Super/Logo key
 
-  -- Performance settings
+  -- Performance
   global.neovide_refresh_rate_idle = 5
 end
 
--- General global Neovim settings
-global.have_nerd_font = true
--- global.loaded_netrw = 1
--- global.loaded_netrePlugin = 1
+-- =========================
+--  CORE EDITOR OPTIONS
+-- =========================
 
--- Function to set multiple options at once
 local function set_options(options)
-  -- Apply multiple Neovim options from a table.
   for k, v in pairs(options) do
     option[k] = v
   end
 end
 
--- Core editor configuration
 set_options({
+  -- Clipboard
   clipboard = "unnamedplus",
 
   -- Text formatting
@@ -80,51 +86,46 @@ set_options({
   wrap = true,
   breakindent = true,
 
-  -- Line numbers
+  -- Line numbers & Cursor
   number = true,
   relativenumber = true,
   cursorline = true,
   cursorlineopt = "both",
 
-  -- Visual preferences
+  -- Visuals
   winbar = "",
   termguicolors = true,
-  -- winborder = "rounded",
-  -- signcolumn = "yes:2",
   list = true,
-  listchars = { -- Corrected key name
+  listchars = {
     tab = "▸ ",
     trail = "·",
     nbsp = "␣",
     extends = "»",
     precedes = "«",
   },
-
   fillchars = {
-    eob = " ", -- End of buffer: keep as space
-    fold = " ", -- Fold: space, but see below for fold chars
-    foldopen = "", -- Custom fold open icon
-    foldclose = "", -- Custom fold close icon
-    foldsep = "│", -- Fold separator: vertical bar
-
-    -- Borders for splits:
-    vert = "│", -- Vertical split: solid vertical bar aligns with intersections
-    horiz = "─", -- Horizontal split: solid horizontal bar
-    horizup = "┴", -- Upward T-junction (bottom of a pane meeting a vertical split)
-    horizdown = "┬", -- Downward T-junction (top of a pane meeting a vertical split)
-    vertleft = "┤", -- Left T-junction (right edge of a pane meeting a horizontal split)
-    vertright = "├", -- Right T-junction (left edge of a pane meeting a horizontal split)
-    verthoriz = "┼", -- Cross junction (intersection of vertical and horizontal splits)
+    eob = " ",
+    fold = " ",
+    foldopen = "",
+    foldclose = "",
+    foldsep = "│",
+    vert = "│",
+    horiz = "─",
+    horizup = "┴",
+    horizdown = "┬",
+    vertleft = "┤",
+    vertright = "├",
+    verthoriz = "┼",
   },
 
-  -- Search behavior
+  -- Search
   ignorecase = true,
   smartcase = true,
   hlsearch = true,
   incsearch = true,
   inccommand = "split",
 
-  -- Performance optimizations
+  -- Performance
   lazyredraw = false,
   updatetime = 250,
   timeoutlen = 300,
@@ -147,14 +148,14 @@ set_options({
   scrolloff = 10,
   sidescrolloff = 10,
 
-  -- Interface behavior
+  -- Interface
   wildmenu = true,
   wildmode = "longest:full,full",
   completeopt = "noselect",
   viewoptions = "folds,cursor,curdir,slash,unix",
   showtabline = 0,
 
-  -- Fold settings
+  -- Folding
   foldlevelstart = 99,
 
   -- Encoding
@@ -166,16 +167,33 @@ set_options({
   backspace = { "start", "eol", "indent" },
 })
 
--- Disable signature help from lsp.
-vim.lsp.handlers["textDocument/signatureHelp"] = function() end
+-- =========================
+--  UI HIGHLIGHTS & APPEARANCE
+-- =========================
 
---  Set relative line number colour
--- Get NonText properties FIRST
+local setHighlights = vim.api.nvim_set_hl
 local nontext_hl = vim.api.nvim_get_hl(0, { name = "NonText" })
-local main_hl = vim.api.nvim_get_hl(0, { name = "markdownH1" })
+local normal = vim.api.nvim_get_hl(0, { name = "Normal" })
 
--- Create hybrid highlight
-vim.api.nvim_set_hl(0, "CursorLineNr", {
+-- Floating windows (global)
+setHighlights(0, "NormalFloat", { bg = normal.bg, fg = normal.fg })
+setHighlights(0, "FloatBorder", { bg = normal.bg, fg = "#565f89" })
+
+-- fzf-lua specific
+setHighlights(0, "FzfLuaBorder", { bg = normal.bg, fg = "#565f89" })
+setHighlights(0, "FzfLuaNormal", { bg = normal.bg, fg = normal.fg })
+
+-- blink.cmp specific
+setHighlights(0, "BlinkCmpMenu", { bg = normal.bg, fg = "#565f89" })
+setHighlights(0, "BlinkCmpMenuBorder", { bg = normal.bg, fg = "#565f89" })
+setHighlights(0, "BlinkCmpDoc", { bg = normal.bg, fg = "#565f89" })
+setHighlights(0, "BlinkCmpDocBorder", { bg = normal.bg, fg = "#565f89" })
+setHighlights(0, "BlinkCmpDocSeparator", { bg = normal.bg, fg = "#565f89" })
+setHighlights(0, "BlinkCmpSignatureHelp", { bg = normal.bg, fg = "#565f89" })
+setHighlights(0, "BlinkCmpSignatureHelpBorder", { bg = normal.bg, fg = "#565f89" })
+
+-- Hybrid highlight for CursorLineNr
+setHighlights(0, "CursorLineNr", {
   fg = nontext_hl.fg,
   bg = nontext_hl.bg,
   bold = false,
@@ -184,11 +202,20 @@ vim.api.nvim_set_hl(0, "CursorLineNr", {
   underline = nontext_hl.underline,
 })
 
+-- =========================
+--  AUTOCOMMANDS & DIAGNOSTICS
+-- =========================
+
+-- Disable LSP signature help
+vim.lsp.handlers["textDocument/signatureHelp"] = function() end
+
+-- Terminal: hide line numbers and signcolumn
 vim.api.nvim_create_autocmd("TermOpen", {
   pattern = "*",
   command = "setlocal nonumber norelativenumber signcolumn=no",
 })
 
+-- Diagnostics configuration
 vim.diagnostic.config({
   severity_sort = true,
   signs = {
@@ -206,3 +233,7 @@ vim.diagnostic.config({
     },
   },
 })
+
+-- =========================
+--  END OF OPTIONS
+-- =========================

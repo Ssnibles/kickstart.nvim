@@ -20,24 +20,20 @@ return {
         -- Padding can be increased with margin if needed (not always supported)
         -- margin = { top = 1, bottom = 1, left = 2, right = 2 },
       },
-      fzf_opts = {
-        ["--color"] = table.concat({
-          "fg:#c0caf5",
-          "bg:#1a1b26",
-          "hl:#7aa2f7",
-          "fg+:#24283b",
-          "bg+:#7aa2f7",
-          "hl+:#bb9af7",
-          "prompt:#7aa2f7",
-          "pointer:#7aa2f7",
-          "marker:#e0af68",
-          "spinner:#7aa2f7",
-          "header:#7aa2f7",
-          "border:#565f89",
-        }, ","),
-        ["--prompt"] = "> ",
-        ["--pointer"] = "➜", -- Telescope uses a similar arrow
-        ["--marker"] = "✓",
+      fzf_colors = {
+        ["fg"] = { "fg", "Normal" },
+        ["bg"] = { "bg", "Normal" },
+        ["hl"] = { "fg", "Comment" },
+        ["fg+"] = { "fg", "CursorLine" },
+        ["bg+"] = { "bg", "CursorLine" },
+        ["hl+"] = { "fg", "Statement" },
+        ["info"] = { "fg", "PreProc" },
+        ["border"] = { "fg", "FloatBorder" },
+        ["prompt"] = { "fg", "Conditional" },
+        ["pointer"] = { "fg", "Exception" },
+        ["marker"] = { "fg", "Keyword" },
+        ["spinner"] = { "fg", "Label" },
+        ["header"] = { "fg", "Comment" },
       },
       files = {
         cmd = "rg --files --color=never --hidden --follow -g '!{.git,node_modules}'",
