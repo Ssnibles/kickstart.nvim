@@ -194,7 +194,7 @@ setHighlights(0, "BlinkCmpSignatureHelpBorder", { bg = normal.bg, fg = "#565f89"
 
 -- Noice.nvim specific
 setHighlights(0, "NoiceCmdline", { bg = normal.bg, fg = "#565f89" })
-setHighlights(0, "NoiceCmdlinePopup", { bg = normal.bg, fg = "#565f89" })
+setHighlights(0, "NoiceCmdlinePopup", { bg = normal.bg })
 setHighlights(0, "NoiceCmdlinePopupBorder", { bg = normal.bg, fg = "#565f89" })
 
 -- Hybrid highlight for CursorLineNr

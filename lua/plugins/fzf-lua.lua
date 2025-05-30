@@ -67,8 +67,8 @@ return {
       },
       keymap = {
         fzf = {
-          ["ctrl-j"] = "preview-down",
-          ["ctrl-k"] = "preview-up",
+          ["ctrl-j"] = "preview-page-down",
+          ["ctrl-k"] = "preview-page-up",
           ["ctrl-d"] = "preview-half-page-down",
           ["ctrl-u"] = "preview-half-page-up",
         },
@@ -117,6 +117,17 @@ return {
         require("fzf-lua").spell_suggest()
       end,
       desc = "Spell suggest",
+    },
+    {
+      "<leader>ft",
+      function()
+        require("fzf-lua").grep({
+          search = [[TODO|FIXME|BUG|FIXIT|ISSUE|HACK|WARN|WARNING|XXX|PERF|OPTIM|PERFORMANCE|OPTIMIZE|NOTE|INFO]],
+          no_esc = true,
+          prompt = "TODOs> ",
+        })
+      end,
+      desc = "Todo FzfLua",
     },
   },
 }

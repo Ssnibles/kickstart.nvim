@@ -76,18 +76,6 @@ return {
     keys = {
       { "<leader>tt", "<cmd>TodoTelescope<cr>", desc = "Todo Telescope" },
       { "<leader>tT", "<cmd>TodoTrouble<cr>", desc = "Todo Trouble" },
-      -- Add fzf-lua mapping for TODOs:
-      {
-        "<leader>tf",
-        function()
-          require("fzf-lua").grep({
-            search = [[TODO|FIXME|BUG|FIXIT|ISSUE|HACK|WARN|WARNING|XXX|PERF|OPTIM|PERFORMANCE|OPTIMIZE|NOTE|INFO]],
-            no_esc = true,
-            prompt = "TODOs> ",
-          })
-        end,
-        desc = "Todo FzfLua",
-      },
       {
         "]t",
         function()
@@ -204,6 +192,7 @@ return {
       winbar = {
         enabled = false,
       },
+      shade_terminals = false,
     },
   },
 
