@@ -9,29 +9,33 @@ return {
     lazy = false,    -- Required for proper initialization
     dependencies = { "nvim-tree/nvim-web-devicons" },
     keys = {
+      -- Open Oil in parent directory
       { "-", "<cmd>Oil<cr>", desc = "Open parent directory" },
+
+      -- Toggle Oil explorer globally
       {
         "<leader>oo",
         function()
-          if require("oil").get_current_dir() then
-            vim.cmd("bd")
+          local oil = require("oil")
+          if oil.get_current_dir() then
+            vim.cmd("bd!") -- Force close Oil buffer
           else
-            vim.cmd("Oil")
+            oil.open()
           end
         end,
         desc = "Toggle Oil explorer",
       },
+
+      -- Toggle Oil in current buffer's directory
       {
         "<leader>ob",
         function()
           local oil = require("oil")
           if oil.get_current_dir() then
-            vim.cmd("bd")
+            vim.cmd("bd!") -- Force close Oil buffer
           else
             oil.open(vim.fn.expand("%:p:h"), {
-              is_target_window = function()
-                return true
-              end,
+              is_target_window = function() return true end,
               win_options = {
                 wrap = false,
                 signcolumn = "no",
@@ -52,7 +56,7 @@ return {
       columns = { "icon" },
       buf_options = {
         buflisted = false,
-        bufhidden = "wipe", -- Changed from 'hide'
+        bufhidden = "wipe", -- Remove buffer from list and wipe on close
       },
       win_options = {
         wrap = false,
@@ -82,8 +86,7 @@ return {
         ["<C-h>"] = "actions.toggle_hidden",
       },
       skip_confirm_for_simple_edits = true,
-      delete_to_trash = true, -- Enable built-in trash functionality
-      -- REMOVED: trash_command = "trash-put" (deprecated)
+      delete_to_trash = true, -- Use built-in trash functionality
       view_options = {
         show_hidden = true,
         is_hidden_file = function(name, _)
@@ -94,17 +97,17 @@ return {
     config = function(_, opts)
       require("oil").setup(opts)
 
+      -- Auto-open Oil if Neovim is started with a directory
       vim.api.nvim_create_autocmd("VimEnter", {
-        callback = function(event)
+        callback = vim.schedule_wrap(function(event)
           if vim.fn.isdirectory(event.file) == 1 then
-            vim.schedule(function()
-              vim.cmd.bwipeout() -- Clear initial directory buffer
-              require("oil").open(event.file)
-            end)
+            vim.cmd.bwipeout() -- Close initial directory buffer
+            require("oil").open(event.file)
           end
-        end,
+        end),
       })
 
+      -- Oil-specific buffer settings
       vim.api.nvim_create_autocmd("FileType", {
         pattern = "oil",
         callback = function()
@@ -112,7 +115,7 @@ return {
           vim.opt_local.relativenumber = true
           vim.opt_local.signcolumn = "no"
           vim.opt_local.cursorline = true
-          vim.keymap.set("n", "q", "<CMD>bd<CR>", { buffer = true })
+          vim.keymap.set("n", "q", "<CMD>bd!<CR>", { buffer = true, desc = "Close Oil buffer" })
         end,
       })
     end,
