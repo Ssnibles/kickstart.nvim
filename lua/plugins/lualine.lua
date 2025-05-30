@@ -58,7 +58,7 @@ return {
           path = 1, -- Relative path
           symbols = {
             -- modified = " ●",
-            modified = " ●",
+            modified = "",
             readonly = " ",
             unnamed = "[No Name]",
           },

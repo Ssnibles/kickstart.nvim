@@ -1,35 +1,10 @@
 return {
+
   "folke/snacks.nvim",
   event = "VimEnter",
   opts = {
-    dim = {
-      enabled = true,
-      scope = {
-        min_size = 5,
-        max_size = 20,
-        siblings = true,
-      },
-      animate = { enabled = false },
-    },
-    -- notifier = {
-    --   timeout = 3000,
-    --   width = { min = 40, max = 0.4 },
-    --   height = { min = 1, max = 0.6 },
-    --   margin = { top = 0.5, right = 0.5, bottom = 0 },
-    --   padding = true,
-    --   sort = { "level", "time" },
-    --   level = vim.log.levels.TRACE,
-    --   icons = {
-    --     error = " ",
-    --     warn = " ",
-    --     info = " ",
-    --     debug = " ",
-    --     trace = " ",
-    --   },
-    --   style = "compact",
-    -- },
     indent = {
-      enabled = true,
+      enabled = false,
       priority = 1,
       char = "│",
       scope = {
@@ -93,7 +68,16 @@ return {
       },
       -- Optional: Add a section for TODO keywords if using with todo-comments.nvim
       todo_keywords = {
-        "TODO", "FIX", "FIXME", "BUG", "HACK", "WARN", "WARNING", "NOTE", "INFO", "ISSUE"
+        "TODO",
+        "FIX",
+        "FIXME",
+        "BUG",
+        "HACK",
+        "WARN",
+        "WARNING",
+        "NOTE",
+        "INFO",
+        "ISSUE",
       },
     },
     image = {

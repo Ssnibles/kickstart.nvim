@@ -62,10 +62,17 @@ return {
     })
 
     -- Essential quality-of-life modules
-    require("mini.comment").setup()
+    require("mini.comment").setup({
+      modes = {
+        insert = true,
+        command = true,
+        terminal = true,
+      },
+    })
     require("mini.cursorword").setup()
     require("mini.pairs").setup()
     require("mini.operators").setup()
+    require("mini.indentscope").setup()
 
     -- NEW: mini.clue for key binding hints
     require("mini.clue").setup({

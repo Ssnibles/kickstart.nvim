@@ -1,3 +1,4 @@
+-- TODO: Add a markview preview for markdown files
 return {
   "ibhagwan/fzf-lua",
   dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -124,7 +125,7 @@ return {
         require("fzf-lua").grep({
           search = [[TODO|FIXME|BUG|FIXIT|ISSUE|HACK|WARN|WARNING|XXX|PERF|OPTIM|PERFORMANCE|OPTIMIZE|NOTE|INFO]],
           no_esc = true,
-          prompt = "TODOs> ",
+          prompt = "TODOs: ",
         })
       end,
       desc = "Todo FzfLua",
