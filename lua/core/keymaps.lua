@@ -54,7 +54,7 @@ end, { desc = "Clear system clipboard" })
 -- Select all
 keymap("n", "<C-a>", "gg<S-v>G")
 
-keymap("i", "<C-BS>", "<C-w>", { noremap = true, silent = true }) -- Delete whole word
+keymap("i", "<C-BS>", "<C-w>", { noremap = true, silent = true })      -- Delete whole word
 keymap("i", "<C-Del>", '<ESC>"ccc', { noremap = true, silent = true }) -- Delte whole line
 
 -- ╭─────────────────────────────────────────────────────────────╮
@@ -80,26 +80,6 @@ keymap("n", "<C-l>", "<C-w>l", { desc = "Focus right window" })
 -- Delete current line using black hole register (no yank)
 keymap("n", "<C-x>", '"_dd', { noremap = true, silent = true, desc = "Delete line (no yank)" })
 keymap("i", "<C-x>", '<Esc>"_ddi', { noremap = true, silent = true, desc = "Delete line (no yank) in insert" })
-
--- ╭─────────────────────────────────────────────────────────────╮
--- │                        MACROS                               │
--- ╰─────────────────────────────────────────────────────────────╯
-
--- (Optional) Remap macro recording and playback if desired
--- Uncomment and change to your preferred keys if you want!
-keymap("n", "<leader>@r", "q", { noremap = true, desc = "Start/Stop Macro Recording" })
-keymap("n", "<leader>@p", "@", { noremap = true, desc = "Play Back Macro" })
-keymap("n", "<leader>@@", "@@", { noremap = true, desc = "Play Last Recorded Macro" })
-
--- ╭─────────────────────────────────────────────────────────────╮
--- │                  OPTIONAL: ARROW KEY DISABLE                │
--- ╰─────────────────────────────────────────────────────────────╯
-
--- Uncomment to discourage arrow key use (suggest hjkl instead)
--- local arrow_keys = { "<Left>", "<Right>", "<Up>", "<Down>" }
--- for _, key in ipairs(arrow_keys) do
---   keymap("n", key, '<cmd>echo "Use hjkl!"<CR>', { noremap = true, silent = true })
--- end
 
 -- ╭─────────────────────────────────────────────────────────────╮
 -- │                  OPTIONAL: NUMBER INCREMENT                 │

@@ -7,6 +7,16 @@
 --   numhl = "LineNr", -- Maintain number column appearance
 -- })
 
+-- Highlight text on yank
+vim.api.nvim_create_autocmd("TextYankPost", {
+  group = vim.api.nvim_create_augroup("highlight_yank", {}),
+  desc = "Highlight selection on yank",
+  pattern = "*",
+  callback = function()
+    vim.highlight.on_yank({ higroup = "IncSearch", timeout = 500 })
+  end,
+})
+
 -- Disable diagnostics in insert mode (for better performance)
 vim.api.nvim_create_autocmd({ "InsertEnter" }, {
   desc = "Disable diagnostics in insert mode",
@@ -15,7 +25,6 @@ vim.api.nvim_create_autocmd({ "InsertEnter" }, {
     vim.diagnostic.enable(false)
   end,
 })
-
 vim.api.nvim_create_autocmd({ "InsertLeave" }, {
   group = vim.api.nvim_create_augroup("diagnostics_normal", { clear = true }),
   callback = function()
@@ -47,7 +56,6 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- Typewriter mode (centered cursor)
 local typewriter_mode = false
-
 local function toggle_typewriter()
   typewriter_mode = not typewriter_mode
   if typewriter_mode then
