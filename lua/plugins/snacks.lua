@@ -11,23 +11,23 @@ return {
       },
       animate = { enabled = false },
     },
-    notifier = {
-      timeout = 3000,
-      width = { min = 40, max = 0.4 },
-      height = { min = 1, max = 0.6 },
-      margin = { top = 0.5, right = 0.5, bottom = 0 },
-      padding = true,
-      sort = { "level", "time" },
-      level = vim.log.levels.TRACE,
-      icons = {
-        error = " ",
-        warn = " ",
-        info = " ",
-        debug = " ",
-        trace = " ",
-      },
-      style = "compact",
-    },
+    -- notifier = {
+    --   timeout = 3000,
+    --   width = { min = 40, max = 0.4 },
+    --   height = { min = 1, max = 0.6 },
+    --   margin = { top = 0.5, right = 0.5, bottom = 0 },
+    --   padding = true,
+    --   sort = { "level", "time" },
+    --   level = vim.log.levels.TRACE,
+    --   icons = {
+    --     error = " ",
+    --     warn = " ",
+    --     info = " ",
+    --     debug = " ",
+    --     trace = " ",
+    --   },
+    --   style = "compact",
+    -- },
     indent = {
       enabled = true,
       priority = 1,
@@ -40,7 +40,6 @@ return {
       animate = { enabled = false },
     },
     picker = {
-      enabled = false,
       layout = {
         preview = true,
         layout = {
@@ -50,6 +49,7 @@ return {
           height = 0.6,
           border = "none",
           box = "vertical",
+          -- Window layouts as subtables
           {
             win = "input",
             height = 1,
@@ -63,14 +63,14 @@ return {
           },
           {
             win = "preview",
-            title = "{preview}",
+            title = "{live}",
             border = "rounded",
           },
         },
       },
       matcher = {
         fuzzy = true,
-        smartcse = true,
+        smartcase = true,
         ignorecase = true,
         sort_empty = true,
         filename_bonus = true,
@@ -90,6 +90,10 @@ return {
       recent = {
         finder = "recent_files",
         format = "file",
+      },
+      -- Optional: Add a section for TODO keywords if using with todo-comments.nvim
+      todo_keywords = {
+        "TODO", "FIX", "FIXME", "BUG", "HACK", "WARN", "WARNING", "NOTE", "INFO", "ISSUE"
       },
     },
     image = {

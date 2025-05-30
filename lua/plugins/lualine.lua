@@ -17,6 +17,7 @@ return {
           "snacks_dashboard",
           "snacks_picker_input",
           "fzf",
+          "toggleterm",
         },
         winbar = {},
       },
@@ -30,7 +31,7 @@ return {
           -- fmt = function(str)
           --   return " " .. str
           -- end, -- Add icon to mode
-          padding = { left = 1, right = 1 },
+          -- padding = { left = 1, right = 1 },
         },
         {
           function()
@@ -48,7 +49,7 @@ return {
           "diff",
           symbols = { added = " ", modified = " ", removed = " " },
           colored = true, -- Show colors for changes
-          padding = { left = 1, right = 0 },
+          -- padding = { left = 1, right = 0 },
         },
       },
       lualine_c = {
@@ -56,6 +57,7 @@ return {
           "filename",
           path = 1, -- Relative path
           symbols = {
+            -- modified = " ●",
             modified = " ●",
             readonly = " ",
             unnamed = "[No Name]",
@@ -67,20 +69,20 @@ return {
           symbols = { error = " ", warn = " ", info = " ", hint = " " },
           colored = true,
           update_in_insert = false,
-          padding = { left = 1 },
+          -- padding = { left = 1 },
         },
       },
       lualine_x = {
         {
           function()
-            local clients = vim.lsp.get_active_clients()
+            local clients = vim.lsp.get_clients()
             if #clients > 0 then
               return clients .. " LSP"
             end
             return ""
           end,
           icon = "",
-          padding = { left = 1 },
+          -- padding = { left = 1 },
         },
         "filetype",
         -- "encoding",
