@@ -54,7 +54,7 @@ end, { desc = "Clear system clipboard" })
 -- Select all
 keymap("n", "<C-a>", "gg<S-v>G")
 
-keymap("i", "<C-BS>", "<C-w>", { noremap = true, silent = true })      -- Delete whole word
+keymap("i", "<C-BS>", "<C-w>", { noremap = true, silent = true }) -- Delete whole word
 keymap("i", "<C-Del>", '<ESC>"ccc', { noremap = true, silent = true }) -- Delte whole line
 
 -- ╭─────────────────────────────────────────────────────────────╮
@@ -88,6 +88,8 @@ keymap("i", "<C-x>", '<Esc>"_ddi', { noremap = true, silent = true, desc = "Dele
 -- Uncomment for Alt+Up/Down to increment/decrement numbers
 keymap("n", "<A-Up>", "<C-a>", { desc = "Increment number" })
 keymap("n", "<A-Down>", "<C-x>", { desc = "Decrement number" })
+
+keymap("c", "<C-F>", "<nop>", { noremap = true, silent = true })
 
 -- ===============================
 --           END OF MAPPINGS
