@@ -192,6 +192,11 @@ setHighlights(0, "BlinkCmpDocSeparator", { bg = normal.bg, fg = "#565f89" })
 setHighlights(0, "BlinkCmpSignatureHelp", { bg = normal.bg, fg = "#565f89" })
 setHighlights(0, "BlinkCmpSignatureHelpBorder", { bg = normal.bg, fg = "#565f89" })
 
+-- Noice.nvim specific
+setHighlights(0, "NoiceCmdline", { bg = normal.bg, fg = "#565f89" })
+setHighlights(0, "NoiceCmdlinePopup", { bg = normal.bg, fg = "#565f89" })
+setHighlights(0, "NoiceCmdlinePopupBorder", { bg = normal.bg, fg = "#565f89" })
+
 -- Hybrid highlight for CursorLineNr
 setHighlights(0, "CursorLineNr", {
   fg = nontext_hl.fg,
@@ -220,7 +225,7 @@ vim.diagnostic.config({
   severity_sort = true,
   signs = {
     text = {
-      [vim.diagnostic.severity.ERROR] = "",
+      [vim.diagnostic.severity.ERROR] = "",
       [vim.diagnostic.severity.WARN] = "",
       [vim.diagnostic.severity.INFO] = "",
       [vim.diagnostic.severity.HINT] = "",

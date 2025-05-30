@@ -16,6 +16,7 @@ return {
           "neo-tree",
           "snacks_dashboard",
           "snacks_picker_input",
+          "fzf",
         },
         winbar = {},
       },
@@ -63,7 +64,7 @@ return {
         {
           "diagnostics",
           sources = { "nvim_diagnostic" },
-          symbols = { error = " ", warn = " ", info = " ", hint = " " },
+          symbols = { error = " ", warn = " ", info = " ", hint = " " },
           colored = true,
           update_in_insert = false,
           padding = { left = 1 },
@@ -89,7 +90,6 @@ return {
       lualine_z = {
         {
           "location",
-          padding = { left = 0, right = 1 },
         },
         -- {
         --   "datetime",
