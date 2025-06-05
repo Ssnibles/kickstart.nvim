@@ -24,15 +24,22 @@ return {
     end
 
     -- Set header
+    -- dashboard.section.header.val = {
+    --   " ∧,,,∧",
+    --   "(• ⩊ •)",
+    --   "|￣U U￣￣￣￣￣￣￣￣￣|",
+    --   "|    Give up on your    |",
+    --   "|   dreams and die <3   |",
+    --   "|                       |",
+    --   " ￣￣￣￣￣￣￣￣￣￣￣￣",
+    -- }
     dashboard.section.header.val = {
-      " ∧,,,∧",
-      "(• ⩊ •)",
-      "|￣U U￣￣￣￣￣￣￣￣￣|",
-      "|    Give up on your    |",
-      "|   dreams and die <3   |",
-      "|                       |",
-      " ￣￣￣￣￣￣￣￣￣￣￣￣",
+
+      "             ᯓᡣ𐭩",
+      "   /ᐠ- ˕-マ  ノ",
+      "乀(  J  し)",
     }
+
     dashboard.section.header.opts.hl = "Type"
 
     -- Set menu buttons

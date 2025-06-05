@@ -130,5 +130,12 @@ return {
       end,
       desc = "Todo FzfLua",
     },
+    {
+      "<leader>fc",
+      function()
+        require("fzf-lua").grep_curbuf()
+      end,
+      desc = "Grep current buffer",
+    },
   },
 }
