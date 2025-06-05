@@ -90,6 +90,7 @@ keymap("n", "<A-Up>", "<C-a>", { desc = "Increment number" })
 keymap("n", "<A-Down>", "<C-x>", { desc = "Decrement number" })
 
 keymap("c", "<C-F>", "<nop>", { noremap = true, silent = true })
+keymap("n", "s", "<nop>")
 
 -- ===============================
 --           END OF MAPPINGS
