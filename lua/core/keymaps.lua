@@ -25,6 +25,12 @@ keymap(
 keymap("n", "'", "<Nop>", { noremap = true, desc = "Disable single quote" })
 keymap("n", "<S-'>", "<Nop>", { noremap = true, desc = "Disable Shift+'" })
 
+-- Disable some other things
+keymap("c", "<C-F>", "<nop>", { noremap = true, silent = true })
+keymap("n", "s", "<nop>")
+keymap("c", "<C-d>", "<nop>", { noremap = true, silent = true })
+keymap("c", "<C-s>", "<nop>")
+
 -- Exit insert mode quickly by pressing 'jk'
 keymap("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
 
@@ -88,9 +94,6 @@ keymap("i", "<C-x>", '<Esc>"_ddi', { noremap = true, silent = true, desc = "Dele
 -- Uncomment for Alt+Up/Down to increment/decrement numbers
 keymap("n", "<A-Up>", "<C-a>", { desc = "Increment number" })
 keymap("n", "<A-Down>", "<C-x>", { desc = "Decrement number" })
-
-keymap("c", "<C-F>", "<nop>", { noremap = true, silent = true })
-keymap("n", "s", "<nop>")
 
 -- ===============================
 --           END OF MAPPINGS

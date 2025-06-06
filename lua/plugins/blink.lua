@@ -2,6 +2,7 @@ return {
   -- TODO:
   "saghen/blink.cmp",
   version = "^1.0.0", -- Pin to major version (adjust based on latest release)
+  event = { "CmdlineEnter", "InsertEnter" },
   dependencies = {
     "rafamadriz/friendly-snippets",
     "L3MON4D3/LuaSnip",

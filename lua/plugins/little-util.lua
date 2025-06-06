@@ -28,6 +28,8 @@ return {
       {
         "<leader>td",
         function()
+          -- Assuming Snacks.nvim is installed for the picker.
+          -- If not, consider using require("todo-comments").action_list() for a built-in alternative.
           Snacks.picker.todo_comments({
             keywords = {
               "TODO",
@@ -62,49 +64,51 @@ return {
     },
     opts = {
       signs = true,
+      -- Added more distinct icons for better visual cues in the sign column.
+      -- These icons require a "Nerd Font" to render correctly (e.g., FiraCode Nerd Font).
       keywords = {
-        FIX = { icon = " ", color = "error", alt = { "FIXME", "BUG", "FIXIT", "ISSUE" } },
-        TODO = { icon = " ", color = "info" },
-        HACK = { icon = " ", color = "warning" },
-        WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
-        PERF = { icon = " ", color = "default", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
-        NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
+        FIX = { icon = "", color = "error", alt = { "FIXME", "BUG", "FIXIT", "ISSUE" } },
+        TODO = { icon = "", color = "info" },
+        HACK = { icon = "󰦛", color = "warning" },
+        WARN = { icon = "", color = "warning", alt = { "WARNING", "XXX" } },
+        PERF = { icon = "󰎖", color = "default", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+        NOTE = { icon = "", color = "hint", alt = { "INFO" } },
       },
     },
   },
 
-  -- Clipboard Management
+  -- Clipboard Management (uncomment if you wish to enable)
   -- {
-  --   "gbprod/yanky.nvim",
-  --   event = "TextYankPost",
-  --   dependencies = { "kkharji/sqlite.lua" },
-  --   keys = {
-  --     { "<leader>p", "<cmd>YankyRingHistory<cr>",  desc = "Yank History" },
-  --     { "y",         "<Plug>(YankyYank)",          mode = { "n", "x" },   desc = "Yank text" },
-  --     { "p",         "<Plug>(YankyPutAfter)",      mode = { "n", "x" },   desc = "Put after" },
-  --     { "P",         "<Plug>(YankyPutBefore)",     mode = { "n", "x" },   desc = "Put before" },
-  --     { "<c-n>",     "<Plug>(YankyNextEntry)",     desc = "Next yank" },
-  --     { "<c-p>",     "<Plug>(YankyPreviousEntry)", desc = "Previous yank" },
-  --   },
-  --   opts = {
-  --     ring = {
-  --       history_length = 100,
-  --       storage = "sqlite",
-  --     },
-  --     picker = {
-  --       select = {
-  --         action = nil, -- Use default
-  --       },
-  --       telescope = {
-  --         use_default_mappings = true,
-  --       },
-  --     },
-  --     highlight = {
-  --       on_put = true,
-  --       on_yank = true,
-  --       timer = 200,
-  --     },
-  --   },
+  --  "gbprod/yanky.nvim",
+  --  event = "TextYankPost",
+  --  dependencies = { "kkharji/sqlite.lua" },
+  --  keys = {
+  --    { "<leader>p", "<cmd>YankyRingHistory<cr>",  desc = "Yank History" },
+  --    { "y",         "<Plug>(YankyYank)",          mode = { "n", "x" },  desc = "Yank text" },
+  --    { "p",         "<Plug>(YankyPutAfter)",      mode = { "n", "x" },  desc = "Put after" },
+  --    { "P",         "<Plug>(YankyPutBefore)",     mode = { "n", "x" },  desc = "Put before" },
+  --    { "<c-n>",     "<Plug>(YankyNextEntry)",     desc = "Next yank" },
+  --    { "<c-p>",     "<Plug>(YankyPreviousEntry)", desc = "Previous yank" },
+  --  },
+  --  opts = {
+  --    ring = {
+  --      history_length = 100,
+  --      storage = "sqlite",
+  --    },
+  --    picker = {
+  --      select = {
+  --        action = nil, -- Use default
+  --      },
+  --      telescope = {
+  --        use_default_mappings = true,
+  --      },
+  --    },
+  --    highlight = {
+  --      on_put = true,
+  --      on_yank = true,
+  --      timer = 200,
+  --    },
+  --  },
   -- },
 
   -- Terminal Management
