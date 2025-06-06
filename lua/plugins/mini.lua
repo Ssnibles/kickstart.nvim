@@ -72,7 +72,7 @@ return {
     require("mini.cursorword").setup()
     require("mini.pairs").setup()
     require("mini.operators").setup()
-    require("mini.indentscope").setup()
+    -- require("mini.indentscope").setup()
 
     -- NEW: mini.clue for key binding hints
     require("mini.clue").setup({

@@ -1,10 +1,9 @@
 return {
-
   "folke/snacks.nvim",
   event = "VimEnter",
   opts = {
     indent = {
-      enabled = false,
+      -- enabled = false,
       priority = 1,
       char = "│",
       scope = {
