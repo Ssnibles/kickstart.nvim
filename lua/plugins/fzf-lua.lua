@@ -1,4 +1,3 @@
--- TODO: Add a markview preview for markdown files
 return {
   "ibhagwan/fzf-lua",
   dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -67,11 +66,14 @@ return {
         },
       },
       keymap = {
+        builtin = {
+          ["ctrl-r"] = "preview-reset",
+          ["ctrl-d"] = "preview-page-down",
+          ["ctrl-u"] = "preview-page-up",
+        },
         fzf = {
           ["ctrl-j"] = "preview-page-down",
           ["ctrl-k"] = "preview-page-up",
-          ["ctrl-d"] = "preview-half-page-down",
-          ["ctrl-u"] = "preview-half-page-up",
         },
       },
     })

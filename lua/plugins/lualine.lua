@@ -36,7 +36,7 @@ return {
         {
           function()
             if vim.fn.reg_recording() ~= "" then
-              return " REC " .. vim.fn.reg_recording()
+              return " REC " .. vim.fn.reg_recording()
             end
             return ""
           end,

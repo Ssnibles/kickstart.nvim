@@ -12,9 +12,8 @@ return {
     },
     signcolumn = true,
     numhl = false,
-    linehl = false,
+    linehl = true,
     word_diff = false,
-
     watch_gitdir = {
       interval = 1000,
       follow_files = true,

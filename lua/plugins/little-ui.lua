@@ -101,7 +101,7 @@ return {
   -- File path in winbar (disabled by default)
   {
     "b0o/incline.nvim",
-    -- enabled = false,
+    enabled = false,
     event = "BufReadPost",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {
