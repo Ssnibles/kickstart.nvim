@@ -73,3 +73,29 @@ local function toggle_typewriter()
   end
 end
 vim.keymap.set("n", "<leader>tw", toggle_typewriter, { desc = "Toggle typewriter mode" })
+
+-- Change currentline number colour based on mode
+local mode_to_group = {
+  n = "lualine_a_normal", -- Normal mode
+  i = "lualine_a_insert", -- Insert mode
+  v = "lualine_a_visual", -- Visual mode
+  c = "lualine_a_command", -- Command mode
+  -- Add other mappings as needed
+}
+
+vim.api.nvim_create_autocmd("ModeChanged", {
+  pattern = "*",
+  callback = function()
+    local mode = vim.fn.mode()
+    local group = mode_to_group[mode] or "StatusLine"
+    local attrs = vim.api.nvim_get_hl(0, { name = group, link = true })
+    -- Only set the foreground color for CursorLineNr
+    vim.api.nvim_set_hl(0, "CursorLineNr", {
+      fg = attrs.bg,
+      bold = attrs.bold,
+      italic = attrs.italic,
+      underline = attrs.underline,
+      undercurl = attrs.undercurl,
+    })
+  end,
+})

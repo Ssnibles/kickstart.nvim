@@ -197,15 +197,15 @@ setHighlights(0, "NoiceCmdline", { bg = normal.bg, fg = "#565f89" })
 setHighlights(0, "NoiceCmdlinePopup", { bg = normal.bg })
 setHighlights(0, "NoiceCmdlinePopupBorder", { bg = normal.bg, fg = "#565f89" })
 
--- Hybrid highlight for CursorLineNr
-setHighlights(0, "CursorLineNr", {
-  fg = nontext_hl.fg,
-  bg = nontext_hl.bg,
-  bold = false,
-  italic = true,
-  undercurl = nontext_hl.undercurl,
-  underline = nontext_hl.underline,
-})
+-- -- Hybrid highlight for CursorLineNr
+-- setHighlights(0, "CursorLineNr", {
+--   -- fg = nontext_hl.fg,
+--   -- bg = nontext_hl.bg,
+--   bold = false,
+--   italic = true,
+--   undercurl = nontext_hl.undercurl,
+--   underline = nontext_hl.underline,
+-- })
 
 -- =========================
 --  AUTOCOMMANDS & DIAGNOSTICS
