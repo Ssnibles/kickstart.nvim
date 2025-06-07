@@ -46,7 +46,7 @@ return {
       dashboard.button("n", "  New File", "<cmd>ene | startinsert<cr>"), -- Create a new, empty buffer and enter insert mode
       -- 'Config' button: Opens fuzzy finder focused on Neovim configuration files.
       dashboard.button("c", "  Config", "<cmd>FzfLua files cwd=" .. vim.fn.stdpath("config") .. "<cr>"),
-      dashboard.button("l", "Open Lazy", "<cmd>Lazy<cr>"), -- Opens the Lazy.nvim plugin manager UI
+      dashboard.button("l", "󰒲 Open Lazy", "<cmd>Lazy<cr>"), -- Opens the Lazy.nvim plugin manager UI
       dashboard.button("q", "  Quit", "<cmd>qa<cr>"), -- Quits all Neovim windows
     }
 
