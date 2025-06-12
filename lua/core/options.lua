@@ -93,6 +93,7 @@ set_options({
   cursorlineopt = "both",
 
   -- Visuals
+  guicursor = "n-v:block,sm-c-i-ci-ve:ver25,r-cr-o:hor20",
   winbar = "",
   termguicolors = true,
   list = true,
