@@ -12,6 +12,14 @@ return {
       legacy_computing_symbols_support = false,
       smear_insert_mode = false,
     },
+    -- Disable when the cmdline is enterd and enable when left
+    init = function()
+      vim.api.nvim_create_autocmd({ "CmdlineEnter", "CmdlineLeave" }, {
+        callback = function()
+          require("smear_cursor").toggle()
+        end,
+      })
+    end,
   },
 
   -- Neoscroll: Smooth scrolling for Neovim.
