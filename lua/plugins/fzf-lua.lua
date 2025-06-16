@@ -34,7 +34,7 @@ return {
         ["bg"] = { "bg", "Normal" },
         ["hl"] = { "fg", "Comment" }, -- Highlighted text color
         ["fg+"] = { "fg", "CursorLine" }, -- Foreground of selected item
-        ["bg+"] = { "bg", "CursorLine" }, -- Background of selected item
+        -- ["bg+"] = { "bg", "CursorLine" }, -- Background of selected item
         ["hl+"] = { "fg", "Statement" }, -- Highlighted text color of selected item
         ["info"] = { "fg", "PreProc" }, -- Info text color
         ["border"] = { "fg", "FloatBorder" }, -- Border color of the popup
