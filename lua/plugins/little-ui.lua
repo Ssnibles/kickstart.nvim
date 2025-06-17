@@ -22,19 +22,19 @@ return {
     end,
   },
 
-  -- Neoscroll: Smooth scrolling for Neovim.
-  {
-    "karb94/neoscroll.nvim",
-    enabled = not vim.g.neovide, -- Only enable if not using Neovide
-    event = { "BufReadPre", "BufNewFile" }, -- Load before reading/creating a buffer
-    lazy = true, -- Explicitly mark as lazy-loaded
-    opts = {
-      -- Ensures the cursor smoothly floats along with the scroll,
-      -- providing a more natural and fluid scrolling experience.
-      float_cursor = true,
-    },
-  },
-
+  -- -- Neoscroll: Smooth scrolling for Neovim.
+  -- {
+  --   "karb94/neoscroll.nvim",
+  --   enabled = not vim.g.neovide, -- Only enable if not using Neovide
+  --   event = { "BufReadPre", "BufNewFile" }, -- Load before reading/creating a buffer
+  --   lazy = true, -- Explicitly mark as lazy-loaded
+  --   opts = {
+  --     -- Ensures the cursor smoothly floats along with the scroll,
+  --     -- providing a more natural and fluid scrolling experience.
+  --     float_cursor = true,
+  --   },
+  -- },
+  --
   -- Statuscol: Custom status column for line numbers, signs, etc.
   {
     "luukvbaal/statuscol.nvim",
@@ -177,5 +177,9 @@ return {
     event = "BufReadPost", -- Load after a buffer is read
     lazy = true, -- Explicitly mark as lazy-loaded
     opts = {}, -- Keep options empty for default behavior
+  },
+  {
+    "petertriho/nvim-scrollbar",
+    opts = {},
   },
 }
