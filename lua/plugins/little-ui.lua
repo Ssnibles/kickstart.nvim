@@ -3,6 +3,7 @@ return {
   {
     "sphamba/smear-cursor.nvim",
     enabled = not vim.g.neovide, -- Only enable if not using Neovide
+    -- enabled = false,
     event = { "BufReadPre", "BufNewFile" }, -- Load before reading/creating a buffer
     lazy = true, -- Explicitly mark as lazy-loaded
     opts = {
