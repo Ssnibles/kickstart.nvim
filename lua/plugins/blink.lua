@@ -1,9 +1,10 @@
 return {
-  -- TODO:
   "saghen/blink.cmp",
   version = "^1.0.0", -- Pin to major version (adjust based on latest release)
   event = { "CmdlineEnter", "InsertEnter" },
   dependencies = {
+    "Kaiser-Yang/blink-cmp-dictionary",
+    dependencies = { "nvim-lua/plenary.nvim" },
     "rafamadriz/friendly-snippets",
     "L3MON4D3/LuaSnip",
   },
@@ -86,8 +87,18 @@ return {
       },
     },
     sources = {
-      default = { "lsp", "path", "snippets", "buffer" },
+      default = { "dictionary", "lsp", "path", "snippets", "buffer" },
       providers = {
+        dictionary = {
+          module = "blink-cmp-dictionary",
+          name = "Dict",
+          -- Make sure this is at least 2.
+          -- 3 is recommended
+          min_keyword_length = 3,
+          opts = {
+            dictionary_directories = { "~/.dictionary/" },
+          },
+        },
         path = {
           score_offset = 3,
           fallbacks = { "buffer" },
@@ -105,7 +116,6 @@ return {
   },
   config = function(_, opts)
     require("blink.cmp").setup(opts)
-    -- Load snippets from friendly-snippets
     require("luasnip.loaders.from_vscode").lazy_load()
   end,
 }

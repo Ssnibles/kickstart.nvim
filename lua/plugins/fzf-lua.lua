@@ -29,21 +29,21 @@ return {
       },
       -- Customize the colors used by fzf.
       -- These map fzf's internal color names to Neovim highlight groups.
-      fzf_colors = {
-        ["fg"] = { "fg", "Normal" },
-        ["bg"] = { "bg", "Normal" },
-        ["hl"] = { "fg", "Comment" }, -- Highlighted text color
-        ["fg+"] = { "fg", "CursorLine" }, -- Foreground of selected item
-        -- ["bg+"] = { "bg", "CursorLine" }, -- Background of selected item
-        ["hl+"] = { "fg", "Statement" }, -- Highlighted text color of selected item
-        ["info"] = { "fg", "PreProc" }, -- Info text color
-        ["border"] = { "fg", "FloatBorder" }, -- Border color of the popup
-        ["prompt"] = { "fg", "Conditional" }, -- Prompt text color
-        ["pointer"] = { "fg", "Exception" }, -- Pointer symbol color
-        ["marker"] = { "fg", "Keyword" }, -- Marker symbol color
-        ["spinner"] = { "fg", "Label" }, -- Spinner color
-        ["header"] = { "fg", "Comment" }, -- Header text color
-      },
+      -- fzf_colors = {
+      --   ["fg"] = { "fg", "Normal" },
+      --   ["bg"] = { "bg", "Normal" },
+      --   ["hl"] = { "fg", "Comment" }, -- Highlighted text color
+      --   ["fg+"] = { "fg", "CursorLine" }, -- Foreground of selected item
+      --   ["bg+"] = { "br", "CursorLine" }, -- Background of selected item
+      --   ["hl+"] = { "fg", "Statement" }, -- Highlighted text color of selected item
+      --   ["info"] = { "fg", "PreProc" }, -- Info text color
+      --   ["border"] = { "fg", "FloatBorder" }, -- Border color of the popup
+      --   ["prompt"] = { "fg", "Conditional" }, -- Prompt text color
+      --   ["pointer"] = { "fg", "Exception" }, -- Pointer symbol color
+      --   ["marker"] = { "fg", "Keyword" }, -- Marker symbol color
+      --   ["spinner"] = { "fg", "Label" }, -- Spinner color
+      --   ["header"] = { "fg", "Comment" }, -- Header text color
+      -- },
       -- Specific configuration for the 'files' picker (used by `<leader>ff`).
       files = {
         -- `rg` (ripgrep) command to list files.

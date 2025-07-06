@@ -1,1 +1,1 @@
-/home/josh/.config/nvim/lua/themes/rose-pine-dawn.lua
+themes/rose-pine.lua
