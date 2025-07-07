@@ -90,6 +90,7 @@ return {
       default = { "dictionary", "lsp", "path", "snippets", "buffer" },
       providers = {
         dictionary = {
+          enabled = false,
           module = "blink-cmp-dictionary",
           name = "Dict",
           -- Make sure this is at least 2.
