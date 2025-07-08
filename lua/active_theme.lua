@@ -1,1 +1,1 @@
-themes/pywal.lua
+themes/matugen.lua

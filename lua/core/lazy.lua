@@ -68,6 +68,9 @@ local function setup_lazy_plugins(active_theme_spec)
         },
       },
     },
+    -- dev = {
+    --   path = "~/projects/",
+    -- },
   })
 end
 

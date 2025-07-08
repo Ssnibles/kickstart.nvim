@@ -5,5 +5,8 @@ return {
   priority = 1000,
   config = function()
     vim.cmd("colorscheme neopywal")
-  end
+  end,
+  opts = {
+    use_wallust = true,
+  },
 }

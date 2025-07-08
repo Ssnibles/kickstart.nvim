@@ -60,15 +60,15 @@ local function toggle_typewriter()
   typewriter_mode = not typewriter_mode
   if typewriter_mode then
     -- Enable typewriter mode
-    vim.wo.scrolloff = 999     -- Center vertically
+    vim.wo.scrolloff = 999 -- Center vertically
     vim.wo.sidescrolloff = 999 -- Center horizontally
-    vim.wo.colorcolumn = "80"  -- Optional: show line length marker
+    vim.wo.colorcolumn = "80" -- Optional: show line length marker
     vim.notify("Typewriter mode ON ✍️", vim.log.levels.INFO)
   else
     -- Disable typewriter mode
-    vim.wo.scrolloff = 5     -- Default value (adjust to your preference)
+    vim.wo.scrolloff = 5 -- Default value (adjust to your preference)
     vim.wo.sidescrolloff = 0 -- Default value
-    vim.wo.colorcolumn = ""  -- Clear line length marker
+    vim.wo.colorcolumn = "" -- Clear line length marker
     vim.notify("Typewriter mode OFF ✍️", vim.log.levels.INFO)
   end
 end
@@ -76,18 +76,18 @@ vim.keymap.set("n", "<leader>tw", toggle_typewriter, { desc = "Toggle typewriter
 
 -- Change currentline number colour based on mode
 local mode_to_group = {
-  n = "lualine_a_normal",       -- Normal mode
-  i = "lualine_a_insert",       -- Insert mode
-  v = "lualine_a_visual",       -- Visual mode
-  V = "lualine_a_visual",       -- Visual Line mode
+  n = "lualine_a_normal", -- Normal mode
+  i = "lualine_a_insert", -- Insert mode
+  v = "lualine_a_visual", -- Visual mode
+  V = "lualine_a_visual", -- Visual Line mode
   ["\22"] = "lualine_a_visual", -- Visual Block mode (CTRL-V)
-  c = "lualine_a_command",      -- Command-line mode
-  R = "lualine_a_replace",      -- Replace mode
-  Rv = "lualine_a_replace",     -- Virtual Replace mode
-  s = "lualine_a_select",       -- Select mode
-  S = "lualine_a_select",       -- Select Line mode
+  c = "lualine_a_command", -- Command-line mode
+  R = "lualine_a_replace", -- Replace mode
+  Rv = "lualine_a_replace", -- Virtual Replace mode
+  s = "lualine_a_select", -- Select mode
+  S = "lualine_a_select", -- Select Line mode
   ["\19"] = "lualine_a_select", -- Select Block mode (CTRL-S)
-  t = "lualine_a_terminal",     -- Terminal mode
+  t = "lualine_a_terminal", -- Terminal mode
   -- Add more as needed
 }
 

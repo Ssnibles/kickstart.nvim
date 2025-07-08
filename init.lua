@@ -4,25 +4,6 @@ if vim.loader then
   vim.loader.enable()
 end
 
--- VSCode specific adjustments
--- If Neovim is running as a VSCode extension, disable some UI elements
-if vim.g.vscode then
-  vim.opt.laststatus = 0
-  vim.opt.showmode = false
-end
-
--- Performance profiler using snacks.nvim
--- Start the profiler by running nvim like this "PROF=1 nvim"
-if vim.env.PROF then
-  local snacks = vim.fn.stdpath("data") .. "/lazy/snacks.nvim"
-  vim.opt.rtp:append(snacks)
-  require("snacks.profiler").startup({
-    startup = {
-      event = "VimEnter",
-    },
-  })
-end
-
 --- Neovim Theme Switching Integration ---
 -- This block dynamically loads the active theme's plugin specification.
 -- The `active_theme.lua` file is expected to be a symlink (created by your script)
