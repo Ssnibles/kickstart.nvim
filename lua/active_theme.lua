@@ -1,1 +1,1 @@
-themes/rose-pine.lua
+themes/pywal.lua
