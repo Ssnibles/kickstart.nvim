@@ -3,9 +3,25 @@ return {
   dev = true,
   opts = {
     file = "~/.cache/matugen/colors.jsonc",
+    transparent_background = false,
     background_style = "dark",
     auto_load = true,
     set_term_colors = true,
+    ignore_groups = {
+      -- "Normal" = true,
+    },
+    custom_highlights = {
+      -- "MyCustomGroup" = { fg = "#FF00FF", bg = "colors.surface", style = "bold" },
+    },
+    plugins = {
+      cmp = true, -- Enable Nvim-cmp highlights
+      -- nvimtree = true, -- Enable NvimTree highlights
+      -- telescope = true, -- Enable Telescope highlights
+      -- gitsigns = true, -- Enable Gitsigns highlights
+      -- bufferline = true, -- Enable Bufferline/Barbar highlights
+      -- lspsaga = true, -- Enable LspSaga highlights
+      -- Add other plugins here as you create their highlight files
+    },
   },
 }
 

@@ -2,6 +2,7 @@ return {
   -- Color Related Utilities
   {
     "brenoprata10/nvim-highlight-colors",
+    -- Loads after a buffer is read, which is appropriate for this plugin's function.
     event = "BufReadPost",
     opts = {
       render = "virtual",
@@ -14,6 +15,7 @@ return {
   -- Productivity Tools
   {
     "meznaric/key-analyzer.nvim",
+    -- Loads only when the :KeyAnalyzer command is explicitly invoked.
     cmd = "KeyAnalyzer",
     opts = {
       layout = "qwerty",
@@ -22,7 +24,8 @@ return {
 
   {
     "folke/todo-comments.nvim",
-    event = "BufReadPost",
+    -- Changed from 'event = "BufReadPost"' to 'keys' for more precise lazy loading.
+    -- This ensures the plugin only loads when a todo-comments keymap is pressed.
     dependencies = { "nvim-lua/plenary.nvim" },
     keys = {
       {
@@ -80,15 +83,16 @@ return {
   -- Clipboard Management (uncomment if you wish to enable)
   -- {
   --  "gbprod/yanky.nvim",
+  --  -- Loads after text is yanked, which is a good trigger for a clipboard manager.
   --  event = "TextYankPost",
   --  dependencies = { "kkharji/sqlite.lua" },
   --  keys = {
   --    { "<leader>p", "<cmd>YankyRingHistory<cr>",  desc = "Yank History" },
-  --    { "y",         "<Plug>(YankyYank)",          mode = { "n", "x" },  desc = "Yank text" },
-  --    { "p",         "<Plug>(YankyPutAfter)",      mode = { "n", "x" },  desc = "Put after" },
-  --    { "P",         "<Plug>(YankyPutBefore)",     mode = { "n", "x" },  desc = "Put before" },
-  --    { "<c-n>",     "<Plug>(YankyNextEntry)",     desc = "Next yank" },
-  --    { "<c-p>",     "<Plug>(YankyPreviousEntry)", desc = "Previous yank" },
+  --    { "y",          "<Plug>(YankyYank)",          mode = { "n", "x" },  desc = "Yank text" },
+  --    { "p",          "<Plug>(YankyPutAfter)",      mode = { "n", "x" },  desc = "Put after" },
+  --    { "P",          "<Plug>(YankyPutBefore)",     mode = { "n", "x" },  desc = "Put before" },
+  --    { "<c-n>",      "<Plug>(YankyNextEntry)",     desc = "Next yank" },
+  --    { "<c-p>",      "<Plug>(YankyPreviousEntry)", desc = "Previous yank" },
   --  },
   --  opts = {
   --    ring = {
@@ -115,7 +119,7 @@ return {
   {
     "akinsho/toggleterm.nvim",
     version = "*",
-    cmd = "ToggleTerm",
+    -- Removed 'cmd = "ToggleTerm"' and now loads only when one of its keymaps is used.
     keys = {
       { "<C-\\>", "<cmd>ToggleTerm<cr>", desc = "Toggle Terminal" },
       {
@@ -172,7 +176,8 @@ return {
   -- Window Management
   {
     "mrjones2014/smart-splits.nvim",
-    lazy = false,
+    -- Changed from 'lazy = false' to 'keys'. This plugin will now only load
+    -- when one of its window navigation/resizing keymaps is used.
     keys = {
       {
         "<C-h>",
@@ -236,6 +241,7 @@ return {
   -- Directory Navigation
   {
     "thunder-coding/zincoxide",
+    -- Loads only when one of its commands (Z, Zg, Zt, Zw) is invoked.
     cmd = { "Z", "Zg", "Zt", "Zw" },
     opts = { behaviour = "tabs" },
   },
@@ -243,6 +249,7 @@ return {
   -- Quality of Life Improvements
   {
     "chrisgrieser/nvim-early-retirement",
+    -- Loads very late, after most other plugins have initialized.
     event = "VeryLazy",
     opts = {
       retirementAgeMins = 10,
@@ -253,6 +260,7 @@ return {
 
   {
     "m4xshen/hardtime.nvim",
+    -- Loads very late, after most other plugins have initialized.
     event = "VeryLazy",
     opts = {
       max_time = 1000,
@@ -274,7 +282,7 @@ return {
 
   {
     "shortcuts/no-neck-pain.nvim",
-    cmd = "NoNeckPain",
+    -- Removed 'cmd = "NoNeckPain"' and now loads only when its keymap is used.
     keys = {
       { "<leader>nn", "<cmd>NoNeckPain<cr>", desc = "Toggle No Neck Pain" },
     },
@@ -296,6 +304,7 @@ return {
   },
   {
     "lambdalisue/vim-suda",
+    -- Loads only when one of its commands (SudaRead, SudaWrite) is invoked.
     cmd = { "SudaRead", "SudaWrite" },
   },
 }

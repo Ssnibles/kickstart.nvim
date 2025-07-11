@@ -3,9 +3,8 @@ return {
   {
     "sphamba/smear-cursor.nvim",
     enabled = not vim.g.neovide, -- Only enable if not using Neovide
-    -- enabled = false,
     event = { "BufReadPre", "BufNewFile" }, -- Load before reading/creating a buffer
-    lazy = true, -- Explicitly mark as lazy-loaded
+    lazy = true,
     opts = {
       smear_between_buffers = true,
       smear_between_neighbor_lines = true,
@@ -13,7 +12,7 @@ return {
       legacy_computing_symbols_support = false,
       smear_insert_mode = false,
     },
-    -- Disable when the cmdline is enterd and enable when left
+    -- Disable when the cmdline is entered and enable when left.
     init = function()
       vim.api.nvim_create_autocmd({ "CmdlineEnter", "CmdlineLeave" }, {
         callback = function()
@@ -23,24 +22,12 @@ return {
     end,
   },
 
-  -- -- Neoscroll: Smooth scrolling for Neovim.
-  -- {
-  --   "karb94/neoscroll.nvim",
-  --   enabled = not vim.g.neovide, -- Only enable if not using Neovide
-  --   event = { "BufReadPre", "BufNewFile" }, -- Load before reading/creating a buffer
-  --   lazy = true, -- Explicitly mark as lazy-loaded
-  --   opts = {
-  --     -- Ensures the cursor smoothly floats along with the scroll,
-  --     -- providing a more natural and fluid scrolling experience.
-  --     float_cursor = true,
-  --   },
-  -- },
-  --
   -- Statuscol: Custom status column for line numbers, signs, etc.
+  -- Needs to load early to properly set up the status column when a buffer is opened.
   {
     "luukvbaal/statuscol.nvim",
     event = { "BufReadPre", "BufNewFile" }, -- Load before reading/creating a buffer
-    lazy = true, -- Explicitly mark as lazy-loaded
+    lazy = true,
     opts = {
       relculright = true, -- Show relative line numbers on the right
     },
@@ -49,7 +36,7 @@ return {
   -- Tiny Inline Diagnostic: Shows diagnostics inline at the end of lines.
   {
     "rachartier/tiny-inline-diagnostic.nvim",
-    event = "VeryLazy", -- Load when an LSP client attaches to a buffer for efficiency
+    event = "VeryLazy", -- Load when Neovim is mostly idle and ready for user interaction
     priority = 1000, -- Needs to load early to capture diagnostics
     opts = {
       options = {
@@ -89,8 +76,6 @@ return {
   },
 
   -- Fidget.nvim: Elegant LSP progress notifications and UI.
-  -- This plugin is intentionally not lazy-loaded (`lazy = false`)
-  -- as it provides immediate feedback for LSP actions globally.
   {
     "j-hui/fidget.nvim",
     lazy = false, -- Load on startup for immediate LSP feedback
@@ -179,8 +164,12 @@ return {
     lazy = true, -- Explicitly mark as lazy-loaded
     opts = {}, -- Keep options empty for default behavior
   },
+
+  -- Nvim Scrollbar: Displays a scrollbar for the current buffer.
   {
     "petertriho/nvim-scrollbar",
+    event = "BufReadPost", -- Load after a buffer is read
+    lazy = true, -- Explicitly mark as lazy-loaded
     opts = {},
   },
 }
