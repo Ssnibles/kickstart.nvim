@@ -110,10 +110,10 @@ return {
       },
       math = {
         enabled = true,
+        latex = {
+          font_size = "Large",
+        },
       },
-    },
-    profiler = {
-      autocmds = true,
     },
   },
   config = function(_, opts)

@@ -91,7 +91,7 @@ return {
       default = { "lsp", "path", "snippets", "buffer" },
       per_filetype = {
         text = { "dictionary" },
-        markdown = { "dictonary" },
+        markdown = { "dictonary", "lsp", "path", "snippets", "buffer" },
       },
       providers = {
         thesaurus = {
