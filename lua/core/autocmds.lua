@@ -88,7 +88,6 @@ local mode_to_group = {
   S = "lualine_a_select", -- Select Line mode
   ["\19"] = "lualine_a_select", -- Select Block mode (CTRL-S)
   t = "lualine_a_terminal", -- Terminal mode
-  -- Add more as needed
 }
 
 vim.api.nvim_create_autocmd("ModeChanged", {
