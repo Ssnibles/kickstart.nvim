@@ -9,70 +9,31 @@
 
 -- Highlight text on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
-  group = vim.api.nvim_create_augroup("highlight_yank", {}),
-  desc = "Highlight selection on yank",
-  pattern = "*",
   callback = function()
-    vim.highlight.on_yank({ higroup = "IncSearch", timeout = 500 })
+    vim.highlight.on_yank()
   end,
 })
 
--- Disable diagnostics in insert mode (for better performance)
-vim.api.nvim_create_autocmd({ "InsertEnter" }, {
-  desc = "Disable diagnostics in insert mode",
-  group = vim.api.nvim_create_augroup("diagnostics_insert", { clear = true }),
-  callback = function()
-    vim.diagnostic.enable(false)
-  end,
-})
-vim.api.nvim_create_autocmd({ "InsertLeave" }, {
-  group = vim.api.nvim_create_augroup("diagnostics_normal", { clear = true }),
-  callback = function()
-    vim.diagnostic.enable()
-  end,
-})
+-- Keep the cursor position when yanking
+local cursorPreYank
 
--- Auto-fix imports on save for TypeScript/JavaScript
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
+vim.keymap.set({ "n", "x" }, "y", function()
+  cursorPreYank = vim.api.nvim_win_get_cursor(0)
+  return "y"
+end, { expr = true })
+
+vim.keymap.set("n", "Y", function()
+  cursorPreYank = vim.api.nvim_win_get_cursor(0)
+  return "y$"
+end, { expr = true })
+
+vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
-    local clients = vim.lsp.get_active_clients({ name = "tsserver" })
-    if #clients > 0 then
-      vim.lsp.buf.code_action({
-        context = { only = { "source.organizeImports" } },
-        apply = true,
-      })
+    if vim.v.event.operator == "y" and cursorPreYank then
+      vim.api.nvim_win_set_cursor(0, cursorPreYank)
     end
   end,
 })
-
--- Automatically expand React fragments
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "typescriptreact", "javascriptreact" },
-  callback = function()
-    vim.keymap.set("i", "<C-f>", "<><Esc>hi</><Esc>4hi", { buffer = true })
-  end,
-})
-
--- Typewriter mode (centered cursor)
-local typewriter_mode = false
-local function toggle_typewriter()
-  typewriter_mode = not typewriter_mode
-  if typewriter_mode then
-    -- Enable typewriter mode
-    vim.wo.scrolloff = 999 -- Center vertically
-    vim.wo.sidescrolloff = 999 -- Center horizontally
-    vim.wo.colorcolumn = "80" -- Optional: show line length marker
-    vim.notify("Typewriter mode ON ✍️", vim.log.levels.INFO)
-  else
-    -- Disable typewriter mode
-    vim.wo.scrolloff = 5 -- Default value (adjust to your preference)
-    vim.wo.sidescrolloff = 0 -- Default value
-    vim.wo.colorcolumn = "" -- Clear line length marker
-    vim.notify("Typewriter mode OFF ✍️", vim.log.levels.INFO)
-  end
-end
-vim.keymap.set("n", "<leader>tw", toggle_typewriter, { desc = "Toggle typewriter mode" })
 
 -- Change currentline number colour based on mode
 local mode_to_group = {
@@ -107,7 +68,54 @@ vim.api.nvim_create_autocmd("ModeChanged", {
   end,
 })
 
--- vim.api.nvim_create_autocmd("BufRead,BufNewFile", {
---   pattern = "config",
---   callback = function() vim.bo.filetype = "json" end,
--- })
+-- Restore cursor to file position in previous editing session
+vim.api.nvim_create_autocmd("BufReadPost", {
+  callback = function(args)
+    local mark = vim.api.nvim_buf_get_mark(args.buf, '"')
+    local line_count = vim.api.nvim_buf_line_count(args.buf)
+    if mark[1] > 0 and mark[1] <= line_count then
+      vim.cmd('normal! g`"zz')
+    end
+  end,
+})
+
+-- removes trailing whitespace on save
+vim.api.nvim_create_autocmd("BufWritePre", {
+  callback = function()
+    local save_cursor = vim.fn.getpos(".")
+    vim.cmd([[%s/\s\+$//e]])
+    vim.fn.setpos(".", save_cursor)
+  end,
+})
+
+-- Dim inactive windows
+
+vim.cmd("highlight default DimInactiveWindows guifg=#666666")
+
+-- When leaving a window, set all highlight groups to a "dimmed" hl_group
+vim.api.nvim_create_autocmd({ "WinLeave" }, {
+  callback = function()
+    local highlights = {}
+    for hl, _ in pairs(vim.api.nvim_get_hl(0, {})) do
+      table.insert(highlights, hl .. ":DimInactiveWindows")
+    end
+    vim.wo.winhighlight = table.concat(highlights, ",")
+  end,
+})
+
+-- When entering a window, restore all highlight groups to original
+vim.api.nvim_create_autocmd({ "WinEnter" }, {
+  callback = function()
+    vim.wo.winhighlight = ""
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "VimResized" }, {
+  group = vim.api.nvim_create_augroup("EqualizeSplits", {}),
+  callback = function()
+    local current_tab = vim.api.nvim_get_current_tabpage()
+    vim.cmd("tabdo wincmd =")
+    vim.api.nvim_set_current_tabpage(current_tab)
+  end,
+  desc = "Resize splits with terminal window",
+})
