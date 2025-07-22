@@ -4,14 +4,9 @@ vim.g.loaded_netrwPlugin = 1
 
 return {
   "stevearc/oil.nvim",
-  lazy = false, -- Load Oil immediately on Neovim startup.
-  priority = 1000, -- Ensure Oil loads before other plugins that might conflict.
   dependencies = { "nvim-tree/nvim-web-devicons" }, -- Required for file icons in Oil.
-
   -- Define custom keybindings for Oil.
   keys = {
-    -- Open Oil in the parent directory of the current file/buffer.
-    { "-", "<cmd>Oil<cr>", desc = "Open Oil in parent directory" },
     -- Toggle Oil at the current working directory (CWD).
     {
       "<leader>oo",
@@ -63,7 +58,7 @@ return {
     },
 
     -- Columns to display in the Oil buffer.
-    columns = { "icon", "permissions", "size", "mtime" },
+    columns = { "icon", "permissions" },
 
     -- Buffer options specific to Oil buffers.
     buf_options = {

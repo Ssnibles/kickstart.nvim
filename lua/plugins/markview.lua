@@ -129,6 +129,7 @@ return {
   },
   {
     "Kicamon/markdown-table-mode.nvim",
+    ft = { "markdown" },
     opts = {
       options = {
         insert = true, -- when typing "|"

@@ -89,33 +89,52 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 
 -- Dim inactive windows
+--
+-- vim.cmd("highlight default DimInactiveWindows guifg=#666666")
+--
+-- -- When leaving a window, set all highlight groups to a "dimmed" hl_group
+-- vim.api.nvim_create_autocmd({ "WinLeave" }, {
+--   callback = function()
+--     local highlights = {}
+--     for hl, _ in pairs(vim.api.nvim_get_hl(0, {})) do
+--       table.insert(highlights, hl .. ":DimInactiveWindows")
+--     end
+--     vim.wo.winhighlight = table.concat(highlights, ",")
+--   end,
+-- })
+--
+-- -- When entering a window, restore all highlight groups to original
+-- vim.api.nvim_create_autocmd({ "WinEnter" }, {
+--   callback = function()
+--     vim.wo.winhighlight = ""
+--   end,
+-- })
+--
+-- vim.api.nvim_create_autocmd({ "VimResized" }, {
+--   group = vim.api.nvim_create_augroup("EqualizeSplits", {}),
+--   callback = function()
+--     local current_tab = vim.api.nvim_get_current_tabpage()
+--     vim.cmd("tabdo wincmd =")
+--     vim.api.nvim_set_current_tabpage(current_tab)
+--   end,
+--   desc = "Resize splits with terminal window",
+-- })
 
-vim.cmd("highlight default DimInactiveWindows guifg=#666666")
-
--- When leaving a window, set all highlight groups to a "dimmed" hl_group
-vim.api.nvim_create_autocmd({ "WinLeave" }, {
+-- Show cursorline only on active windows
+vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
   callback = function()
-    local highlights = {}
-    for hl, _ in pairs(vim.api.nvim_get_hl(0, {})) do
-      table.insert(highlights, hl .. ":DimInactiveWindows")
+    if vim.w.auto_cursorline then
+      vim.wo.cursorline = true
+      vim.w.auto_cursorline = false
     end
-    vim.wo.winhighlight = table.concat(highlights, ",")
   end,
 })
 
--- When entering a window, restore all highlight groups to original
-vim.api.nvim_create_autocmd({ "WinEnter" }, {
+vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
   callback = function()
-    vim.wo.winhighlight = ""
+    if vim.wo.cursorline then
+      vim.w.auto_cursorline = true
+      vim.wo.cursorline = false
+    end
   end,
-})
-
-vim.api.nvim_create_autocmd({ "VimResized" }, {
-  group = vim.api.nvim_create_augroup("EqualizeSplits", {}),
-  callback = function()
-    local current_tab = vim.api.nvim_get_current_tabpage()
-    vim.cmd("tabdo wincmd =")
-    vim.api.nvim_set_current_tabpage(current_tab)
-  end,
-  desc = "Resize splits with terminal window",
 })
