@@ -1,43 +1,26 @@
+-- In your lazy.nvim or packer.nvim config (e.g., lua/active_theme.lua)
 return {
   dir = "~/projects/matugen.nvim/",
   dev = true,
-  opts = {
-    file = "~/.cache/matugen/colors.jsonc",
-    transparent_background = false,
-    background_style = "dark",
-    auto_load = true,
-    set_term_colors = true,
-    ignore_groups = {
-      -- "Normal" = true,
-    },
-    custom_highlights = {
-      -- "MyCustomGroup" = { fg = "#FF00FF", bg = "colors.surface", style = "bold" },
-    },
-    plugins = {
-      cmp = true, -- Enable Nvim-cmp highlights
-      -- nvimtree = true, -- Enable NvimTree highlights
-      -- telescope = true, -- Enable Telescope highlights
-      -- gitsigns = true, -- Enable Gitsigns highlights
-      -- bufferline = true, -- Enable Bufferline/Barbar highlights
-      -- lspsaga = true, -- Enable LspSaga highlights
-      -- Add other plugins here as you create their highlight files
-    },
-  },
+  config = function()
+    require("matugen_colorscheme").setup({
+      file = "~/.cache/matugen/colors.jsonc",
+      -- The 'plugins' table below now corresponds to the files in lua/matugen_colorscheme/highlights/
+      plugins = {
+        base = true, -- Always enable this, it contains core editor highlights
+        cmp = true, -- Enable nvim-cmp highlights
+        lualine = true, -- Enable lualine.nvim highlights
+        gitsigns = true, -- Enable gitsigns.nvim highlights
+        telescope = false, -- Set to true if you create telescope.lua
+        treesitter = true, -- Set to true if you create treesitter.lua
+      },
+      ignore_groups = {
+        -- You can still add groups here if you want them explicitly untouched by the theme
+      },
+      custom_highlights = {
+        -- Example:
+        -- ["CursorLine"] = { fg = "colors.primary", bg = "NONE", style = "underline" },
+      },
+    })
+  end,
 }
-
--- return {
---   "Ssnibles/matugen.nvim",
---   opts = {
---     file = "~/.cache/matugen/colors.jsonc",
---     background_style = "dark", -- or "light"
---     auto_load = true,
---     disable_plugin_highlights = true, -- Ensure this is false (it's the default)
---     transparent_background = false,
---     set_term_colors = true,
---     -- You can also add custom highlights or ignore groups here:
---     -- ignore_groups = { "Normal" = true },
---     -- custom_highlights = {
---     --   MyCustomGroup = { fg = "colors.primary" }
---     -- },
---   },
--- }

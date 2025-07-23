@@ -37,18 +37,18 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- Change currentline number colour based on mode
 local mode_to_group = {
-  n = "lualine_a_normal", -- Normal mode
-  i = "lualine_a_insert", -- Insert mode
-  v = "lualine_a_visual", -- Visual mode
-  V = "lualine_a_visual", -- Visual Line mode
+  n = "lualine_a_normal",       -- Normal mode
+  i = "lualine_a_insert",       -- Insert mode
+  v = "lualine_a_visual",       -- Visual mode
+  V = "lualine_a_visual",       -- Visual Line mode
   ["\22"] = "lualine_a_visual", -- Visual Block mode (CTRL-V)
-  c = "lualine_a_command", -- Command-line mode
-  R = "lualine_a_replace", -- Replace mode
-  Rv = "lualine_a_replace", -- Virtual Replace mode
-  s = "lualine_a_select", -- Select mode
-  S = "lualine_a_select", -- Select Line mode
+  c = "lualine_a_command",      -- Command-line mode
+  R = "lualine_a_replace",      -- Replace mode
+  Rv = "lualine_a_replace",     -- Virtual Replace mode
+  s = "lualine_a_select",       -- Select mode
+  S = "lualine_a_select",       -- Select Line mode
   ["\19"] = "lualine_a_select", -- Select Block mode (CTRL-S)
-  t = "lualine_a_terminal", -- Terminal mode
+  t = "lualine_a_terminal",     -- Terminal mode
 }
 
 vim.api.nvim_create_autocmd("ModeChanged", {
