@@ -36,7 +36,7 @@ return {
   -- Tiny Inline Diagnostic: Shows diagnostics inline at the end of lines.
   {
     "rachartier/tiny-inline-diagnostic.nvim",
-    event = "VeryLazy", -- Load when Neovim is mostly idle and ready for user interaction
+    event = { "LspAttach" }, -- Load when Neovim is mostly idle and ready for user interaction
     priority = 1000, -- Needs to load early to capture diagnostics
     opts = {
       options = {
