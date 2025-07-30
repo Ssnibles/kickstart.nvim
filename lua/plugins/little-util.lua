@@ -276,7 +276,7 @@ return {
         ["<Left>"] = { "n", "x" },
         ["<Right>"] = { "n", "x" },
       },
-      disabled_filetypes = { "qf", "netrw", "NvimTree", "lazy", "mason", "oil" },
+      disabled_filetypes = { "qf", "netrw", "NvimTree", "lazy", "mason", "oil", "fyler" },
     },
   },
 

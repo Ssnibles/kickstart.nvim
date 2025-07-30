@@ -5,9 +5,10 @@ return {
   opts = {
     options = {
       icons_enabled = true,
-      theme = "auto",
-      component_separators = { left = "│", right = "│" }, -- Thin vertical separators
-      section_separators = { left = "", right = "" }, -- Rounded section dividers
+      theme = "auto", -- Use auto theme for colors
+      component_separators = "", -- No component separators for a smoother "bubble" look
+      -- Rounded section dividers for the "bubbles" effect
+      section_separators = { left = "", right = "" },
       disabled_filetypes = {
         statusline = {
           "alpha",
@@ -28,81 +29,69 @@ return {
       lualine_a = {
         {
           "mode",
-          -- fmt = function(str)
-          --   return " " .. str
-          -- end, -- Add icon to mode
-          -- padding = { left = 1, right = 1 },
+          -- Add a right separator for the bubble effect on the mode
+          right_padding = 2,
+          separator = { left = "" },
         },
+        -- Display recording status if active
         {
           function()
-            if vim.fn.reg_recording() ~= "" then
-              return " REC " .. vim.fn.reg_recording()
+            local recording_reg = vim.fn.reg_recording()
+            if recording_reg ~= "" then
+              return " REC " .. recording_reg
             end
             return ""
           end,
-          -- color = { fg = "#ff5189", gui = "bold" }, -- Highlight recording
+          -- Remove explicit color, let theme handle it.
+          -- You could add a 'gui = "bold"' here if you want it bold regardless of theme.
         },
       },
       lualine_b = {
         "branch",
+        -- Git diff status with custom symbols and colors (colors will be theme-dependent)
         {
           "diff",
           symbols = { added = " ", modified = " ", removed = " " },
-          colored = true, -- Show colors for changes
-          -- padding = { left = 1, right = 0 },
+          colored = true,
         },
       },
       lualine_c = {
+        -- Filename with relative path and clean symbols
         {
           "filename",
-          path = 1, -- Relative path
+          -- path = 1, -- Show relative path
           symbols = {
-            -- modified = " ●",
             modified = "",
             readonly = " ",
             unnamed = "[No Name]",
           },
         },
+        -- Diagnostics with custom symbols and colors (colors will be theme-dependent)
         {
           "diagnostics",
           sources = { "nvim_diagnostic" },
           symbols = { error = " ", warn = " ", info = " ", hint = " " },
           colored = true,
           update_in_insert = false,
-          -- padding = { left = 1 },
         },
       },
       lualine_x = {
-        {
-          function()
-            local clients = vim.lsp.get_clients()
-            if #clients > 0 then
-              return clients .. " LSP"
-            end
-            return ""
-          end,
-          icon = "",
-          -- padding = { left = 1 },
-        },
+        -- LSP client count with an icon
+        "lsp_status",
         "filetype",
-        -- "encoding",
-        -- "fileformat",
       },
       lualine_y = { "progress" },
       lualine_z = {
         {
           "location",
+          -- Add a left separator for the bubble effect on the location
+          left_padding = 2,
+          separator = { right = "" },
         },
-        -- {
-        --   "datetime",
-        --   style = "%H:%M",
-        --   padding = { left = 1, right = 1 },
-        --   -- color = { fg = "#5de4c7" },
-        -- },
       },
     },
     inactive_sections = {
-      lualine_a = {},
+      lualine_a = {}, -- Inactive mode section can be empty
       lualine_b = {},
       lualine_c = { "filename" },
       lualine_x = { "location" },
