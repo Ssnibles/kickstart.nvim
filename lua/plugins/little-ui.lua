@@ -170,6 +170,22 @@ return {
     "petertriho/nvim-scrollbar",
     event = "BufReadPost", -- Load after a buffer is read
     lazy = true, -- Explicitly mark as lazy-loaded
-    opts = {},
+    opts = {
+      excluded_buftypes = {
+        "terminal",
+      },
+      excluded_filetypes = {
+        "blink-cmp-menu",
+        "NvimTree",
+        "dropbar_menu",
+        "dropbar_menu_fzf",
+        "DressingInput",
+        "cmp_docs",
+        "cmp_menu",
+        "noice",
+        "prompt",
+        "TelescopePrompt",
+      },
+    },
   },
 }
