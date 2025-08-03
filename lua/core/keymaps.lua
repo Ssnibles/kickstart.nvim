@@ -26,7 +26,17 @@ keymap("n", "'", "<Nop>", { noremap = true, desc = "Disable single quote" })
 keymap("n", "<S-'>", "<Nop>", { noremap = true, desc = "Disable Shift+'" })
 
 -- Disable some other things
+-- Disable q: in normal mode (opens command-line window)
+keymap("n", "q:", "<nop>", { noremap = true, silent = true })
+-- Disable Ctrl-F in command-line mode (opens command-line window)
 keymap("c", "<C-F>", "<nop>", { noremap = true, silent = true })
+-- Disable Up and Down in command-line mode for history
+-- keymap("c", "<Up>", "<nop>", { noremap = true, silent = true })
+-- keymap("c", "<Down>", "<nop>", { noremap = true, silent = true })
+-- keymap("c", "<S-Up>", "<nop>", { noremap = true, silent = true })
+-- keymap("c", "<S-Down>", "<nop>", { noremap = true, silent = true })
+-- keymap("c", "<PageUp>", "<nop>", { noremap = true, silent = true })
+-- keymap("c", "<PageDown>", "<nop>", { noremap = true, silent = true })
 keymap("n", "s", "<nop>")
 keymap("c", "<C-d>", "<nop>", { noremap = true, silent = true })
 keymap("c", "<C-s>", "<nop>")

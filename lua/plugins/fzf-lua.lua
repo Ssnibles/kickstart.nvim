@@ -1,5 +1,6 @@
 return {
   "ibhagwan/fzf-lua",
+  -- enabled = false,
   dependencies = { "nvim-tree/nvim-web-devicons" }, -- Essential for displaying icons in fzf-lua results
   -- Explicitly set lazy loading to true.
   -- This ensures the plugin is only loaded when one of its defined `keys`
