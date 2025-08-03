@@ -1,7 +1,6 @@
 -- ===============================
 --      KEYMAPS CONFIGURATION
 -- ===============================
--- See :help vim.keymap.set()
 
 -- Set leader key (space)
 vim.g.mapleader = " "
@@ -10,101 +9,81 @@ vim.g.mapleader = " "
 local keymap = vim.keymap.set
 
 -- ╭─────────────────────────────────────────────────────────────╮
--- │                      GENERAL MAPPINGS                       │
+-- │                       GENERAL MAPPINGS                      │
 -- ╰─────────────────────────────────────────────────────────────╯
 
--- Disable accidental suspend (<C-z>) in all modes
-keymap(
-  { "n", "v", "i", "s", "x", "o", "c", "t" },
-  "<C-z>",
-  "<Nop>",
-  { noremap = true, silent = true, desc = "Disable suspend" }
-)
+-- Disable suspend
+keymap({ "n", "v", "x", "o", "t" }, "<C-z>", "<nop>", { noremap = true, silent = true, desc = "Disable suspend" })
 
--- Disable single quote (') and Shift+' in normal mode
-keymap("n", "'", "<Nop>", { noremap = true, desc = "Disable single quote" })
-keymap("n", "<S-'>", "<Nop>", { noremap = true, desc = "Disable Shift+'" })
+-- Unbind the single-quote mark jump, which you are disabling
+-- Consider removing this if you want to use marks
+keymap("n", "'", "<nop>", { noremap = true, silent = true, desc = "Disable single quote" })
 
--- Disable some other things
--- Disable q: in normal mode (opens command-line window)
-keymap("n", "q:", "<nop>", { noremap = true, silent = true })
--- Disable Ctrl-F in command-line mode (opens command-line window)
-keymap("c", "<C-F>", "<nop>", { noremap = true, silent = true })
--- Disable Up and Down in command-line mode for history
--- keymap("c", "<Up>", "<nop>", { noremap = true, silent = true })
--- keymap("c", "<Down>", "<nop>", { noremap = true, silent = true })
--- keymap("c", "<S-Up>", "<nop>", { noremap = true, silent = true })
--- keymap("c", "<S-Down>", "<nop>", { noremap = true, silent = true })
--- keymap("c", "<PageUp>", "<nop>", { noremap = true, silent = true })
--- keymap("c", "<PageDown>", "<nop>", { noremap = true, silent = true })
-keymap("n", "s", "<nop>")
-keymap("c", "<C-d>", "<nop>", { noremap = true, silent = true })
-keymap("c", "<C-s>", "<nop>")
+-- Unbind command-line window `q:`
+keymap("n", "q:", "<nop>", { noremap = true, silent = true, desc = "Disable command-line window" })
+
+-- Disable Ctrl-F in normal mode only, keep for insert mode
+keymap("n", "<C-f>", "<nop>", { noremap = true, silent = true, desc = "Disable Ctrl-F" })
+
+-- Disable 's' in normal mode
+keymap("n", "s", "<nop>", { noremap = true, silent = true, desc = "Disable s key" })
 
 -- Exit insert mode quickly by pressing 'jk'
-keymap("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
+keymap("i", "jk", "<Esc>", { noremap = true, silent = true, desc = "Exit insert mode with jk" })
 
 -- Clear search highlights with <Esc> in normal mode
-keymap("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlights" })
+keymap("n", "<Esc>", "<cmd>nohlsearch<CR>", { noremap = true, silent = true, desc = "Clear search highlights" })
 
--- Unbind <C-a> (increment number) if you don't want it
-keymap("n", "<C-a>", "<Nop>", { desc = "Unbind increment" })
+-- Select all text with <C-a> in normal mode
+keymap("n", "<C-a>", "gg<S-v>G", { noremap = true, silent = true, desc = "Select all" })
 
 -- Exit terminal mode with double <Esc>
-keymap("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+keymap("t", "<Esc><Esc>", "<C-\\><C-n>", { noremap = true, silent = true, desc = "Exit terminal mode" })
 
--- Remap x to send to black hole instead of clipboard
-keymap("n", "x", '"_x')
+-- Use black hole register when deleting with 'x' (no yank)
+keymap("n", "x", '"_x', { noremap = true, silent = true, desc = "Delete without yanking" })
 
--- Basic single-character deletion (doesn't work for operators)
-keymap("n", "c", '"_c', { noremap = true })
-
--- Full operator mapping requiring motion (e.g., cw, ciw)
-keymap("n", "c", '"_c', { noremap = true, expr = false })
-
--- Clear system clipboard (requires clipboard tools)
+-- Clear system clipboard via <leader>cc
 keymap("n", "<leader>cc", function()
-  vim.fn.setreg("+", "") -- Clear "+ register (system clipboard)
-end, { desc = "Clear system clipboard" })
+  vim.fn.setreg("+", "")
+end, { noremap = true, silent = true, desc = "Clear system clipboard" })
 
--- Select all
-keymap("n", "<C-a>", "gg<S-v>G")
+-- Delete whole word in insert mode with Ctrl+Backspace
+keymap("i", "<C-BS>", "<C-w>", { noremap = true, silent = true, desc = "Delete previous word" })
 
-keymap("i", "<C-BS>", "<C-w>", { noremap = true, silent = true }) -- Delete whole word
-keymap("i", "<C-Del>", '<ESC>"ccc', { noremap = true, silent = true }) -- Delte whole line
+-- More reliable way to delete the whole line in insert mode
+keymap("i", "<C-d>", "<C-o>dd", { noremap = true, silent = true, desc = "Delete whole line in insert mode" })
 
 -- ╭─────────────────────────────────────────────────────────────╮
--- │                      WINDOW MANAGEMENT                      │
+-- │                     WINDOW MANAGEMENT                       │
 -- ╰─────────────────────────────────────────────────────────────╯
 
-keymap("n", "<leader>wv", "<C-w>v", { desc = "Split window vertically" })
-keymap("n", "<leader>wh", "<C-w>s", { desc = "Split window horizontally" })
-keymap("n", "<leader>we", "<C-w>=", { desc = "Make splits equal size" })
-keymap("n", "<leader>wx", "<cmd>close<CR>", { desc = "Close current split" })
-keymap("n", "<leader>wo", "<C-w>o", { desc = "Close all splits except current" })
+keymap("n", "<leader>wv", "<C-w>v", { noremap = true, silent = true, desc = "Split window vertically" })
+keymap("n", "<leader>wh", "<C-w>s", { noremap = true, silent = true, desc = "Split window horizontally" })
+keymap("n", "<leader>we", "<C-w>=", { noremap = true, silent = true, desc = "Make splits equal size" })
+keymap("n", "<leader>wx", "<cmd>close<CR>", { noremap = true, silent = true, desc = "Close current split" })
+keymap("n", "<leader>wo", "<C-w>o", { noremap = true, silent = true, desc = "Close all splits except current" })
 
 -- Window navigation (like tmux)
-keymap("n", "<C-h>", "<C-w>h", { desc = "Focus left window" })
-keymap("n", "<C-j>", "<C-w>j", { desc = "Focus lower window" })
-keymap("n", "<C-k>", "<C-w>k", { desc = "Focus upper window" })
-keymap("n", "<C-l>", "<C-w>l", { desc = "Focus right window" })
+keymap("n", "<C-h>", "<C-w>h", { noremap = true, silent = true, desc = "Focus left window" })
+keymap("n", "<C-j>", "<C-w>j", { noremap = true, silent = true, desc = "Focus lower window" })
+keymap("n", "<C-k>", "<C-w>k", { noremap = true, silent = true, desc = "Focus upper window" })
+keymap("n", "<C-l>", "<C-w>l", { noremap = true, silent = true, desc = "Focus right window" })
 
 -- ╭─────────────────────────────────────────────────────────────╮
 -- │                      LINE OPERATIONS                        │
 -- ╰─────────────────────────────────────────────────────────────╯
 
--- Delete current line using black hole register (no yank)
+-- Delete current line using black hole register (no yank) in normal mode
 keymap("n", "<C-x>", '"_dd', { noremap = true, silent = true, desc = "Delete line (no yank)" })
-keymap("i", "<C-x>", '<Esc>"_ddi', { noremap = true, silent = true, desc = "Delete line (no yank) in insert" })
+
+-- Delete current line using black hole register in insert mode
+keymap("i", "<C-x>", '<Esc>"_ddi', { noremap = true, silent = true, desc = "Delete line (no yank) in insert mode" })
 
 -- ╭─────────────────────────────────────────────────────────────╮
--- │                  OPTIONAL: NUMBER INCREMENT                 │
+-- │              OPTIONAL: NUMBER INCREMENT                     │
 -- ╰─────────────────────────────────────────────────────────────╯
 
--- Uncomment for Alt+Up/Down to increment/decrement numbers
-keymap("n", "<A-Up>", "<C-a>", { desc = "Increment number" })
-keymap("n", "<A-Down>", "<C-x>", { desc = "Decrement number" })
-
--- ===============================
---           END OF MAPPINGS
--- ===============================
+-- Alt+Up to increment number, Alt+Down to decrement number
+keymap("n", "<A-Up>", "<C-a>", { noremap = true, silent = true, desc = "Increment number" })
+keymap("n", "<A-Down>", "<C-x>", { noremap = true, silent = true, desc = "Decrement number" })
