@@ -1,17 +1,4 @@
 return {
-  -- Color Related Utilities
-  {
-    "brenoprata10/nvim-highlight-colors",
-    -- Loads after a buffer is read, which is appropriate for this plugin's function.
-    event = "BufReadPost",
-    opts = {
-      render = "virtual",
-      virtual_symbol = "●",
-      enable_named_colors = true,
-      enable_tailwind = true,
-    },
-  },
-
   -- Productivity Tools
   {
     "meznaric/key-analyzer.nvim",
@@ -21,99 +8,6 @@ return {
       layout = "qwerty",
     },
   },
-
-  {
-    "folke/todo-comments.nvim",
-    -- Changed from 'event = "BufReadPost"' to 'keys' for more precise lazy loading.
-    -- This ensures the plugin only loads when a todo-comments keymap is pressed.
-    dependencies = { "nvim-lua/plenary.nvim" },
-    keys = {
-      {
-        "<leader>td",
-        function()
-          -- Assuming Snacks.nvim is installed for the picker.
-          -- If not, consider using require("todo-comments").action_list() for a built-in alternative.
-          Snacks.picker.todo_comments({
-            keywords = {
-              "TODO",
-              "FIX",
-              "FIXME",
-              "BUG",
-              "HACK",
-              "WARN",
-              "WARNING",
-              "NOTE",
-              "INFO",
-              "ISSUE",
-            },
-          })
-        end,
-        desc = "Todo List",
-      },
-      {
-        "]t",
-        function()
-          require("todo-comments").jump_next()
-        end,
-        desc = "Next todo",
-      },
-      {
-        "[t",
-        function()
-          require("todo-comments").jump_prev()
-        end,
-        desc = "Previous todo",
-      },
-    },
-    opts = {
-      signs = true,
-      -- Added more distinct icons for better visual cues in the sign column.
-      -- These icons require a "Nerd Font" to render correctly (e.g., FiraCode Nerd Font).
-      keywords = {
-        FIX = { icon = "", color = "error", alt = { "FIXME", "BUG", "FIXIT", "ISSUE" } },
-        TODO = { icon = "", color = "info" },
-        HACK = { icon = "󰦛", color = "warning" },
-        WARN = { icon = "", color = "warning", alt = { "WARNING", "XXX" } },
-        PERF = { icon = "󰎖", color = "default", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
-        NOTE = { icon = "", color = "hint", alt = { "INFO" } },
-      },
-    },
-  },
-
-  -- Clipboard Management (uncomment if you wish to enable)
-  -- {
-  --  "gbprod/yanky.nvim",
-  --  -- Loads after text is yanked, which is a good trigger for a clipboard manager.
-  --  event = "TextYankPost",
-  --  dependencies = { "kkharji/sqlite.lua" },
-  --  keys = {
-  --    { "<leader>p", "<cmd>YankyRingHistory<cr>",  desc = "Yank History" },
-  --    { "y",          "<Plug>(YankyYank)",          mode = { "n", "x" },  desc = "Yank text" },
-  --    { "p",          "<Plug>(YankyPutAfter)",      mode = { "n", "x" },  desc = "Put after" },
-  --    { "P",          "<Plug>(YankyPutBefore)",     mode = { "n", "x" },  desc = "Put before" },
-  --    { "<c-n>",      "<Plug>(YankyNextEntry)",     desc = "Next yank" },
-  --    { "<c-p>",      "<Plug>(YankyPreviousEntry)", desc = "Previous yank" },
-  --  },
-  --  opts = {
-  --    ring = {
-  --      history_length = 100,
-  --      storage = "sqlite",
-  --    },
-  --    picker = {
-  --      select = {
-  --        action = nil, -- Use default
-  --      },
-  --      telescope = {
-  --        use_default_mappings = true,
-  --      },
-  --    },
-  --    highlight = {
-  --      on_put = true,
-  --      on_yank = true,
-  --      timer = 200,
-  --    },
-  --  },
-  -- },
 
   -- Terminal Management
   {
@@ -261,6 +155,7 @@ return {
   {
     "m4xshen/hardtime.nvim",
     -- Loads very late, after most other plugins have initialized.
+    enabled = false,
     event = "VeryLazy",
     opts = {
       max_time = 1000,

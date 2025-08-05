@@ -48,7 +48,6 @@ end
 -- It's crucial that 'core.lazy' (which calls lazy.setup) is sourced AFTER
 -- the 'theme_plugin_spec' has been determined, as it will receive it as an argument.
 require("core.lazy")(theme_plugin_spec) -- Pass the determined theme_plugin_spec to core.lazy
-
 require("core.keymaps") -- Source keymaps (e.g., ~/.config/nvim/lua/core/keymaps.lua)
 require("core.options") -- Source options (e.g., ~/.config/nvim/lua/core/options.lua)
 require("core.autocmds") -- Source autocmds (e.g., ~/.config/nvim/lua/core/autocmds.lua)

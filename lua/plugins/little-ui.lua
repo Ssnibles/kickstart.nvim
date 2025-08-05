@@ -46,35 +46,6 @@ return {
     },
   },
 
-  -- Nvim LSP End Hints: Shows end-of-line hints from LSP.
-  {
-    "chrisgrieser/nvim-lsp-endhints",
-    event = "LspAttach", -- Load when an LSP client attaches to a buffer
-    lazy = true, -- Explicitly mark as lazy-loaded
-    opts = {}, -- Required, even if empty, as setup is done in config
-    config = function()
-      -- Default settings with current icon choices
-      require("lsp-endhints").setup({
-        icons = {
-          type = "󰜁 ",
-          parameter = "󰏪 ",
-          offspec = " ", -- hint kind not defined in official LSP spec
-          unknown = " ", -- hint kind is nil
-        },
-        label = {
-          truncateAtChars = 20,
-          padding = 1,
-          marginLeft = 0,
-          sameKindSeparator = ", ",
-        },
-        extmark = {
-          priority = 50,
-        },
-        autoEnableHints = true,
-      })
-    end,
-  },
-
   -- Fidget.nvim: Elegant LSP progress notifications and UI.
   {
     "j-hui/fidget.nvim",
@@ -137,24 +108,6 @@ return {
         }
       end,
     },
-  },
-
-  -- Dropbar.nvim: Breadcrumbs/navigation for LSP symbols.
-  {
-    "Bekaboo/dropbar.nvim",
-    event = "LspAttach", -- Load when an LSP client attaches, as it uses LSP sources
-    enabled = false,
-    lazy = true, -- Explicitly mark as lazy-loaded
-    config = function()
-      require("dropbar").setup({
-        bar = {
-          -- Only use LSP as the source for breadcrumbs
-          sources = {
-            require("dropbar.sources.lsp"),
-          },
-        },
-      })
-    end,
   },
 
   -- Nvim Treesitter Context: Shows parent function/class context above the cursor.

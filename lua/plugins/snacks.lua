@@ -3,7 +3,7 @@ return {
   event = "VimEnter",
   opts = {
     indent = {
-      -- enabled = false,
+      enabled = false,
       priority = 1,
       char = "│",
       scope = {

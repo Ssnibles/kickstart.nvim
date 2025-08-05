@@ -1,11 +1,17 @@
---  see `:help lua-guide-autocommands`
-
--- Define the "currentline" sign with proper namespace and styling
--- vim.fn.sign_define("currentline", {
---   text = "▶", -- More visible symbol
---   texthl = "LineNr", -- Link to existing highlight group
---   numhl = "LineNr", -- Maintain number column appearance
--- })
+vim.api.nvim_create_autocmd("ModeChanged", {
+  callback = function()
+    local mode = vim.api.nvim_get_mode().mode
+    -- Check if the mode is Normal ('n') or any Visual mode ('v', 'V', '')
+    if mode == "n" or mode:match("^[vV\22]$") then
+      vim.opt.relativenumber = true
+      vim.opt.number = true
+    else
+      -- In other modes (e.g., insert, command), only show the absolute line number
+      vim.opt.relativenumber = false
+      vim.opt.number = true
+    end
+  end,
+})
 
 -- Highlight text on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -35,37 +41,43 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
--- Change currentline number colour based on mode
+-- A table mapping modes to lualine highlight group names.
 local mode_to_group = {
-  n = "lualine_a_normal", -- Normal mode
-  i = "lualine_a_insert", -- Insert mode
-  v = "lualine_a_visual", -- Visual mode
-  V = "lualine_a_visual", -- Visual Line mode
-  ["\22"] = "lualine_a_visual", -- Visual Block mode (CTRL-V)
-  c = "lualine_a_command", -- Command-line mode
-  R = "lualine_a_replace", -- Replace mode
-  Rv = "lualine_a_replace", -- Virtual Replace mode
-  s = "lualine_a_select", -- Select mode
-  S = "lualine_a_select", -- Select Line mode
-  ["\19"] = "lualine_a_select", -- Select Block mode (CTRL-S)
-  t = "lualine_a_terminal", -- Terminal mode
+  n = "lualine_a_normal",
+  i = "lualine_a_insert",
+  v = "lualine_a_visual",
+  V = "lualine_a_visual",
+  ["\22"] = "lualine_a_visual",
+  c = "lualine_a_command",
+  R = "lualine_a_replace",
+  r = "lualine_a_replace",
+  s = "lualine_a_select",
+  S = "lualine_a_select",
+  ["\19"] = "lualine_a_select",
+  t = "lualine_a_terminal",
 }
 
-vim.api.nvim_create_autocmd("ModeChanged", {
-  pattern = "*",
-  callback = function()
-    local mode = vim.fn.mode()
-    local group = mode_to_group[mode] or "StatusLine"
-    local attrs = vim.api.nvim_get_hl(0, { name = group, link = true })
-    -- Only set the foreground color for CursorLineNr
-    vim.api.nvim_set_hl(0, "CursorLineNr", {
-      fg = attrs.bg,
-      bold = attrs.bold,
-      italic = attrs.italic,
-      underline = attrs.underline,
-      undercurl = attrs.undercurl,
-    })
-  end,
+-- The function that updates the highlight.
+local function update_cursorlinenr_highlight()
+  local mode = vim.fn.mode()
+  local group_name = mode_to_group[mode] or "Normal"
+  local attrs = vim.api.nvim_get_hl(0, { name = group_name, link = false })
+
+  -- Check if the highlight group exists and has a background color.
+  -- This handles the case where lualine hasn't loaded yet.
+  if attrs and attrs.bg then
+    vim.api.nvim_set_hl(0, "CursorLineNr", { fg = attrs.bg })
+  else
+    -- Fallback to the default Normal highlight group.
+    vim.api.nvim_set_hl(0, "CursorLineNr", { link = "Normal" })
+  end
+end
+
+-- Set up the autocommand group and events.
+vim.api.nvim_create_augroup("CursorLineNrHighlight", { clear = true })
+vim.api.nvim_create_autocmd({ "ModeChanged", "VimEnter" }, {
+  group = "CursorLineNrHighlight",
+  callback = update_cursorlinenr_highlight,
 })
 
 -- Restore cursor to file position in previous editing session
@@ -88,38 +100,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
--- Dim inactive windows
---
--- vim.cmd("highlight default DimInactiveWindows guifg=#666666")
---
--- -- When leaving a window, set all highlight groups to a "dimmed" hl_group
--- vim.api.nvim_create_autocmd({ "WinLeave" }, {
---   callback = function()
---     local highlights = {}
---     for hl, _ in pairs(vim.api.nvim_get_hl(0, {})) do
---       table.insert(highlights, hl .. ":DimInactiveWindows")
---     end
---     vim.wo.winhighlight = table.concat(highlights, ",")
---   end,
--- })
---
--- -- When entering a window, restore all highlight groups to original
--- vim.api.nvim_create_autocmd({ "WinEnter" }, {
---   callback = function()
---     vim.wo.winhighlight = ""
---   end,
--- })
---
--- vim.api.nvim_create_autocmd({ "VimResized" }, {
---   group = vim.api.nvim_create_augroup("EqualizeSplits", {}),
---   callback = function()
---     local current_tab = vim.api.nvim_get_current_tabpage()
---     vim.cmd("tabdo wincmd =")
---     vim.api.nvim_set_current_tabpage(current_tab)
---   end,
---   desc = "Resize splits with terminal window",
--- })
-
 -- Show cursorline only on active windows
 vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
   callback = function()
@@ -128,25 +108,4 @@ vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
       vim.w.auto_cursorline = false
     end
   end,
-})
-
-vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
-  callback = function()
-    if vim.wo.cursorline then
-      vim.w.auto_cursorline = true
-      vim.wo.cursorline = false
-    end
-  end,
-})
-
--- Use an autocommand to immediately close the command-line window
--- when it's opened. This effectively disables the q: and other
--- similar commands.
-vim.api.nvim_create_autocmd("CmdwinEnter", {
-  group = vim.api.nvim_create_augroup("NoQColon", { clear = true }),
-  callback = function()
-    -- This command closes the command-line window.
-    vim.cmd("quit")
-  end,
-  desc = "Disable command-line window (q:, q/, etc.)",
 })

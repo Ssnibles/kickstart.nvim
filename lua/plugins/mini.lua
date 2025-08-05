@@ -63,15 +63,12 @@ return {
 
     -- Essential quality-of-life modules
     require("mini.comment").setup({
-      modes = {
-        insert = true,
-        command = true,
-        terminal = true,
-      },
+      modes = { insert = true, command = true, terminal = true },
     })
     require("mini.cursorword").setup()
     require("mini.pairs").setup()
     require("mini.operators").setup()
+    -- Uncomment if you want indent scope
     -- require("mini.indentscope").setup()
 
     -- NEW: mini.clue for key binding hints
@@ -81,11 +78,14 @@ return {
         { mode = "n", keys = "<Leader>", desc = "+leader" },
         { mode = "n", keys = "g", desc = "+goto" },
         { mode = "n", keys = "z", desc = "+fold" },
+
         -- Window management
         { mode = "n", keys = "<C-w>", desc = "+windows" },
+
         -- Buffer management
         { mode = "n", keys = "]", desc = "+next" },
         { mode = "n", keys = "[", desc = "+prev" },
+
         -- Mini modules
         { mode = "n", keys = "ga", desc = "Align" },
         { mode = "n", keys = "gA", desc = "Align with preview" },
@@ -108,7 +108,24 @@ return {
       },
       window = {
         delay = 300, -- ms before showing clue window
-        config = { border = "rounded" },
+        config = {
+          border = "rounded",
+        },
+      },
+    })
+
+    -- mini.hipatterns for highlighting
+    local hipatterns = require("mini.hipatterns")
+    hipatterns.setup({
+      highlighters = {
+        -- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE'
+        fixme = { pattern = "%f[%w]()FIXME()%f[%W]", group = "MiniHipatternsFixme" },
+        hack = { pattern = "%f[%w]()HACK()%f[%W]", group = "MiniHipatternsHack" },
+        todo = { pattern = "%f[%w]()TODO()%f[%W]", group = "MiniHipatternsTodo" },
+        note = { pattern = "%f[%w]()NOTE()%f[%W]", group = "MiniHipatternsNote" },
+
+        -- Highlight hex color strings (`#rrggbb`) using that color
+        hex_color = hipatterns.gen_highlighter.hex_color(),
       },
     })
   end,
