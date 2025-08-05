@@ -42,6 +42,10 @@ keymap("t", "<Esc><Esc>", "<C-\\><C-n>", { noremap = true, silent = true, desc =
 
 -- Use black hole register when deleting with 'x' (no yank)
 keymap("n", "x", '"_x', { noremap = true, silent = true, desc = "Delete without yanking" })
+keymap("n", "c", '"_c', { noremap = true, silent = true, desc = "Change without yanking" })
+keymap("x", "c", '"_c', { noremap = true, silent = true, desc = "Change without yanking" })
+keymap("n", "C", '"_C', { noremap = true, silent = true, desc = "Change without yanking" })
+keymap("n", "<A-d>", '"_cc', { noremap = true, silent = true, desc = "Change without yanking" })
 
 -- Clear system clipboard via <leader>cc
 keymap("n", "<leader>cc", function()
