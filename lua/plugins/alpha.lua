@@ -1,6 +1,5 @@
 return {
   "goolord/alpha-nvim",
-  enabled = false,
   -- Load alpha-nvim only after Neovim has fully entered (e.g., at startup).
   -- This is the ideal event for a dashboard-style plugin, ensuring lazy loading.
   event = "VimEnter",

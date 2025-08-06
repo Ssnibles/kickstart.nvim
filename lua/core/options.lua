@@ -1,9 +1,3 @@
---            __  __  _
---   ___ ___ / /_/ /_(_)__  ___ ____
---  (_-</ -_) __/ __/ / _ \/ _ `(_-<
--- /___/\__/\__/\__/_/_//_/\_, /___/
---                        /___/
-
 -- =========================
 --  GLOBAL & CORE SETTINGS
 -- =========================
@@ -83,7 +77,7 @@ set_options({
   softtabstop = 2,
   smartindent = true,
   autoindent = true,
-  wrap = true,
+  wrap = false,
   breakindent = true,
 
   -- Line numbers & Cursor
