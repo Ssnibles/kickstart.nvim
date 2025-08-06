@@ -1,5 +1,6 @@
 return {
   "echasnovski/mini.nvim",
+  event = "VeryLazy",
   version = false,
   config = function()
     -- Text objects with extended navigation

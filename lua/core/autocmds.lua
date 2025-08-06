@@ -1,7 +1,16 @@
 vim.api.nvim_create_autocmd("ModeChanged", {
   callback = function()
     local mode = vim.api.nvim_get_mode().mode
-    -- Check if the mode is Normal ('n') or any Visual mode ('v', 'V', '')
+    local filetype = vim.bo.filetype -- 'vim.bo' is short for 'vim.opt_local'
+
+    -- Check if the current buffer's filetype is fzf
+    if filetype == "fzf" then
+      vim.opt.number = false
+      vim.opt.relativenumber = false
+      return -- Exit the callback early
+    end
+
+    -- Your original logic for all other filetypes
     if mode == "n" or mode:match("^[vV\22]$") then
       vim.opt.relativenumber = true
       vim.opt.number = true

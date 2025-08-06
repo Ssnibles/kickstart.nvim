@@ -1,8 +1,8 @@
-- [ ] Expand Snacks.nvim
-- [ ] Better Blink.cmp setup
-- [ ] Todo-comments.nvim setup
-- [x] Markview setup
-- [x] Flash.nvim setup
+-- TODO:
+
+- [ ] Make numbers not appear in nvimtree
+- [ ] Better blink.cmp
+- [ ] Dashboard
 
 # List of plugins to implement
 
