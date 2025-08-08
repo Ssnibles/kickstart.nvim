@@ -7,8 +7,9 @@ return {
       base = true,
       treesitter = true,
       cmp = true,
-      lualine = false,
+      miscellaneous = true,
     },
+    debug = false,
   },
   -- Or, if you directly tried to index something that became a boolean
   -- local some_setting = matugen_colorscheme.config.plugins.base -- If base somehow became boolean directly
