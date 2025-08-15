@@ -1,5 +1,14 @@
--- Disable Netrw to allow Oil to take over as the default file explorer.
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
+return {
+  "stevearc/oil.nvim",
+  opts = {
+    default_file_explorer = true, -- Replace netrw
+    view_options = {
+      show_hidden = true, -- Show dotfiles
+    },
+    keymaps = {
+      ["q"] = "actions.close", -- Close with q
+    },
+  },
+  dependencies = { "nvim-tree/nvim-web-devicons" }, -- Optional, for file icons
+}
 
-return {}

@@ -2,220 +2,186 @@
 --  GLOBAL & CORE SETTINGS
 -- =========================
 
-local global = vim.g
-local option = vim.opt
+local g = vim.g
+local o = vim.opt
 
--- General global Neovim settings
-global.have_nerd_font = true
--- global.loaded_netrw = 1
--- global.loaded_netrePlugin = 1
+-- Have Nerd Font (used by icons)
+g.have_nerd_font = true
+
+-- Uncomment to disable netrw (if using oil.nvim, nvim-tree, etc.)
+-- g.loaded_netrw = 1
+-- g.loaded_netrwPlugin = 1
 
 -- =========================
 --  NEOVIDE-SPECIFIC SETTINGS
 -- =========================
-
-if global.neovide then
-  -- Font
-  option.guifont = "JetBrainsMono Nerd Font:h12"
-
-  -- Appearance & Scaling
-  global.neovide_scale_factor = 1.0
-  global.neovide_refresh_rate = 144
-  global.neovide_hide_mouse_when_typing = true
-  global.neovide_floating_shadow = false
-
-  -- Scrolling
-  global.neovide_scroll_animation_length = 0.3
-
-  -- Cursor
-  global.neovide_cursor_animation_length = 0.05
-  global.neovide_cursor_trail_length = 0.2
-  global.neovide_cursor_vfx_mode = "pixie"
-  global.neovide_cursor_vfx_opacity = 150.0
-  global.neovide_cursor_vfx_particle_lifetime = 0.8
-  global.neovide_cursor_vfx_particle_density = 3.0
-  global.neovide_cursor_vfx_particle_speed = 5.0
-  global.neovide_cursor_animate_in_insert_mode = false
-  global.neovide_cursor_animate_command_line = false
-
-  -- Window Padding
-  global.neovide_padding_top = 5
-  global.neovide_padding_bottom = 5
-  global.neovide_padding_left = 5
-  global.neovide_padding_right = 5
-
-  -- Fullscreen & Floating
-  global.neovide_fullscreen = false
-  global.neovide_floating_blur = false
-
-  -- Advanced
-  global.neovide_remember_window_size = true
-  global.neovide_input_use_logo = true -- Enable Super/Logo key
-
-  -- Performance
-  global.neovide_refresh_rate_idle = 5
+if g.neovide then
+  o.guifont = "JetBrainsMono Nerd Font:h12"
+  g.neovide_scale_factor = 1.0
+  g.neovide_refresh_rate = 144
+  g.neovide_hide_mouse_when_typing = true
+  g.neovide_floating_shadow = false
+  g.neovide_scroll_animation_length = 0.3
+  g.neovide_cursor_animation_length = 0.05
+  g.neovide_cursor_trail_length = 0.2
+  g.neovide_cursor_vfx_mode = "pixie"
+  g.neovide_cursor_vfx_opacity = 150.0
+  g.neovide_cursor_vfx_particle_lifetime = 0.8
+  g.neovide_cursor_vfx_particle_density = 3.0
+  g.neovide_cursor_vfx_particle_speed = 5.0
+  g.neovide_cursor_animate_in_insert_mode = false
+  g.neovide_cursor_animate_command_line = false
+  g.neovide_padding_top = 5
+  g.neovide_padding_bottom = 5
+  g.neovide_padding_left = 5
+  g.neovide_padding_right = 5
+  g.neovide_fullscreen = false
+  g.neovide_floating_blur = false
+  g.neovide_remember_window_size = true
+  g.neovide_input_use_logo = true
+  g.neovide_refresh_rate_idle = 5
 end
 
 -- =========================
 --  CORE EDITOR OPTIONS
 -- =========================
 
-local function set_options(options)
-  for k, v in pairs(options) do
-    option[k] = v
-  end
-end
+o.clipboard = "unnamedplus"
 
-set_options({
-  -- Clipboard
-  clipboard = "unnamedplus",
+-- Tabs & indentation
+o.expandtab = true
+o.shiftwidth = 2
+o.tabstop = 2
+o.softtabstop = 2
+o.smartindent = true
+o.autoindent = true
+o.breakindent = true
+o.wrap = false
 
-  -- Text formatting
-  expandtab = true,
-  shiftwidth = 2,
-  tabstop = 2,
-  softtabstop = 2,
-  smartindent = true,
-  autoindent = true,
-  wrap = false,
-  breakindent = true,
+-- Line numbers & cursor
+o.number = true
+o.relativenumber = true
+o.cursorline = true
+o.cursorlineopt = "both"
 
-  -- Line numbers & Cursor
-  number = true,
-  relativenumber = true,
-  cursorline = true,
-  cursorlineopt = "both",
+-- Visuals
+o.termguicolors = true
+o.signcolumn = "yes"
+o.scrolloff = 8
+o.sidescrolloff = 8
+o.list = true
+o.listchars = {
+  tab = "▸ ",
+  trail = "·",
+  nbsp = "␣",
+  extends = "»",
+  precedes = "«",
+}
+o.fillchars = {
+  eob = " ",
+  fold = " ",
+  foldopen = "",
+  foldclose = "",
+  foldsep = "│",
+  vert = "│",
+  horiz = "─",
+  horizup = "┴",
+  horizdown = "┬",
+  vertleft = "┤",
+  vertright = "├",
+  verthoriz = "┼",
+}
 
-  -- Visuals
-  guicursor = "n-v:block,sm-c-i-ci-ve:ver25,r-cr-o:hor20",
-  winbar = "",
-  termguicolors = true,
-  list = true,
-  listchars = {
-    tab = "▸ ",
-    trail = "·",
-    nbsp = "␣",
-    extends = "»",
-    precedes = "«",
-  },
-  fillchars = {
-    eob = " ",
-    fold = " ",
-    foldopen = "",
-    foldclose = "",
-    foldsep = "│",
-    vert = "│",
-    horiz = "─",
-    horizup = "┴",
-    horizdown = "┬",
-    vertleft = "┤",
-    vertright = "├",
-    verthoriz = "┼",
-  },
+-- Search
+o.ignorecase = true
+o.smartcase = true
+o.hlsearch = true
+o.incsearch = true
+o.inccommand = "split"
 
-  -- Search
-  ignorecase = true,
-  smartcase = true,
-  hlsearch = true,
-  incsearch = true,
-  inccommand = "split",
+-- Performance
+o.lazyredraw = true
+o.updatetime = 250
+o.timeoutlen = 500
+o.redrawtime = 150
+o.synmaxcol = 500
+o.ttyfast = true
 
-  -- Performance
-  lazyredraw = false,
-  updatetime = 250,
-  timeoutlen = 300,
-  redrawtime = 150,
-  synmaxcol = 500,
-  ttyfast = true,
+-- File handling
+o.undofile = true
+o.swapfile = false
+o.backup = false
+o.writebackup = false
+o.autoread = true
 
-  -- File handling
-  undofile = true,
-  swapfile = false,
-  backup = false,
-  writebackup = false,
-  autoread = true,
+-- Window management
+o.splitright = true
+o.splitbelow = true
+o.splitkeep = "cursor"
 
-  -- Window management
-  splitright = true,
-  splitbelow = true,
-  splitkeep = "cursor",
-  mouse = "a",
-  scrolloff = 10,
-  sidescrolloff = 10,
+-- Mouse disabled (per preference)
+o.mouse = ""
 
-  -- Interface
-  wildmenu = true,
-  wildmode = "longest:full,full",
-  completeopt = "noselect",
-  viewoptions = "folds,cursor,curdir,slash,unix",
-  showtabline = 0,
+-- Interface
+o.laststatus = 3
+o.showmode = false
+o.completeopt = "menuone,noinsert,noselect"
+o.viewoptions = "folds,cursor,curdir,slash,unix"
+o.showtabline = 0
+o.wildmenu = true
+o.wildmode = "longest:full,full"
 
-  -- Folding
-  foldlevelstart = 99,
+-- Folding
+o.foldmethod = "indent"
+o.foldlevel = 99
+o.foldenable = true
 
-  -- Encoding
-  fileencoding = "utf-8",
-  encoding = "utf-8",
+-- Encoding
+o.fileencoding = "utf-8"
+o.encoding = "utf-8"
 
-  -- Miscellaneous
-  title = true,
-  backspace = { "start", "eol", "indent" },
-})
+-- Misc
+o.title = true
+o.backspace = { "start", "eol", "indent" }
 
 -- =========================
 --  UI HIGHLIGHTS & APPEARANCE
 -- =========================
 
-local setHighlights = vim.api.nvim_set_hl
-local nontext_hl = vim.api.nvim_get_hl(0, { name = "NonText" })
+local set_hl = vim.api.nvim_set_hl
 local normal = vim.api.nvim_get_hl(0, { name = "Normal" })
 
--- Floating windows (global)
-setHighlights(0, "NormalFloat", { bg = normal.bg, fg = normal.fg })
-setHighlights(0, "FloatBorder", { bg = normal.bg, fg = "#565f89" })
+set_hl(0, "NormalFloat", { bg = normal.bg, fg = normal.fg })
+set_hl(0, "FloatBorder", { bg = normal.bg, fg = "#565f89" })
 
--- fzf-lua specific
-setHighlights(0, "FzfLuaBorder", { bg = normal.bg, fg = "#565f89" })
-setHighlights(0, "FzfLuaNormal", { bg = normal.bg, fg = normal.fg })
-
--- blink.cmp specific
-setHighlights(0, "BlinkCmpMenu", { bg = normal.bg, fg = "#565f89" })
-setHighlights(0, "BlinkCmpMenuBorder", { bg = normal.bg, fg = "#565f89" })
-setHighlights(0, "BlinkCmpDoc", { bg = normal.bg, fg = "#565f89" })
-setHighlights(0, "BlinkCmpDocBorder", { bg = normal.bg, fg = "#565f89" })
-setHighlights(0, "BlinkCmpDocSeparator", { bg = normal.bg, fg = "#565f89" })
-setHighlights(0, "BlinkCmpSignatureHelp", { bg = normal.bg, fg = "#565f89" })
-setHighlights(0, "BlinkCmpSignatureHelpBorder", { bg = normal.bg, fg = "#565f89" })
-
--- Noice.nvim specific
-setHighlights(0, "NoiceCmdline", { bg = normal.bg, fg = "#565f89" })
-setHighlights(0, "NoiceCmdlinePopup", { bg = normal.bg })
-setHighlights(0, "NoiceCmdlinePopupBorder", { bg = normal.bg, fg = "#565f89" })
-
--- -- Hybrid highlight for CursorLineNr
--- setHighlights(0, "CursorLineNr", {
---   -- fg = nontext_hl.fg,
---   -- bg = nontext_hl.bg,
---   bold = false,
---   italic = true,
---   undercurl = nontext_hl.undercurl,
---   underline = nontext_hl.underline,
--- })
+-- Plugin-specific borders
+set_hl(0, "FzfLuaBorder", { bg = normal.bg, fg = "#565f89" })
+set_hl(0, "FzfLuaNormal", { bg = normal.bg, fg = normal.fg })
+set_hl(0, "BlinkCmpMenu", { bg = normal.bg, fg = "#565f89" })
+set_hl(0, "BlinkCmpMenuBorder", { bg = normal.bg, fg = "#565f89" })
+set_hl(0, "BlinkCmpDoc", { bg = normal.bg, fg = "#565f89" })
+set_hl(0, "BlinkCmpDocBorder", { bg = normal.bg, fg = "#565f89" })
+set_hl(0, "BlinkCmpDocSeparator", { bg = normal.bg, fg = "#565f89" })
+set_hl(0, "BlinkCmpSignatureHelp", { bg = normal.bg, fg = "#565f89" })
+set_hl(0, "BlinkCmpSignatureHelpBorder", { bg = normal.bg, fg = "#565f89" })
+set_hl(0, "NoiceCmdline", { bg = normal.bg, fg = "#565f89" })
+set_hl(0, "NoiceCmdlinePopup", { bg = normal.bg })
+set_hl(0, "NoiceCmdlinePopupBorder", { bg = normal.bg, fg = "#565f89" })
 
 -- =========================
 --  AUTOCOMMANDS & DIAGNOSTICS
 -- =========================
 
--- Disable LSP signature help
+-- Disable LSP signature help popup
 vim.lsp.handlers["textDocument/signatureHelp"] = function() end
 
--- Terminal: hide line numbers and signcolumn
+-- Terminal: hide numbers & sign column
 vim.api.nvim_create_autocmd("TermOpen", {
   pattern = "*",
   command = "setlocal nonumber norelativenumber signcolumn=no",
 })
 
--- Diagnostics configuration
+-- Diagnostics icons & sorting
 vim.diagnostic.config({
   severity_sort = true,
   signs = {
@@ -233,7 +199,3 @@ vim.diagnostic.config({
     },
   },
 })
-
--- =========================
---  END OF OPTIONS
--- =========================
