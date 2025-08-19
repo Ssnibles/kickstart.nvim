@@ -1,5 +1,21 @@
 {
+  "LuaSnip": { "branch": "master", "commit": "de10d8414235b0a8cabfeba60d07c24304e71f5c" },
+  "blink-cmp-words": { "branch": "main", "commit": "d6a56f532a1826b4f3aeed4d5e2fe7b8743a9244" },
+  "blink.cmp": { "branch": "main", "commit": "bae4bae0eedd1fa55f34b685862e94a222d5c6f8" },
+  "cmp-nvim-lua": { "branch": "main", "commit": "f12408bdb54c39c23e67cab726264c10db33ada8" },
+  "fidget.nvim": { "branch": "main", "commit": "dafd592c7bdbb6cd6d17d3c9a1a8abf3930138c1" },
+  "friendly-snippets": { "branch": "main", "commit": "572f5660cf05f8cd8834e096d7b4c921ba18e175" },
   "lazy.nvim": { "branch": "main", "commit": "6c3bda4aca61a13a9c63f1c1d1b16b9d3be90d7a" },
-  "nvim-web-devicons": { "branch": "master", "commit": "c2599a81ecabaae07c49ff9b45dcd032a8d90f1a" },
-  "oil.nvim": { "branch": "master", "commit": "bbad9a76b2617ce1221d49619e4e4b659b3c61fc" }
+  "mason-lspconfig.nvim": { "branch": "main", "commit": "7f0bf635082bb9b7d2b37766054526a6ccafdb85" },
+  "mason-tool-installer.nvim": { "branch": "main", "commit": "517ef5994ef9d6b738322664d5fdd948f0fdeb46" },
+  "mason.nvim": { "branch": "main", "commit": "7dc4facca9702f95353d5a1f87daf23d78e31c2a" },
+  "nvim-lspconfig": { "branch": "master", "commit": "d6dc63670d3dc5204b1e874af4cbf340cb5d9d18" },
+  "nvim-treesitter-context": { "branch": "master", "commit": "dca8726fea2c14e1ce6adbaa76a04816fbfaff61" },
+  "nvim-web-devicons": { "branch": "master", "commit": "3362099de3368aa620a8105b19ed04c2053e38c0" },
+  "oil.nvim": { "branch": "master", "commit": "bbad9a76b2617ce1221d49619e4e4b659b3c61fc" },
+  "smart-splits.nvim": { "branch": "master", "commit": "52ee119752ee7e98a2a62f0f172926b5fbbc28a5" },
+  "statuscol.nvim": { "branch": "main", "commit": "c46172d0911aa5d49ba5f39f4351d1bb7aa289cc" },
+  "symbols-outline.nvim": { "branch": "master", "commit": "564ee65dfc9024bdde73a6621820866987cbb256" },
+  "tiny-inline-diagnostic.nvim": { "branch": "main", "commit": "7dcf8542059fb15c978de845fc8665428ae13a04" },
+  "vim-suda": { "branch": "master", "commit": "9adda7d195222d4e2854efb2a88005a120296c47" }
 }
