@@ -30,11 +30,13 @@ return {
     sections = {
       lualine_a = {
         {
+          -- TODO: better mode indicator
           "mode",
           separator = { left = "" },
           right_padding = 2,
         },
         {
+          -- TODO: better recording indicator
           function()
             local recording_reg = vim.fn.reg_recording()
             if recording_reg ~= "" then
@@ -42,7 +44,7 @@ return {
             end
             return ""
           end,
-          color = { fg = "#ff9e64", gui = "bold" },
+          color = { gui = "bold" },
         },
       },
       lualine_b = {
@@ -51,6 +53,7 @@ return {
           icon = "",
         },
         {
+          -- TODO: add symbols
           "diff",
           symbols = {
             added = " ",
@@ -85,18 +88,19 @@ return {
       },
       lualine_x = {
         {
-          function()
-            local clients = vim.lsp.get_clients({ bufnr = 0 })
-            if #clients == 0 then
-              return ""
-            end
-            local names = {}
-            for _, client in ipairs(clients) do
-              table.insert(names, client.name)
-            end
-            return " " .. table.concat(names, ", ")
-          end,
-          color = { gui = "italic" },
+          -- function()
+          --   local clients = vim.lsp.get_clients({ bufnr = 0 })
+          --   if #clients == 0 then
+          --     return ""
+          --   end
+          --   local names = {}
+          --   for _, client in ipairs(clients) do
+          --     table.insert(names, client.name)
+          --   end
+          --   return " " .. table.concat(names, ", ")
+          -- end,
+          -- color = { gui = "italic" },
+          "lsp_status",
         },
         {
           "filetype",
