@@ -14,11 +14,8 @@ local opts = { noremap = true, silent = true }
 -- │                 GENERAL MAPPINGS                            │
 -- ╰─────────────────────────────────────────────────────────────╯
 
--- Exit insert mode quickly
-keymap("i", "jk", "<Esc>", { desc = "Exit insert mode" })
-
 -- Clear search highlights with leader-c
-keymap("n", "<leader>c", "<cmd>nohlsearch<CR>", { desc = "Clear search highlights" })
+keymap("n", "<leader>ch", "<cmd>nohlsearch<CR>", { desc = "Clear search highlights" })
 
 -- Select all with a common keyboard shortcut
 keymap("n", "<C-a>", "ggVG", { desc = "Select all" })
@@ -58,21 +55,15 @@ keymap("n", "<C-j>", "<C-w>j", { desc = "Move to lower window" })
 keymap("n", "<C-k>", "<C-w>k", { desc = "Move to upper window" })
 keymap("n", "<C-l>", "<C-w>l", { desc = "Move to right window" })
 
--- Resize splits with Alt + Arrow keys
-keymap("n", "<A-Left>", "<cmd>vertical resize -2<CR>", { desc = "Decrease vertical split size" })
-keymap("n", "<A-Right>", "<cmd>vertical resize +2<CR>", { desc = "Increase vertical split size" })
-keymap("n", "<A-Up>", "<cmd>resize -2<CR>", { desc = "Decrease horizontal split size" })
-keymap("n", "<A-Down>", "<cmd>resize +2<CR>", { desc = "Increase horizontal split size" })
-
 -- ╭─────────────────────────────────────────────────────────────╮
 -- │                  LINE OPERATIONS                            │
 -- ╰─────────────────────────────────────────────────────────────╯
 
 -- Move lines up/down (normal/visual)
-keymap("n", "<A-j>", ":m .+1<CR>==", { desc = "Move line down" })
-keymap("n", "<A-k>", ":m .-2<CR>==", { desc = "Move line up" })
-keymap("x", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
-keymap("x", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
+-- keymap("n", "<A-j>", ":m .+1<CR>==", { desc = "Move line down" })
+-- keymap("n", "<A-k>", ":m .-2<CR>==", { desc = "Move line up" })
+-- keymap("x", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
+-- keymap("x", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 
 -- ╭─────────────────────────────────────────────────────────────╮
 -- │             NUMBER INCREMENT / DECREMENT                    │

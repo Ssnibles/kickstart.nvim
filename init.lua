@@ -1,5 +1,11 @@
+-- Set leader keys
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
 -- Enable Lua module loader (Neovim 0.10+)
-if vim.loader then vim.loader.enable() end
+if vim.loader then
+  vim.loader.enable()
+end
 
 -- Dynamic Theme Loader
 local function load_theme_spec()
@@ -39,4 +45,3 @@ require("core.autocmds")
 
 -- Optional: Disable virtual text for diagnostics
 -- vim.diagnostic.config({ virtual_text = false })
-

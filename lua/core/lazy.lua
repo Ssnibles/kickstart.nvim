@@ -1,11 +1,19 @@
 -- core/lazy.lua
 -- Bootstrap and configure lazy.nvim, injecting the active theme spec.
 
+-- Set leader keys
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local out = vim.fn.system({
-    "git", "clone", "--filter=blob:none", "--branch=stable",
-    "https://github.com/folke/lazy.nvim.git", lazypath
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "--branch=stable",
+    "https://github.com/folke/lazy.nvim.git",
+    lazypath,
   })
   if vim.v.shell_error ~= 0 then
     vim.api.nvim_echo({
@@ -19,10 +27,6 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 
 vim.opt.rtp:prepend(lazypath)
-
--- Set leader keys early
-vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
 
 --- Setup function for lazy.nvim
 ---@param active_theme_spec table
@@ -39,13 +43,20 @@ return function(active_theme_spec)
     performance = {
       rtp = {
         disabled_plugins = {
-          "netrw", "netrwPlugin", "tarPlugin", "zipPlugin",
-          "tutor", "rplugin", "syntax", "synmenu",
-          "optwin", "compiler", "matchit",
+          "netrw",
+          "netrwPlugin",
+          "tarPlugin",
+          "zipPlugin",
+          "tutor",
+          "rplugin",
+          "syntax",
+          "synmenu",
+          "optwin",
+          "compiler",
+          "matchit",
         },
       },
     },
     -- dev = { path = "~/projects/" },
   })
 end
-

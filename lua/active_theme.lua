@@ -1,1 +1,1 @@
-themes/matugen.lua
+themes/rose-pine.lua
