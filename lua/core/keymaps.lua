@@ -2,107 +2,90 @@
 --      KEYMAPS CONFIGURATION
 -- ===============================
 
--- Leader key
+-- Set leader keys
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- Short alias
+-- Short alias for setting keymaps and options
 local keymap = vim.keymap.set
 local opts = { noremap = true, silent = true }
 
 -- ╭─────────────────────────────────────────────────────────────╮
--- │                       GENERAL MAPPINGS                      │
+-- │                 GENERAL MAPPINGS                            │
 -- ╰─────────────────────────────────────────────────────────────╯
 
--- Disable suspend
-keymap({ "n", "v", "x", "o", "t" }, "<C-z>", "<nop>", opts)
-
--- Disable single-quote jump (if you never use marks)
-keymap("n", "'", "<nop>", opts)
-
--- Disable command-line window
-keymap("n", "q:", "<nop>", opts)
-
--- Disable 's' in normal mode
-keymap("n", "s", "<nop>", opts)
-
 -- Exit insert mode quickly
-keymap("i", "jk", "<Esc>", opts)
+keymap("i", "jk", "<Esc>", { desc = "Exit insert mode" })
 
--- Clear search highlights with <Esc>
-keymap("n", "<Esc>", "<cmd>nohlsearch<CR>", opts)
+-- Clear search highlights with leader-c
+keymap("n", "<leader>c", "<cmd>nohlsearch<CR>", { desc = "Clear search highlights" })
 
--- Select all
-keymap("n", "<C-a>", "gg<S-v>G", opts)
+-- Select all with a common keyboard shortcut
+keymap("n", "<C-a>", "ggVG", { desc = "Select all" })
 
 -- Exit terminal mode with double <Esc>
-keymap("t", "<Esc><Esc>", "<C-\\><C-n>", opts)
+keymap("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
--- Delete/change without yanking
-keymap({ "n", "x" }, "x", '"_x', opts)
-keymap({ "n", "x" }, "c", '"_c', opts)
-keymap("n", "C", '"_C', opts)
-keymap("n", "<A-d>", '"_cc', opts)
+-- Delete/change without yanking (using the black hole register)
+keymap({ "n", "x" }, "x", '"_x', { desc = "Delete character (no yank)" })
+keymap({ "n", "x" }, "c", '"_c', { desc = "Change text (no yank)" })
+keymap("n", "C", '"_C', { desc = "Change rest of line (no yank)" })
+keymap("n", "<A-d>", '"_cc', { desc = "Delete current line (no yank)" })
 
 -- Clear system clipboard
 keymap("n", "<leader>cc", function()
   vim.fn.setreg("+", "")
-end, vim.tbl_extend("force", opts, { desc = "Clear clipboard" }))
+end, { desc = "Clear system clipboard" })
 
--- Delete previous word in insert mode
-keymap("i", "<C-BS>", "<C-w>", opts)
-
--- Delete whole line in insert mode
-keymap("i", "<C-d>", "<C-o>dd", opts)
+-- Insert mode operations
+keymap("i", "<C-BS>", "<C-w>", { desc = "Delete previous word in insert mode" })
+keymap("i", "<C-d>", "<C-o>dd", { desc = "Delete current line in insert mode" })
 
 -- ╭─────────────────────────────────────────────────────────────╮
--- │                     WINDOW MANAGEMENT                       │
+-- │                  WINDOW MANAGEMENT                          │
 -- ╰─────────────────────────────────────────────────────────────╯
 
 -- Split windows
-keymap("n", "<leader>wv", "<C-w>v", opts)
-keymap("n", "<leader>wh", "<C-w>s", opts)
-keymap("n", "<leader>we", "<C-w>=", opts)
-keymap("n", "<leader>wx", "<cmd>close<CR>", opts)
-keymap("n", "<leader>wo", "<C-w>o", opts)
+keymap("n", "<leader>wv", "<C-w>v", { desc = "Split window vertically" })
+keymap("n", "<leader>wh", "<C-w>s", { desc = "Split window horizontally" })
+keymap("n", "<leader>we", "<C-w>=", { desc = "Balance window sizes" })
+keymap("n", "<leader>wx", "<cmd>close<CR>", { desc = "Close current window" })
+keymap("n", "<leader>wo", "<C-w>o", { desc = "Close other windows" })
 
--- Window navigation
-keymap("n", "<C-h>", "<C-w>h", opts)
-keymap("n", "<C-j>", "<C-w>j", opts)
-keymap("n", "<C-k>", "<C-w>k", opts)
-keymap("n", "<C-l>", "<C-w>l", opts)
+-- Window navigation with Ctrl + H/J/K/L
+keymap("n", "<C-h>", "<C-w>h", { desc = "Move to left window" })
+keymap("n", "<C-j>", "<C-w>j", { desc = "Move to lower window" })
+keymap("n", "<C-k>", "<C-w>k", { desc = "Move to upper window" })
+keymap("n", "<C-l>", "<C-w>l", { desc = "Move to right window" })
 
--- Resize splits
-keymap("n", "<A-Left>", "<cmd>vertical resize -2<CR>", opts)
-keymap("n", "<A-Right>", "<cmd>vertical resize +2<CR>", opts)
-keymap("n", "<A-Up>", "<cmd>resize -2<CR>", opts)
-keymap("n", "<A-Down>", "<cmd>resize +2<CR>", opts)
+-- Resize splits with Alt + Arrow keys
+keymap("n", "<A-Left>", "<cmd>vertical resize -2<CR>", { desc = "Decrease vertical split size" })
+keymap("n", "<A-Right>", "<cmd>vertical resize +2<CR>", { desc = "Increase vertical split size" })
+keymap("n", "<A-Up>", "<cmd>resize -2<CR>", { desc = "Decrease horizontal split size" })
+keymap("n", "<A-Down>", "<cmd>resize +2<CR>", { desc = "Increase horizontal split size" })
 
 -- ╭─────────────────────────────────────────────────────────────╮
--- │                      LINE OPERATIONS                        │
+-- │                  LINE OPERATIONS                            │
 -- ╰─────────────────────────────────────────────────────────────╯
-
--- Delete current line (no yank)
-keymap("n", "<C-x>", '"_dd', opts)
-keymap("i", "<C-x>", '<Esc>"_ddi', opts)
 
 -- Move lines up/down (normal/visual)
-keymap("n", "<A-j>", ":m .+1<CR>==", opts)
-keymap("n", "<A-k>", ":m .-2<CR>==", opts)
-keymap("x", "<A-j>", ":m '>+1<CR>gv=gv", opts)
-keymap("x", "<A-k>", ":m '<-2<CR>gv=gv", opts)
+keymap("n", "<A-j>", ":m .+1<CR>==", { desc = "Move line down" })
+keymap("n", "<A-k>", ":m .-2<CR>==", { desc = "Move line up" })
+keymap("x", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
+keymap("x", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 
 -- ╭─────────────────────────────────────────────────────────────╮
--- │                 NUMBER INCREMENT / DECREMENT                 │
+-- │             NUMBER INCREMENT / DECREMENT                    │
 -- ╰─────────────────────────────────────────────────────────────╯
 
-keymap("n", "<A-Up>", "<C-a>", opts)
-keymap("n", "<A-Down>", "<C-x>", opts)
+-- Increment/decrement numbers using leader key
+keymap("n", "<leader>a", "<C-a>", { desc = "Increment number under cursor" })
+keymap("n", "<leader>x", "<C-x>", { desc = "Decrement number under cursor" })
 
 -- ╭─────────────────────────────────────────────────────────────╮
--- │                   QUICK SAVE / QUIT                          │
+-- │                 QUICK SAVE / QUIT                           │
 -- ╰─────────────────────────────────────────────────────────────╯
 
-keymap("n", "<leader>w", "<cmd>w<CR>", opts)
-keymap("n", "<leader>q", "<cmd>q<CR>", opts)
-keymap("n", "<leader>Q", "<cmd>q!<CR>", opts)
+keymap("n", "<leader>ww", "<cmd>w<CR>", { desc = "Save file" })
+keymap("n", "<leader>qq", "<cmd>q<CR>", { desc = "Quit current buffer" })
+keymap("n", "<leader>QQ", "<cmd>q!<CR>", { desc = "Force quit buffer" })
