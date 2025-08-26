@@ -1,14 +1,25 @@
 return {
   "stevearc/oil.nvim",
-  opts = {
-    default_file_explorer = true, -- Replace netrw
-    view_options = {
-      show_hidden = true, -- Show dotfiles
-    },
-    keymaps = {
-      ["q"] = "actions.close", -- Close with q
-    },
-  },
-  dependencies = { "nvim-tree/nvim-web-devicons" }, -- Optional, for file icons
-}
+  config = function()
+    local oil = require("oil")
+    oil.setup({
+      -- Recommended: Replace netrw with Oil
+      default_file_explorer = true,
+      -- Configure view options
+      view_options = {
+        show_hidden = true,
+      },
+    })
 
+    -- Here's the magic! We use a separate keybinding to toggle Oil.
+    vim.keymap.set("n", "<leader>o", function()
+      if vim.bo.filetype == "oil" then
+        oil.close()
+      else
+        oil.open()
+      end
+    end, { desc = "Toggle Oil" })
+
+  end,
+  dependencies = { "nvim-tree/nvim-web-devicons" },
+}
