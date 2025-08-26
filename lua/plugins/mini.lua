@@ -43,7 +43,7 @@ return {
     -- These modules work great out of the box with their defaults,
     -- so a simple `setup()` call is all that's needed to keep the config minimal.
     require("mini.comment").setup()
-    require("mini.pairs").setup()
+    -- require("mini.pairs").setup()
     require("mini.cursorword").setup()
     require("mini.indentscope").setup()
     require("mini.starter").setup()
@@ -106,12 +106,15 @@ return {
     require("mini.hipatterns").setup({
       highlighters = {
         fixme = { pattern = "%f[%w]()FIXME()%f[%W]", group = "MiniHipatternsFixme" },
+        fixit = { pattern = "%f[%w]()FIXIT()%f[%W]", group = "MiniHipatternsFixme" },
+        warn = { pattern = "%f[%w]()WARN()%f[%W]", group = "MiniHipatternsFixme" },
         hack = { pattern = "%f[%w]()HACK()%f[%W]", group = "MiniHipatternsHack" },
+        bug = { pattern = "%f[%w]()BUG()%f[%W]", group = "MiniHipatternsHack" },
         todo = { pattern = "%f[%w]()TODO()%f[%W]", group = "MiniHipatternsTodo" },
         note = { pattern = "%f[%w]()NOTE()%f[%W]", group = "MiniHipatternsNote" },
+        -- Include the built-in hex color highlighter
         hex_color = require("mini.hipatterns").gen_highlighter.hex_color(),
       },
     })
-
   end,
 }

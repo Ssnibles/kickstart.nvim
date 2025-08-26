@@ -1,14 +1,13 @@
 return {
   "nvim-lualine/lualine.nvim",
-  event = { "BufReadPre", "BufNewFile" },
+  event = "VeryLazy",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   opts = {
     options = {
       icons_enabled = true,
-      theme = "auto", -- Use auto theme for colors
-      component_separators = "", -- No component separators for a smoother "bubble" look
-      -- Rounded section dividers for the "bubbles" effect
-      section_separators = { left = "", right = "" },
+      theme = "auto",
+      component_separators = "",
+      section_separators = { left = "", right = "" },
       disabled_filetypes = {
         statusline = {
           "alpha",
@@ -19,8 +18,11 @@ return {
           "snacks_picker_input",
           "fzf",
           "toggleterm",
+          "lazy",
+          "mason",
+          "help",
+          "checkhealth",
         },
-        winbar = {},
       },
       globalstatus = true,
       refresh = { statusline = 100 },
@@ -29,75 +31,113 @@ return {
       lualine_a = {
         {
           "mode",
-          -- Add a right separator for the bubble effect on the mode
+          separator = { left = "" },
           right_padding = 2,
-          separator = { left = "" },
         },
-        -- Display recording status if active
         {
           function()
             local recording_reg = vim.fn.reg_recording()
             if recording_reg ~= "" then
-              return " REC " .. recording_reg
+              return "󰑋 " .. recording_reg
             end
             return ""
           end,
-          -- Remove explicit color, let theme handle it.
-          -- You could add a 'gui = "bold"' here if you want it bold regardless of theme.
+          color = { fg = "#ff9e64", gui = "bold" },
         },
       },
       lualine_b = {
-        "branch",
-        -- Git diff status with custom symbols and colors (colors will be theme-dependent)
+        {
+          "branch",
+          icon = "",
+        },
         {
           "diff",
-          symbols = { added = " ", modified = " ", removed = " " },
+          symbols = {
+            added = " ",
+            modified = " ",
+            removed = " ",
+          },
           colored = true,
         },
       },
       lualine_c = {
-        -- Filename with relative path and clean symbols
         {
           "filename",
-          -- path = 1, -- Show relative path
+          path = 1,
           symbols = {
-            modified = "",
-            readonly = " ",
+            modified = "●",
+            readonly = "",
             unnamed = "[No Name]",
           },
         },
-        -- Diagnostics with custom symbols and colors (colors will be theme-dependent)
         {
           "diagnostics",
           sources = { "nvim_diagnostic" },
-          symbols = { error = " ", warn = " ", info = " ", hint = " " },
+          symbols = {
+            error = " ",
+            warn = " ",
+            info = " ",
+            hint = "󰌵 ",
+          },
           colored = true,
           update_in_insert = false,
         },
       },
       lualine_x = {
-        -- LSP client count with an icon
-        "lsp_status",
-        "filetype",
+        {
+          function()
+            local clients = vim.lsp.get_clients({ bufnr = 0 })
+            if #clients == 0 then
+              return ""
+            end
+            local names = {}
+            for _, client in ipairs(clients) do
+              table.insert(names, client.name)
+            end
+            return " " .. table.concat(names, ", ")
+          end,
+          color = { gui = "italic" },
+        },
+        {
+          "filetype",
+          colored = true,
+          icon_only = false,
+        },
       },
-      lualine_y = { "progress" },
-      lualine_z = {
+      lualine_y = {
+        {
+          "progress",
+          separator = " ",
+          padding = { left = 1, right = 0 },
+        },
         {
           "location",
-          -- Add a left separator for the bubble effect on the location
+          padding = { left = 0, right = 1 },
+        },
+      },
+      lualine_z = {
+        {
+          function()
+            return " " .. os.date("%H:%M")
+          end,
+          separator = { right = "" },
           left_padding = 2,
-          separator = { right = "" },
         },
       },
     },
     inactive_sections = {
-      lualine_a = {}, -- Inactive mode section can be empty
+      lualine_a = {},
       lualine_b = {},
-      lualine_c = { "filename" },
+      lualine_c = {
+        {
+          "filename",
+          path = 1,
+        },
+      },
       lualine_x = { "location" },
       lualine_y = {},
       lualine_z = {},
     },
-    extensions = { "nvim-tree" },
+    extensions = { "nvim-tree", "lazy" },
   },
 }
