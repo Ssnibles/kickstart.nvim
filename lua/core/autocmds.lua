@@ -182,18 +182,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
--- Clean trailing whitespace on save
-vim.api.nvim_create_autocmd("BufWritePre", {
-  group = augroup,
-  callback = function(args)
-    if not is_special_buffer(args.buf) then
-      local view = vim.fn.winsaveview()
-      vim.cmd.keeppatterns("%s/\\s\\+$//e")
-      vim.fn.winrestview(view)
-    end
-  end,
-})
-
 -- Auto-resize windows
 vim.api.nvim_create_autocmd("VimResized", {
   group = augroup,
