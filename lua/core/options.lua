@@ -153,6 +153,7 @@ local normal = vim.api.nvim_get_hl(0, { name = "Normal" })
 
 set_hl(0, "NormalFloat", { bg = normal.bg, fg = normal.fg })
 set_hl(0, "FloatBorder", { bg = normal.bg, fg = "#565f89" })
+set_hl(0, "IndentLine", { bg = nil, fg = "#565f89" })
 
 -- Plugin-specific borders
 set_hl(0, "FzfLuaBorder", { bg = normal.bg, fg = "#565f89" })

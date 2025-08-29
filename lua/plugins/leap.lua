@@ -1,4 +1,5 @@
 return {
+  enabled = false,
   "ggandor/leap.nvim",
   dependencies = {
     "tpope/vim-repeat",
@@ -12,8 +13,26 @@ return {
       max_phase_one_targets = nil,
       safe_labels = { "s", "n", "t", "e" },
       labels = {
-        "a", "r", "s", "t", "n", "e", "i", "o", "h", "d",
-        "u", "l", "c", "m", "w", "f", "g", "y", "p", "b",
+        "a",
+        "r",
+        "s",
+        "t",
+        "n",
+        "e",
+        "i",
+        "o",
+        "h",
+        "d",
+        "u",
+        "l",
+        "c",
+        "m",
+        "w",
+        "f",
+        "g",
+        "y",
+        "p",
+        "b",
       },
     }
 
@@ -31,9 +50,8 @@ return {
     vim.keymap.set("n", ",", "<Plug>(leap-backward-to)")
 
     -- Dims the non-target text area
-    vim.api.nvim_set_hl(0, 'LeapBackdrop', { link = 'Comment' })
+    vim.api.nvim_set_hl(0, "LeapBackdrop", { link = "Comment" })
     -- You can also use a custom color:
     -- vim.api.nvim_set_hl(0, 'LeapBackdrop', { fg = '#4a4a4a', bg = '#282c34' })
-
   end,
 }

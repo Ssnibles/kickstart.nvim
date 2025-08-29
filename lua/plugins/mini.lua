@@ -45,7 +45,7 @@ return {
     require("mini.comment").setup()
     -- require("mini.pairs").setup()
     require("mini.cursorword").setup()
-    require("mini.indentscope").setup()
+    -- require("mini.indentscope").setup()
     require("mini.starter").setup()
     require("mini.icons").setup()
 
@@ -107,11 +107,14 @@ return {
       highlighters = {
         fixme = { pattern = "%f[%w]()FIXME()%f[%W]", group = "MiniHipatternsFixme" },
         fixit = { pattern = "%f[%w]()FIXIT()%f[%W]", group = "MiniHipatternsFixme" },
+        error = { pattern = "%f[%w]()ERROR()%f[%W]", group = "MiniHipatternsFixme" },
         warn = { pattern = "%f[%w]()WARN()%f[%W]", group = "MiniHipatternsFixme" },
         hack = { pattern = "%f[%w]()HACK()%f[%W]", group = "MiniHipatternsHack" },
         bug = { pattern = "%f[%w]()BUG()%f[%W]", group = "MiniHipatternsHack" },
         todo = { pattern = "%f[%w]()TODO()%f[%W]", group = "MiniHipatternsTodo" },
         note = { pattern = "%f[%w]()NOTE()%f[%W]", group = "MiniHipatternsNote" },
+        info = { pattern = "%f[%w]()INFO()%f[%W]", group = "MiniHipatternsNote" },
+        hint = { pattern = "%f[%w]()HINT()%f[%W]", group = "MiniHipatternsNote" },
         -- Include the built-in hex color highlighter
         hex_color = require("mini.hipatterns").gen_highlighter.hex_color(),
       },

@@ -142,17 +142,25 @@ return {
   },
   {
     "shortcuts/no-neck-pain.nvim",
-    keys = { { "<leader>nn", "<cmd>NoNeckPain<cr>", desc = "Toggle No Neck Pain" } },
-    cmd = { "NoNeckPain" },
+    lazy = false,
+    keys = {
+      { "<leader>nn", "<cmd>NoNeckPain<cr>", desc = "Toggle NoNeckPain" },
+    },
     opts = {
       width = 100,
       autocmds = {
-        enableOnVimEnter = false,
         enableOnTabEnter = false,
+        enableOnVimEnter = false,
+        reloadOnColorSchemeChange = true,
+        skipEnteringNoNeckPainBuffer = true,
       },
       buffers = {
-        scratchPad = { enabled = false },
-        bo = { filetype = "no-neck-pain" },
+        scratchPad = {
+          enabled = true,
+        },
+        bo = {
+          filetype = "norg",
+        },
       },
     },
   },
