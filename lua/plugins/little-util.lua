@@ -1,14 +1,11 @@
+-- ~/.config/nvim/lua/plugins/little-util.lua
 return {
   {
-      "lambdalisue/vim-suda",
-    -- Loads only when one of its commands (SudaRead, SudaWrite) is invoked.
+    "lambdalisue/vim-suda",
     cmd = { "SudaRead", "SudaWrite" },
   },
- -- Window Management
   {
     "mrjones2014/smart-splits.nvim",
-    -- Changed from 'lazy = false' to 'keys'. This plugin will now only load
-    -- when one of its window navigation/resizing keymaps is used.
     keys = {
       {
         "<C-h>",
@@ -65,6 +62,97 @@ return {
           require("smart-splits").resize_right(3)
         end,
         desc = "Resize right",
+      },
+    },
+  },
+  {
+    "hat0uma/csvview.nvim",
+    cmd = { "CsvViewEnable", "CsvViewDisable", "CsvViewToggle" },
+    opts = {
+      parser = { comments = { "#", "//" } },
+      keymaps = {
+        jump_next_field_end = { "<Tab>", mode = { "n", "v" } },
+        jump_prev_field_end = { "<S-Tab>", mode = { "n", "v" } },
+        jump_next_row = { "<Enter>", mode = { "n", "v" } },
+        jump_prev_row = { "<S-Enter>", mode = { "n", "v" } },
+      },
+    },
+  },
+  {
+    "akinsho/toggleterm.nvim",
+    keys = {
+      { "<C-\\>", "<cmd>ToggleTerm<cr>", desc = "Toggle Terminal" },
+      {
+        "<leader>th",
+        function()
+          require("toggleterm").toggle(1, nil, nil, "horizontal")
+        end,
+        desc = "Horizontal Terminal",
+      },
+      {
+        "<leader>tv",
+        function()
+          require("toggleterm").toggle(1, nil, nil, "vertical")
+        end,
+        desc = "Vertical Terminal",
+      },
+      {
+        "<leader>tf",
+        function()
+          require("toggleterm").toggle(1, nil, nil, "float")
+        end,
+        desc = "Floating Terminal",
+      },
+    },
+    opts = {
+      size = function(term)
+        return term.direction == "horizontal" and 15 or math.floor(vim.o.columns * 0.4)
+      end,
+      open_mapping = nil,
+      direction = "float",
+      close_on_exit = true,
+      shell = vim.o.shell,
+      float_opts = {
+        border = "curved",
+        width = function()
+          return math.floor(vim.o.columns * 0.8)
+        end,
+        height = function()
+          return math.floor(vim.o.lines * 0.8)
+        end,
+        winblend = 0,
+      },
+      winbar = { enabled = false },
+      shade_terminals = false,
+    },
+  },
+  {
+    "thunder-coding/zincoxide",
+    cmd = { "Z", "Zg", "Zt", "Zw" },
+    opts = { behaviour = "tabs" },
+  },
+  {
+    "chrisgrieser/nvim-early-retirement",
+    event = "VeryLazy",
+    opts = {
+      retirementAgeMins = 10,
+      ignoreAltFile = true,
+      deleteBufferWhenFileDeleted = true,
+    },
+  },
+  {
+    "shortcuts/no-neck-pain.nvim",
+    keys = { { "<leader>nn", "<cmd>NoNeckPain<cr>", desc = "Toggle No Neck Pain" } },
+    cmd = { "NoNeckPain" },
+    opts = {
+      width = 100,
+      autocmds = {
+        enableOnVimEnter = false,
+        enableOnTabEnter = false,
+      },
+      buffers = {
+        scratchPad = { enabled = false },
+        bo = { filetype = "no-neck-pain" },
       },
     },
   },
