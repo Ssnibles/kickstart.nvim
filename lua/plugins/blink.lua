@@ -1,7 +1,6 @@
 return {
   "saghen/blink.cmp",
   version = "^1.0.0",
-  event = { "InsertEnter", "CmdlineEnter" },
   dependencies = {
     "archie-judd/blink-cmp-words",
     "rafamadriz/friendly-snippets",
@@ -9,46 +8,42 @@ return {
   },
   opts = {
     keymap = { preset = "super-tab" },
-
     appearance = {
       nerd_font_variant = "mono",
     },
-
     completion = {
       accept = { create_undo_point = true },
       ghost_text = { enabled = true },
       menu = {
-        auto_show = true,
         border = "rounded",
-        draw = { align_to = "label" },
+        draw = {
+          align_to = "label",
+          treesitter = { "lsp" },
+        },
       },
       documentation = {
+        window = { border = "rounded" },
         auto_show = true,
         auto_show_delay_ms = 0,
-        treesitter_highlighting = true,
-        window = { border = "rounded" },
       },
     },
-
-    fuzzy = { implementation = "rust" },
-
+    fuzzy = {
+      sorts = { "exact", "score", "sort_text" },
+    },
     signature = {
-      enabled = true,
-      trigger = { enabled = true },
       window = { border = "rounded" },
+      trigger = { enabled = true },
     },
-
     cmdline = {
-      enabled = true,
-      completion = { menu = { auto_show = true } },
       keymap = { preset = "super-tab" },
+      completion = { menu = { auto_show = true } },
     },
-
     sources = {
       default = { "lsp", "path", "snippets", "buffer" },
       per_filetype = {
         text = { "dictionary" },
         markdown = { "dictionary", "lsp", "path", "snippets", "buffer" },
+        norg = { "dictionary", "lsp", "path", "snippets", "buffer" },
       },
       providers = {
         thesaurus = {
@@ -56,7 +51,7 @@ return {
           module = "blink-cmp-words.thesaurus",
           opts = {
             score_offset = 0,
-            pointer_symbols = { "!", "&", "^" },
+            definition_pointers = { "!", "&", "^" },
           },
         },
         dictionary = {
@@ -65,7 +60,7 @@ return {
           opts = {
             dictionary_search_threshold = 3,
             score_offset = 0,
-            pointer_symbols = { "!", "&", "^" },
+            definition_pointers = { "!", "&", "^" },
           },
         },
         path = {
@@ -83,7 +78,6 @@ return {
       },
     },
   },
-
   config = function(_, opts)
     require("blink.cmp").setup(opts)
     require("luasnip.loaders.from_vscode").lazy_load()
