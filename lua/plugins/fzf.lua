@@ -5,8 +5,6 @@ return {
   config = function()
     require("fzf-lua").setup({
       winopts = {
-        -- Restored `backdrop` as a valid highlight group.
-        -- It sets the background of the main nvim window behind the floating picker.
         backdrop = "NormalFloat",
         height = 0.95,
         width = 0.95,

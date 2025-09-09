@@ -15,12 +15,11 @@ return {
     },
   },
 
-  -- Bridges mason.nvim with lspconfig
+  -- Mason LSP bridge
   {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "williamboman/mason.nvim" },
     opts = {
-      -- Automatically install these LSP servers
       ensure_installed = {
         "bashls",
         "clangd",
@@ -37,8 +36,15 @@ return {
         "taplo",
         "texlab",
         "ts_ls",
+        "yamlls",
+        "vimls",
+        "jdtls",
+        "lemminx",
+        "sqlls",
+        "cmake",
+        "powershell_es",
+        "pylsp",
       },
-      -- Automatically setup handlers for installed servers
       automatic_installation = true,
     },
   },
@@ -50,43 +56,25 @@ return {
     dependencies = {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
-      "b0o/schemastore.nvim", -- JSON schemas
+      "b0o/schemastore.nvim",
     },
     config = function()
-      -- Global LSP settings
-      vim.diagnostic.config({
-        -- virtual_text = { prefix = "●" },
-        -- signs = true,
-        -- update_in_insert = false,
-        -- underline = true,
-        -- severity_sort = true,
-        -- float = {
-        --   focusable = false,
-        --   style = "minimal",
-        --   border = "rounded",
-        --   source = "always",
-        --   header = "",
-        --   prefix = "",
-        -- },
-      })
-
-      -- Change diagnostic symbols in the sign column
-      local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+      -- Custom diagnostic signs
+      local signs = { Error = "", Warn = "", Hint = "󰌵", Info = "" }
       for type, icon in pairs(signs) do
         local hl = "DiagnosticSign" .. type
         vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
       end
 
-      -- Common on_attach function
-      local on_attach = function(client, bufnr)
-        -- Disable semantic tokens (prefer treesitter)
+      -- LSP keymaps and helpers
+      local function on_attach(client, bufnr)
+        -- Prefer treesitter for highlighting
         client.server_capabilities.semanticTokensProvider = nil
 
         local function map(mode, lhs, rhs, desc)
           vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
         end
 
-        -- LSP keymaps
         map("n", "gd", vim.lsp.buf.definition, "Go to definition")
         map("n", "gD", vim.lsp.buf.declaration, "Go to declaration")
         map("n", "gr", vim.lsp.buf.references, "Go to references")
@@ -95,16 +83,13 @@ return {
         map("n", "K", vim.lsp.buf.hover, "Hover documentation")
         map("n", "gK", vim.lsp.buf.signature_help, "Signature help")
         map("i", "<C-k>", vim.lsp.buf.signature_help, "Signature help")
-
         map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code action")
         map("n", "<leader>cr", vim.lsp.buf.rename, "Rename")
         map({ "n", "v" }, "<leader>cf", vim.lsp.buf.format, "Format")
-
         map("n", "<leader>cd", vim.diagnostic.open_float, "Line diagnostics")
         map("n", "]d", vim.diagnostic.goto_next, "Next diagnostic")
         map("n", "[d", vim.diagnostic.goto_prev, "Prev diagnostic")
 
-        -- Document highlight
         if client.server_capabilities.documentHighlightProvider then
           local group = vim.api.nvim_create_augroup("lsp_document_highlight", { clear = false })
           vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
@@ -119,7 +104,6 @@ return {
           })
         end
 
-        -- Inlay hints (if supported)
         if client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
           map("n", "<leader>ch", function()
             vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
@@ -127,18 +111,15 @@ return {
         end
       end
 
-      -- Server-specific configurations
-      local servers = {
+      -- Per-server config made easy to extend
+      local lsp_servers = {
         lua_ls = {
           settings = {
             Lua = {
               runtime = { version = "LuaJIT" },
               workspace = {
                 checkThirdParty = false,
-                library = {
-                  "${3rd}/luv/library",
-                  unpack(vim.api.nvim_get_runtime_file("", true)),
-                },
+                library = { "${3rd}/luv/library", unpack(vim.api.nvim_get_runtime_file("", true)) },
               },
               completion = { callSnippet = "Replace" },
               telemetry = { enable = false },
@@ -146,20 +127,15 @@ return {
             },
           },
         },
-
         gopls = {
           settings = {
             gopls = {
               gofumpt = true,
               codelenses = {
-                gc_details = false,
                 generate = true,
-                regenerate_cgo = true,
-                run_govulncheck = true,
                 test = true,
                 tidy = true,
                 upgrade_dependency = true,
-                vendor = true,
               },
               hints = {
                 assignVariableTypes = true,
@@ -180,18 +156,16 @@ return {
               usePlaceholders = true,
               completeUnimported = true,
               staticcheck = true,
-              directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
+              directoryFilters = { "-.git", "-.vscode", "-.idea", "-node_modules" },
               semanticTokens = true,
             },
           },
         },
-
         ts_ls = {
           settings = {
             typescript = {
               inlayHints = {
                 includeInlayParameterNameHints = "all",
-                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
                 includeInlayFunctionParameterTypeHints = true,
                 includeInlayVariableTypeHints = true,
                 includeInlayPropertyDeclarationTypeHints = true,
@@ -202,7 +176,6 @@ return {
             javascript = {
               inlayHints = {
                 includeInlayParameterNameHints = "all",
-                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
                 includeInlayFunctionParameterTypeHints = true,
                 includeInlayVariableTypeHints = true,
                 includeInlayPropertyDeclarationTypeHints = true,
@@ -212,7 +185,6 @@ return {
             },
           },
         },
-
         jsonls = {
           settings = {
             json = {
@@ -221,7 +193,6 @@ return {
             },
           },
         },
-
         pyright = {
           settings = {
             python = {
@@ -234,20 +205,11 @@ return {
             },
           },
         },
-
         rust_analyzer = {
           settings = {
             ["rust-analyzer"] = {
-              cargo = {
-                allFeatures = true,
-                loadOutDirsFromCheck = true,
-                runBuildScripts = true,
-              },
-              checkOnSave = {
-                allFeatures = true,
-                command = "clippy",
-                extraArgs = { "--no-deps" },
-              },
+              cargo = { allFeatures = true, loadOutDirsFromCheck = true, runBuildScripts = true },
+              checkOnSave = { allFeatures = true, command = "clippy", extraArgs = { "--no-deps" } },
               procMacro = {
                 enable = true,
                 ignored = {
@@ -259,25 +221,43 @@ return {
             },
           },
         },
-
+        yamlls = {
+          settings = {
+            yaml = {
+              keyOrdering = false,
+              format = { enable = true },
+              validate = true,
+              schemaStore = { enable = true },
+              schemas = require("schemastore").yaml.schemas(),
+            },
+          },
+        },
+        cmake = {},
+        bashls = {},
+        cssls = {},
+        dockerls = {},
+        html = {},
+        marksman = {},
+        taplo = {},
+        texlab = {},
+        jdtls = {},
+        lemminx = {},
+        sqlls = {},
+        powershell_es = {},
+        vimls = {},
+        pylsp = {},
         eslint = {
           settings = {
-            codeActionOnSave = {
-              enable = true,
-              mode = "all",
-            },
+            codeActionOnSave = { enable = true, mode = "all" },
             format = true,
             nodePath = "",
             quiet = false,
             rulesCustomizations = {},
             run = "onType",
             validate = "on",
-            experimental = {
-              useFlatConfig = false,
-            },
+            experimental = { useFlatConfig = false },
           },
         },
-
         clangd = {
           cmd = {
             "clangd",
@@ -296,30 +276,11 @@ return {
         },
       }
 
-      -- Setup all servers manually
-      local servers_to_setup = {
-        "bashls",
-        "clangd",
-        "cssls",
-        "dockerls",
-        "eslint",
-        "gopls",
-        "html",
-        "jsonls",
-        "lua_ls",
-        "marksman",
-        "pyright",
-        "rust_analyzer",
-        "taplo",
-        "texlab",
-        "ts_ls",
-      }
-
-      for _, server_name in ipairs(servers_to_setup) do
-        local server_config = servers[server_name] or {}
-        require("lspconfig")[server_name].setup(vim.tbl_deep_extend("force", server_config, {
-          on_attach = on_attach,
-        }))
+      -- Setup all servers in Mason's ensure_installed list
+      local ensure_installed = require("mason-lspconfig.settings").current.ensure_installed or {}
+      for _, name in ipairs(ensure_installed) do
+        local config = lsp_servers[name] or {}
+        require("lspconfig")[name].setup(vim.tbl_deep_extend("force", config, { on_attach = on_attach }))
       end
     end,
   },

@@ -1,59 +1,52 @@
 return {
   {
     "luukvbaal/statuscol.nvim",
-    event = { "BufReadPre", "BufNewFile" }, -- Load before reading/creating a buffer
-    lazy = true,
+    event = { "BufReadPre", "BufNewFile" },
     opts = {
-      relculright = true, -- Show relative line numbers on the right
+      relculright = true, -- Relative numbers on the right (modern look)
     },
   },
   {
     "rachartier/tiny-inline-diagnostic.nvim",
-    event = { "LspAttach" }, -- Load when Neovim is mostly idle and ready for user interaction
-    priority = 1000, -- Needs to load early to capture diagnostics
+    event = "LspAttach",
     opts = {
       options = {
-        use_icons_from_diagnostic = true,
-        multilines = { enabled = true }, -- Show on all lines
+        use_icons_from_diagnostic = true, -- Use LSP diagnostic icons
+        multilines = { enabled = true }, -- Show on all lines with diagnostics
       },
     },
   },
-    {
+  {
     "j-hui/fidget.nvim",
-    lazy = false, -- Load on startup for immediate LSP feedback
+    lazy = false, -- Load on startup for instant LSP feedback
     opts = {
-      -- Notification configuration
       notification = {
         override_vim_notify = true,
         window = {
-          normal_hl = "Comment", -- Base highlight group in the notification window
-          winblend = 100, -- Background color opacity (0-100)
-          border = "none", -- Border around the notification window
-          zindex = 45, -- Stacking priority
-          max_width = 0, -- Auto width
-          max_height = 0, -- Auto height
-          x_padding = 1, -- Padding from right edge
-          y_padding = 0, -- Padding from bottom edge
-          align = "bottom", -- Align to bottom right
-          relative = "editor", -- Position relative to the editor window
+          normal_hl = "Comment",
+          winblend = 100,
+          border = "none",
+          zindex = 45,
+          max_width = 0,
+          max_height = 0,
+          x_padding = 1,
+          y_padding = 0,
+          align = "bottom",
+          relative = "editor",
         },
       },
-      -- Progress configuration
       progress = {
-        suppress_on_insert = true, -- Hide progress while in insert mode
-        ignore_done_already = true, -- Don't show progress that's already completed
+        suppress_on_insert = true,
+        ignore_done_already = true,
       },
     },
     integration = {
-      ["nvim-tree"] = {
-        enable = true, -- Enable integration with nvim-tree if you use it
-      },
+      ["nvim-tree"] = { enable = true },
     },
   },
- {
+  {
     "nvim-treesitter/nvim-treesitter-context",
-    event = "BufReadPost", -- Load after a buffer is read
-    lazy = true, -- Explicitly mark as lazy-loaded
-    opts = {}, -- Keep options empty for default behavior
-  }
+    event = "BufReadPost",
+    opts = {},
+  },
 }

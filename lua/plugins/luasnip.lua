@@ -4,10 +4,11 @@ return {
   build = "make install_jsregexp",
   dependencies = { "rafamadriz/friendly-snippets" },
   config = function()
-    require("luasnip.loaders.from_vscode").lazy_load() -- friendly-snippets
-    -- Load snippets from local
+    -- Load VSCode-style snippets (including friendly-snippets)
+    require("luasnip.loaders.from_vscode").lazy_load()
+    -- Load your own Lua snippets from ~/.config/nvim/snippets
     require("luasnip.loaders.from_lua").lazy_load({
-      paths = { "~/.config/nvim/snippets" }, -- adjust path as needed
+      paths = { vim.fn.expand("~/.config/nvim/snippets") },
     })
   end,
 }

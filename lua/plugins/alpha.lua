@@ -6,57 +6,48 @@ return {
   config = function()
     local alpha = require("alpha")
     local dashboard = require("alpha.themes.dashboard")
-    local custom_dashboard = {}
 
-    -- You can customize your header here!
-    custom_dashboard.header = {
-      -- Cat ASCII art
+    -- Custom header: fun ASCII cat!
+    local header = {
       "               ᯓᡣ𐭩",
       "      /ᐠ- ˕-マ ノ ",
       "   乀(  J  し)    ",
     }
 
-    -- Your favorite Steven Wright quote!
-    custom_dashboard.footer = {
+    -- Custom footer: Steven Wright quote
+    local footer = {
       "“If at first you don't succeed,",
       "then skydiving definitely isn't for you.”",
       "― Steven Wright",
     }
 
-    -- Dynamically calculate vertical padding to keep things centered.
+    -- Helper for dynamic vertical centering
     local function get_center_padding()
-      local header_lines = #custom_dashboard.header
-      local footer_lines = #custom_dashboard.footer
-      local buttons_lines = #dashboard.section.buttons.val
+      -- Count lines in each section
+      local header_lines = #header
+      local footer_lines = #footer
+      local buttons_lines = 8 -- update if you change number of buttons below
       local total_lines = header_lines + buttons_lines + footer_lines
       local available_lines = vim.o.lines - 2
       local padding = math.max(0, math.floor((available_lines - total_lines) / 3))
       return padding
     end
 
-    -- Define the buttons with descriptive names and commands.
-    local function create_buttons()
-      local buttons = {
-        dashboard.button("f", "󰈞  Find File", "<cmd>FzfLua files<cr>"),
-        dashboard.button("t", "  Find Text", "<cmd>FzfLua grep<cr>"),
-        dashboard.button("r", "󰞌  Recent Files", "<cmd>FzfLua oldfiles<cr>"),
-        dashboard.button("p", "󰉖  Projects", "<cmd>Telescope projects<cr>"),
-        dashboard.button("n", "  New File", "<cmd>ene | startinsert<cr>"),
-        dashboard.button("c", "  Config", "<cmd>FzfLua files cwd=" .. vim.fn.stdpath("config") .. "<cr>"),
-        dashboard.button("l", "󰒲 Open Lazy", "<cmd>Lazy<cr>"),
-        dashboard.button("q", "  Quit", "<cmd>qa<cr>"),
-      }
-      return buttons
-    end
+    -- Buttons, kept simple and clear, using FzfLua and Telescope for core actions
+    dashboard.section.buttons.val = {
+      dashboard.button("f", "󰈞  Find File", "<cmd>FzfLua files<cr>"),
+      dashboard.button("t", "  Find Text", "<cmd>FzfLua grep<cr>"),
+      dashboard.button("r", "󰞌  Recent Files", "<cmd>FzfLua oldfiles<cr>"),
+      dashboard.button("p", "󰉖  Projects", "<cmd>Telescope projects<cr>"),
+      dashboard.button("n", "  New File", "<cmd>ene | startinsert<cr>"),
+      dashboard.button("c", "  Config", "<cmd>FzfLua files cwd=" .. vim.fn.stdpath("config") .. "<cr>"),
+      dashboard.button("l", "󰒲 Open Lazy", "<cmd>Lazy<cr>"),
+      dashboard.button("q", "  Quit", "<cmd>qa<cr>"),
+    }
 
-    -- Configure the sections of the dashboard.
-    dashboard.section.header.val = custom_dashboard.header
-    dashboard.section.header.opts.hl = "Type" -- Adding back the header highlight
-
-    dashboard.section.buttons.val = create_buttons()
-
-    dashboard.section.footer.val = custom_dashboard.footer
-    -- This is the change: applying the "Comment" highlight group to the footer
+    dashboard.section.header.val = header
+    dashboard.section.header.opts.hl = "Type"
+    dashboard.section.footer.val = footer
     dashboard.section.footer.opts.hl = "Comment"
 
     dashboard.config.layout = {
@@ -70,7 +61,7 @@ return {
 
     alpha.setup(dashboard.config)
 
-    -- Hide the statusline and tabline.
+    -- Hide statusline and tabline for a clean dashboard
     local augroup = vim.api.nvim_create_augroup("AlphaVisibility", { clear = true })
     vim.api.nvim_create_autocmd("User", {
       group = augroup,

@@ -1,9 +1,10 @@
--- ~/.config/nvim/lua/plugins/little-util.lua
 return {
+  -- Edit files as sudo (writes with :SudaWrite)
   {
     "lambdalisue/vim-suda",
     cmd = { "SudaRead", "SudaWrite" },
   },
+  -- Smart window splits: move/resize with <C-hjkl> and <C-S-hjkl>
   {
     "mrjones2014/smart-splits.nvim",
     keys = {
@@ -65,6 +66,7 @@ return {
       },
     },
   },
+  -- CSV viewer with friendly navigation
   {
     "hat0uma/csvview.nvim",
     cmd = { "CsvViewEnable", "CsvViewDisable", "CsvViewToggle" },
@@ -78,6 +80,7 @@ return {
       },
     },
   },
+  -- Toggleable terminal (horizontal/vertical/float)
   {
     "akinsho/toggleterm.nvim",
     keys = {
@@ -126,11 +129,13 @@ return {
       shade_terminals = false,
     },
   },
+  -- ZincOxide: tab/session manager
   {
     "thunder-coding/zincoxide",
     cmd = { "Z", "Zg", "Zt", "Zw" },
     opts = { behaviour = "tabs" },
   },
+  -- Auto-close unused buffers
   {
     "chrisgrieser/nvim-early-retirement",
     event = "VeryLazy",
@@ -140,6 +145,7 @@ return {
       deleteBufferWhenFileDeleted = true,
     },
   },
+  -- Centered editing with a left scratchpad buffer (norg ft)
   {
     "shortcuts/no-neck-pain.nvim",
     lazy = false,
@@ -155,11 +161,11 @@ return {
         skipEnteringNoNeckPainBuffer = true,
       },
       buffers = {
-        scratchPad = {
+        right = { enabled = false },
+        left = {
           enabled = true,
-        },
-        bo = {
-          filetype = "norg",
+          scratchPad = { enabled = true },
+          bo = { filetype = "norg" },
         },
       },
     },

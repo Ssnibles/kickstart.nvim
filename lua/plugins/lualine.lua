@@ -16,7 +16,6 @@ return {
           "neo-tree",
           "snacks_dashboard",
           "snacks_picker_input",
-          "fzf",
           "toggleterm",
           "lazy",
           "mason",
@@ -30,36 +29,23 @@ return {
     sections = {
       lualine_a = {
         {
-          -- TODO: better mode indicator
           "mode",
           separator = { left = "" },
           right_padding = 2,
         },
         {
-          -- TODO: better recording indicator
           function()
-            local recording_reg = vim.fn.reg_recording()
-            if recording_reg ~= "" then
-              return "󰑋 " .. recording_reg
-            end
-            return ""
+            local reg = vim.fn.reg_recording()
+            return reg ~= "" and ("󰑋 " .. reg) or ""
           end,
           color = { gui = "bold" },
         },
       },
       lualine_b = {
+        { "branch", icon = "" },
         {
-          "branch",
-          icon = "",
-        },
-        {
-          -- TODO: add symbols
           "diff",
-          symbols = {
-            added = " ",
-            modified = " ",
-            removed = " ",
-          },
+          symbols = { added = "+", modified = "~", removed = "-" },
           colored = true,
         },
       },
@@ -77,9 +63,9 @@ return {
           "diagnostics",
           sources = { "nvim_diagnostic" },
           symbols = {
-            error = " ",
-            warn = " ",
-            info = " ",
+            error = " ",
+            warn = " ",
+            info = " ",
             hint = "󰌵 ",
           },
           colored = true,
@@ -87,37 +73,25 @@ return {
         },
       },
       lualine_x = {
-        {
-          -- function()
-          --   local clients = vim.lsp.get_clients({ bufnr = 0 })
-          --   if #clients == 0 then
-          --     return ""
-          --   end
-          --   local names = {}
-          --   for _, client in ipairs(clients) do
-          --     table.insert(names, client.name)
-          --   end
-          --   return " " .. table.concat(names, ", ")
-          -- end,
-          -- color = { gui = "italic" },
-          "lsp_status",
-        },
-        {
-          "filetype",
-          colored = true,
-          icon_only = false,
-        },
+        -- {
+        --   function()
+        --     local clients = vim.lsp.get_clients({ bufnr = 0 })
+        --     if #clients == 0 then
+        --       return ""
+        --     end
+        --     local names = {}
+        --     for _, client in ipairs(clients) do
+        --       table.insert(names, client.name)
+        --     end
+        --     return " " .. table.concat(names, ", ")
+        --   end,
+        --   color = { gui = "italic" },
+        -- },
+        { "filetype", colored = true, icon_only = false },
       },
       lualine_y = {
-        {
-          "progress",
-          separator = " ",
-          padding = { left = 1, right = 0 },
-        },
-        {
-          "location",
-          padding = { left = 0, right = 1 },
-        },
+        { "progress", separator = " ", padding = { left = 1, right = 0 } },
+        { "location", padding = { left = 0, right = 1 } },
       },
       lualine_z = {
         {
@@ -132,12 +106,7 @@ return {
     inactive_sections = {
       lualine_a = {},
       lualine_b = {},
-      lualine_c = {
-        {
-          "filename",
-          path = 1,
-        },
-      },
+      lualine_c = { { "filename", path = 1 } },
       lualine_x = { "location" },
       lualine_y = {},
       lualine_z = {},

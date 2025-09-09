@@ -9,8 +9,8 @@ local o = vim.opt
 g.have_nerd_font = true
 
 -- Uncomment to disable netrw (if using oil.nvim, nvim-tree, etc.)
--- g.loaded_netrw = 1
--- g.loaded_netrwPlugin = 1
+g.loaded_netrw = 1
+g.loaded_netrwPlugin = 1
 
 -- =========================
 --  NEOVIDE-SPECIFIC SETTINGS
@@ -57,12 +57,13 @@ o.smartindent = true
 o.autoindent = true
 o.breakindent = true
 o.wrap = false
+o.linebreak = true -- visually wrap long lines at convenient points
 
 -- Line numbers & cursor
 o.number = true
 o.relativenumber = true
 o.cursorline = true
-o.cursorlineopt = "both"
+o.cursorlineopt = "number,line"
 
 -- Visuals
 o.termguicolors = true
@@ -76,6 +77,9 @@ o.listchars = {
   nbsp = "␣",
   extends = "»",
   precedes = "«",
+  lead = "·",
+  multispace = "·",
+  eol = "↲",
 }
 o.fillchars = {
   eob = " ",
@@ -98,11 +102,12 @@ o.smartcase = true
 o.hlsearch = true
 o.incsearch = true
 o.inccommand = "split"
+o.showmatch = true -- highlight matching parenthesis/brace
 
 -- Performance
 o.lazyredraw = true
-o.updatetime = 250
-o.timeoutlen = 500
+o.updatetime = 200 -- Faster completion (default 4000)
+o.timeoutlen = 400 -- Faster mapped sequence timeout
 o.redrawtime = 150
 o.synmaxcol = 500
 o.ttyfast = true
@@ -117,19 +122,20 @@ o.autoread = true
 -- Window management
 o.splitright = true
 o.splitbelow = true
-o.splitkeep = "cursor"
+o.splitkeep = "screen"
 
--- Mouse disabled (per preference)
-o.mouse = ""
+-- Mouse
+o.mouse = "a" -- allow mouse in all modes
 
 -- Interface
 o.laststatus = 3
 o.showmode = false
-o.completeopt = "menuone,noinsert,noselect"
-o.viewoptions = "folds,cursor,curdir,slash,unix"
-o.showtabline = 0
+o.completeopt = { "menuone", "noinsert", "noselect" }
+o.viewoptions = { "folds", "cursor", "curdir", "slash", "unix" }
+o.showtabline = 1 -- Show tabline only if >1 tab
 o.wildmenu = true
-o.wildmode = "longest:full,full"
+o.wildmode = { "longest:full", "full" }
+o.pumheight = 12 -- Popup menu height
 
 -- Folding
 o.foldmethod = "indent"
@@ -143,6 +149,7 @@ o.encoding = "utf-8"
 -- Misc
 o.title = true
 o.backspace = { "start", "eol", "indent" }
+o.confirm = true -- ask to save changes instead of erroring
 
 -- =========================
 --  UI HIGHLIGHTS & APPEARANCE
