@@ -87,6 +87,7 @@ return {
         --   end,
         --   color = { gui = "italic" },
         -- },
+        { "lsp_status" },
         { "filetype", colored = true, icon_only = false },
       },
       lualine_y = {
