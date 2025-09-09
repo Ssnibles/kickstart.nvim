@@ -77,8 +77,8 @@ o.listchars = {
   nbsp = "␣",
   extends = "»",
   precedes = "«",
-  lead = "·",
-  multispace = "·",
+  -- lead = "·",
+  -- multispace = "·",
   eol = "↲",
 }
 o.fillchars = {

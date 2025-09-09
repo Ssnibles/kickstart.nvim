@@ -57,12 +57,12 @@ keymap("n", "<leader>we", "<C-w>=", { desc = "Balance window sizes" })
 keymap("n", "<leader>wx", "<cmd>close<CR>", { desc = "Close current window" })
 keymap("n", "<leader>wo", "<C-w>o", { desc = "Close other windows" })
 
--- Window navigation with Ctrl + H/J/K/L
-keymap("n", "<C-h>", "<C-w>h", { desc = "Move to left window" })
-keymap("n", "<C-j>", "<C-w>j", { desc = "Move to lower window" })
-keymap("n", "<C-k>", "<C-w>k", { desc = "Move to upper window" })
-keymap("n", "<C-l>", "<C-w>l", { desc = "Move to right window" })
-
+-- -- Window navigation with Ctrl + H/J/K/L
+-- keymap("n", "<C-h>", "<C-w>h", { desc = "Move to left window" })
+-- keymap("n", "<C-j>", "<C-w>j", { desc = "Move to lower window" })
+-- keymap("n", "<C-k>", "<C-w>k", { desc = "Move to upper window" })
+-- keymap("n", "<C-l>", "<C-w>l", { desc = "Move to right window" })
+--
 -- ╭─────────────────────────────────────────────────────────────╮
 -- │                  LINE OPERATIONS                            │
 -- ╰─────────────────────────────────────────────────────────────╯
