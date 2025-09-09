@@ -1,95 +1,135 @@
--- ~/.config/nvim/lua/core/autocmds.lua
 local augroup = vim.api.nvim_create_augroup("GeneralAutocmds", { clear = true })
 
--- Use sets for O(1) lookups
 local special_filetypes = {
-  ["alpha"] = true,
-  ["checkhealth"] = true,
-  ["fzf"] = true,
-  ["help"] = true,
-  ["lazy"] = true,
-  ["man"] = true,
-  ["qf"] = true,
-  ["NvimTree"] = true,
-  ["startify"] = true,
-  ["gitcommit"] = true,
+  alpha = true,
+  checkhealth = true,
+  fzf = true,
+  help = true,
+  lazy = true,
+  man = true,
+  qf = true,
+  NvimTree = true,
+  startify = true,
+  gitcommit = true,
   ["neo-tree"] = true,
-  ["Trouble"] = true,
+  Trouble = true,
+  oil = false,
 }
-
 local special_buftypes = {
-  ["nofile"] = true,
-  ["acwrite"] = true,
-  ["terminal"] = true,
-  ["prompt"] = true,
+  nofile = true,
+  acwrite = true,
+  terminal = true,
+  prompt = true,
 }
-
 local closeable_types = {
-  ["help"] = true,
-  ["man"] = true,
-  ["qf"] = true,
-  ["lspinfo"] = true,
-  ["checkhealth"] = true,
+  help = true,
+  man = true,
+  qf = true,
+  lspinfo = true,
+  checkhealth = true,
 }
-
 local text_filetypes = {
-  ["markdown"] = true,
-  ["text"] = true,
-  ["txt"] = true,
-  ["gitcommit"] = true,
+  markdown = true,
+  text = true,
+  txt = true,
+  gitcommit = true,
 }
+local colorcolumn_filetypes = { norg = true }
 
--- Check if buffer should be excluded
 local function is_special_buffer(bufnr)
   bufnr = bufnr or 0
   return special_buftypes[vim.bo[bufnr].buftype] or special_filetypes[vim.bo[bufnr].filetype]
 end
 
--- Cache for lualine theme colors
+-- Set window-local options based on buffer type
+local function set_win_options(win, bufnr)
+  bufnr = bufnr or vim.api.nvim_win_get_buf(win)
+  local filetype = vim.bo[bufnr].filetype
+  local is_special = is_special_buffer(bufnr)
+  vim.api.nvim_set_option_value("number", not is_special, { win = win })
+  vim.api.nvim_set_option_value("relativenumber", not is_special, { win = win })
+  vim.api.nvim_set_option_value("cursorline", not is_special, { win = win })
+  if colorcolumn_filetypes[filetype] and not is_special then
+    vim.api.nvim_set_option_value("colorcolumn", "80", { win = win })
+  else
+    vim.api.nvim_set_option_value("colorcolumn", "", { win = win })
+  end
+end
+
+-- Always set window options on WinEnter and when buffer is shown in window
+vim.api.nvim_create_autocmd({ "WinEnter", "BufWinEnter" }, {
+  group = augroup,
+  callback = function(args)
+    set_win_options(vim.api.nvim_get_current_win())
+  end,
+})
+
+-- Set up text options, closeable types, cursor restore on buffer enter
+vim.api.nvim_create_autocmd({ "BufEnter", "FileType" }, {
+  group = augroup,
+  callback = function(args)
+    local bufnr = args.buf
+    local filetype = vim.bo[bufnr].filetype
+    local is_special = is_special_buffer(bufnr)
+
+    if is_special then
+      if closeable_types[filetype] then
+        vim.bo[bufnr].buflisted = false
+        vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = bufnr, silent = true, desc = "Close buffer" })
+      end
+    else
+      if text_filetypes[filetype] then
+        vim.opt_local.wrap = true
+        vim.opt_local.spell = true
+        vim.opt_local.linebreak = true
+      end
+      -- Restore cursor position (unless in diff mode)
+      if not vim.wo.diff then
+        local mark = vim.api.nvim_buf_get_mark(bufnr, '"')
+        if mark[1] > 0 and mark[1] <= vim.api.nvim_buf_line_count(bufnr) then
+          pcall(vim.api.nvim_win_set_cursor, vim.api.nvim_get_current_win(), mark)
+        end
+      end
+    end
+  end,
+})
+
+-- Change CursorLineNr color on mode change
 local mode_color_cache = {}
 local function get_mode_color(mode)
   if mode_color_cache[mode] then
     return mode_color_cache[mode]
   end
-
   local ok, lualine = pcall(require, "lualine")
   if not ok then
     return nil
   end
-
   local config = lualine.get_config()
   local theme = config.options.theme
-
   if type(theme) == "string" then
     ok, theme = pcall(require, "lualine.themes." .. theme)
     if not ok then
       return nil
     end
   end
-
   if not theme then
     return nil
   end
-
   local mode_map = {
-    ["n"] = theme.normal,
-    ["i"] = theme.insert,
-    ["v"] = theme.visual,
-    ["V"] = theme.visual,
+    n = theme.normal,
+    i = theme.insert,
+    v = theme.visual,
+    V = theme.visual,
     ["\22"] = theme.visual,
-    ["R"] = theme.replace,
-    ["c"] = theme.command,
+    R = theme.replace,
+    c = theme.command,
   }
-
   local color = mode_map[mode] and mode_map[mode].a and mode_map[mode].a.bg
   if color then
     mode_color_cache[mode] = color
   end
-
   return color
 end
-
--- Update cursor line number color
 local function update_cursorline_color()
   local mode = vim.fn.mode():sub(1, 1)
   local color = get_mode_color(mode)
@@ -97,55 +137,6 @@ local function update_cursorline_color()
     vim.api.nvim_set_hl(0, "CursorLineNr", { fg = color, bold = true })
   end
 end
-
--- Main buffer setup
-vim.api.nvim_create_autocmd({ "BufEnter", "FileType" }, {
-  group = augroup,
-  callback = function(args)
-    local bufnr = args.buf
-    local filetype = vim.bo[bufnr].filetype
-
-    -- Skip oil buffers
-    if filetype == "oil" then
-      return
-    end
-
-    local is_special = is_special_buffer(bufnr)
-    local winnr = vim.api.nvim_get_current_win()
-
-    -- Set window options using key-value pairs
-    vim.api.nvim_set_option_value("number", not is_special, { win = winnr })
-    vim.api.nvim_set_option_value("relativenumber", not is_special, { win = winnr })
-    vim.api.nvim_set_option_value("cursorline", not is_special, { win = winnr })
-
-    if is_special then
-      -- Handle closeable buffers
-      if closeable_types[filetype] then
-        vim.bo[bufnr].buflisted = false
-        vim.keymap.set("n", "q", "<cmd>close<cr>", {
-          buffer = bufnr,
-          silent = true,
-          desc = "Close buffer",
-        })
-      end
-    else
-      -- Text file settings
-      if text_filetypes[filetype] then
-        vim.opt_local.wrap = true
-        vim.opt_local.spell = true
-        vim.opt_local.linebreak = true
-      end
-
-      -- Restore cursor position
-      local mark = vim.api.nvim_buf_get_mark(bufnr, '"')
-      if mark[1] > 0 and mark[1] <= vim.api.nvim_buf_line_count(bufnr) then
-        pcall(vim.api.nvim_win_set_cursor, winnr, mark)
-      end
-    end
-  end,
-})
-
--- Mode-based cursor line highlighting
 vim.api.nvim_create_autocmd({ "VimEnter", "ModeChanged" }, {
   group = augroup,
   callback = function()
@@ -164,7 +155,6 @@ vim.api.nvim_create_autocmd("InsertEnter", {
     end
   end,
 })
-
 vim.api.nvim_create_autocmd("InsertLeave", {
   group = augroup,
   callback = function()
@@ -178,29 +168,22 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = augroup,
   callback = function()
-    vim.highlight.on_yank({ timeout = 300 })
+    vim.highlight.on_yank({ timeout = 250 })
   end,
 })
 
--- Auto-resize windows
+-- Auto-resize windows on VimResized
 vim.api.nvim_create_autocmd("VimResized", {
   group = augroup,
   command = "wincmd =",
 })
 
--- Cursorline management
-vim.api.nvim_create_autocmd("WinEnter", {
+-- Ensure filetype is set (rare, but fixes some plugins)
+vim.api.nvim_create_autocmd("BufWinEnter", {
   group = augroup,
-  callback = function()
-    if not is_special_buffer() then
-      vim.wo.cursorline = true
+  callback = function(args)
+    if vim.bo[args.buf].filetype == "" then
+      vim.cmd("filetype detect")
     end
-  end,
-})
-
-vim.api.nvim_create_autocmd("WinLeave", {
-  group = augroup,
-  callback = function()
-    vim.wo.cursorline = false
   end,
 })

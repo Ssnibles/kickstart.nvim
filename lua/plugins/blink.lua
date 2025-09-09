@@ -20,11 +20,19 @@ return {
           align_to = "label",
           treesitter = { "lsp" },
         },
+        max_height = 12, -- for visual clarity
+        min_width = 24,
       },
       documentation = {
-        window = { border = "rounded" },
+        window = { border = "rounded", max_width = 60 },
         auto_show = true,
-        auto_show_delay_ms = 0,
+        auto_show_delay_ms = 50, -- slight delay for smoothness
+      },
+      list = {
+        selection = {
+          preselect = false, -- do NOT preselect the first item
+          auto_insert = false, -- do NOT auto-insert unless selected
+        },
       },
     },
     fuzzy = {
@@ -69,7 +77,7 @@ return {
           opts = {
             trailing_slash = true,
             label_trailing_slash = true,
-            show_hidden_files_by_default = true,
+            show_hidden_files_by_default = false, -- less noise
             get_cwd = function(context)
               return vim.fn.expand(("#%d:p:h"):format(context.bufnr))
             end,

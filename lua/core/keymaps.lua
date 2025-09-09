@@ -2,11 +2,9 @@
 --      KEYMAPS CONFIGURATION
 -- ===============================
 
--- Set leader keys
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- Short alias for setting keymaps and options
 local keymap = vim.keymap.set
 local opts = { noremap = true, silent = true }
 
@@ -14,8 +12,18 @@ local opts = { noremap = true, silent = true }
 -- │                 GENERAL MAPPINGS                            │
 -- ╰─────────────────────────────────────────────────────────────╯
 
--- Clear search highlights with leader-c
+-- Clear search highlights with leader-ch
 keymap("n", "<leader>ch", "<cmd>nohlsearch<CR>", { desc = "Clear search highlights" })
+
+-- Clear search highlights and pattern with <Esc> in normal mode
+keymap("n", "<Esc>", function()
+  if vim.v.hlsearch == 1 then
+    vim.cmd("nohlsearch")
+    vim.fn.setreg("/", "")
+  else
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", false)
+  end
+end, { desc = "Clear search highlights and pattern", noremap = true, silent = true })
 
 -- Select all with a common keyboard shortcut
 keymap("n", "<C-a>", "ggVG", { desc = "Select all" })
@@ -60,6 +68,7 @@ keymap("n", "<C-l>", "<C-w>l", { desc = "Move to right window" })
 -- ╰─────────────────────────────────────────────────────────────╯
 
 -- Move lines up/down (normal/visual)
+-- Uncomment if you want these:
 -- keymap("n", "<A-j>", ":m .+1<CR>==", { desc = "Move line down" })
 -- keymap("n", "<A-k>", ":m .-2<CR>==", { desc = "Move line up" })
 -- keymap("x", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
@@ -69,7 +78,6 @@ keymap("n", "<C-l>", "<C-w>l", { desc = "Move to right window" })
 -- │             NUMBER INCREMENT / DECREMENT                    │
 -- ╰─────────────────────────────────────────────────────────────╯
 
--- Increment/decrement numbers using leader key
 keymap("n", "<leader>a", "<C-a>", { desc = "Increment number under cursor" })
 keymap("n", "<leader>x", "<C-x>", { desc = "Decrement number under cursor" })
 
