@@ -1,6 +1,7 @@
 return {
   "saghen/blink.cmp",
   version = "^1.0.0",
+  event = { "CmdlineEnter", "InsertEnter" },
   dependencies = {
     "archie-judd/blink-cmp-words",
     "rafamadriz/friendly-snippets",
@@ -20,18 +21,18 @@ return {
           align_to = "label",
           treesitter = { "lsp" },
         },
-        max_height = 12, -- for visual clarity
+        max_height = 12,
         min_width = 24,
       },
       documentation = {
         window = { border = "rounded", max_width = 60 },
         auto_show = true,
-        auto_show_delay_ms = 50, -- slight delay for smoothness
+        auto_show_delay_ms = 50,
       },
       list = {
         selection = {
-          preselect = false, -- do NOT preselect the first item
-          auto_insert = false, -- do NOT auto-insert unless selected
+          preselect = false,
+          auto_insert = false,
         },
       },
     },
@@ -50,8 +51,7 @@ return {
       default = { "lsp", "path", "snippets", "buffer" },
       per_filetype = {
         text = { "dictionary" },
-        markdown = { "dictionary", "lsp", "path", "snippets", "buffer" },
-        norg = { "dictionary", "lsp", "path", "snippets", "buffer" },
+        markdown = { "dictionary" },
       },
       providers = {
         thesaurus = {
@@ -77,7 +77,7 @@ return {
           opts = {
             trailing_slash = true,
             label_trailing_slash = true,
-            show_hidden_files_by_default = false, -- less noise
+            show_hidden_files_by_default = false,
             get_cwd = function(context)
               return vim.fn.expand(("#%d:p:h"):format(context.bufnr))
             end,

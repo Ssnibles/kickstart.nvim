@@ -105,9 +105,9 @@ o.inccommand = "split"
 o.showmatch = true -- highlight matching parenthesis/brace
 
 -- Performance
-o.lazyredraw = true
+-- o.lazyredraw = true
 o.updatetime = 200 -- Faster completion (default 4000)
-o.timeoutlen = 400 -- Faster mapped sequence timeout
+o.timeoutlen = 1000
 o.redrawtime = 150
 o.synmaxcol = 500
 o.ttyfast = true
@@ -125,7 +125,7 @@ o.splitbelow = true
 o.splitkeep = "screen"
 
 -- Mouse
-o.mouse = "a" -- allow mouse in all modes
+o.mouse = "" -- allow mouse in all modes
 
 -- Interface
 o.laststatus = 3

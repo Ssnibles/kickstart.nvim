@@ -60,15 +60,19 @@ return {
     },
     config = function()
       -- Custom diagnostic signs
-      local signs = { Error = "", Warn = "", Hint = "󰌵", Info = "" }
+      local signs = { Error = "", Warn = "", Hint = "󰌵", Info = "" }
       for type, icon in pairs(signs) do
         local hl = "DiagnosticSign" .. type
         vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
       end
 
+      -- Completely disable semantic tokens to prevent errors
+      vim.lsp.handlers["textDocument/semanticTokens/full"] = function() end
+      vim.lsp.handlers["textDocument/semanticTokens/full/delta"] = function() end
+
       -- LSP keymaps and helpers
       local function on_attach(client, bufnr)
-        -- Prefer treesitter for highlighting
+        -- Prefer treesitter for highlighting - disable semantic tokens
         client.server_capabilities.semanticTokensProvider = nil
 
         local function map(mode, lhs, rhs, desc)
@@ -113,6 +117,16 @@ return {
           end, "Toggle inlay hints")
         end
       end
+
+      -- Additional semantic token cleanup autocmd
+      vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(args)
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
+          if client then
+            client.server_capabilities.semanticTokensProvider = nil
+          end
+        end,
+      })
 
       -- Per-server config made easy to extend
       local lsp_servers = {
@@ -160,7 +174,7 @@ return {
               completeUnimported = true,
               staticcheck = true,
               directoryFilters = { "-.git", "-.vscode", "-.idea", "-node_modules" },
-              semanticTokens = true,
+              semanticTokens = false, -- Explicitly disable for gopls
             },
           },
         },
