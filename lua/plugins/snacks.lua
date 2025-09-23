@@ -3,7 +3,7 @@ return {
   priority = 1000,
   lazy = false,
   opts = {
-    -- Disable all modules except image and math for performance and clarity
+    -- keep only what is needed
     bigfile = { enabled = false },
     dashboard = { enabled = false },
     explorer = { enabled = false },
@@ -16,40 +16,26 @@ return {
     scroll = { enabled = false },
     statuscolumn = { enabled = false },
     words = { enabled = false },
-    -- Image and document previewing
+
+    -- image + math rendering
     image = {
       enabled = true,
-      formats = {
-        "png",
-        "jpg",
-        "jpeg",
-        "gif",
-        "bmp",
-        "webp",
-        "tiff",
-        "heic",
-        "avif",
-        "mp4",
-        "mov",
-        "avi",
-        "mkv",
-        "webm",
-        "pdf",
-      },
+      -- formats are auto-detected; no need to list them explicitly
       doc = {
         enabled = true,
-        inline = true, -- Preview images inline by default
-        float = false, -- (set true for floating preview)
+        inline = true, -- render inline where possible
+        float = false, -- use inline by default
         max_width = 80,
         max_height = 40,
-        conceal = function(lang, type)
+        -- keep code visible except for math; adjust if desired
+        conceal = function(_, type)
           return type == "math"
         end,
       },
       math = {
         enabled = true,
         latex = {
-          font_size = "Large", -- Enlarge math for readability
+          font_size = "Large", -- readable math size
         },
       },
     },

@@ -1,20 +1,15 @@
--- =========================
---  GLOBAL & CORE SETTINGS
--- =========================
+-- ~/.config/nvim/lua/core/options.lua
 
-local g = vim.g
-local o = vim.opt
+local g, o = vim.g, vim.opt
 
--- Have Nerd Font (used by icons)
+-- Icons assume a Nerd Font
 g.have_nerd_font = true
 
--- Uncomment to disable netrw (if using oil.nvim, nvim-tree, etc.)
+-- Disable netrw when using an alternative file explorer
 g.loaded_netrw = 1
 g.loaded_netrwPlugin = 1
 
--- =========================
---  NEOVIDE-SPECIFIC SETTINGS
--- =========================
+-- Neovide-specific UI
 if g.neovide then
   o.guifont = "JetBrainsMono Nerd Font:h12"
   g.neovide_scale_factor = 1.0
@@ -42,10 +37,7 @@ if g.neovide then
   g.neovide_refresh_rate_idle = 5
 end
 
--- =========================
---  CORE EDITOR OPTIONS
--- =========================
-
+-- Clipboard
 o.clipboard = "unnamedplus"
 
 -- Tabs & indentation
@@ -56,8 +48,10 @@ o.softtabstop = 2
 o.smartindent = true
 o.autoindent = true
 o.breakindent = true
+
+-- Wrapping
 o.wrap = false
-o.linebreak = true -- visually wrap long lines at convenient points
+o.linebreak = true -- used when wrap is toggled on
 
 -- Line numbers & cursor
 o.number = true
@@ -77,8 +71,6 @@ o.listchars = {
   nbsp = "␣",
   extends = "»",
   precedes = "«",
-  -- lead = "·",
-  -- multispace = "·",
   eol = "↲",
 }
 o.fillchars = {
@@ -102,40 +94,39 @@ o.smartcase = true
 o.hlsearch = true
 o.incsearch = true
 o.inccommand = "split"
-o.showmatch = true -- highlight matching parenthesis/brace
+o.showmatch = true
 
 -- Performance
--- o.lazyredraw = true
-o.updatetime = 200 -- Faster completion (default 4000)
+o.updatetime = 200
 o.timeoutlen = 1000
 o.redrawtime = 150
 o.synmaxcol = 500
-o.ttyfast = true
 
--- File handling
+-- Files
 o.undofile = true
 o.swapfile = false
 o.backup = false
 o.writebackup = false
 o.autoread = true
 
--- Window management
+-- Windows
 o.splitright = true
 o.splitbelow = true
 o.splitkeep = "screen"
 
 -- Mouse
-o.mouse = "" -- allow mouse in all modes
+o.mouse = "a" -- enable in all modes
 
 -- Interface
 o.laststatus = 3
 o.showmode = false
 o.completeopt = { "menuone", "noinsert", "noselect" }
 o.viewoptions = { "folds", "cursor", "curdir", "slash", "unix" }
-o.showtabline = 1 -- Show tabline only if >1 tab
+o.showtabline = 1
 o.wildmenu = true
 o.wildmode = { "longest:full", "full" }
-o.pumheight = 12 -- Popup menu height
+o.pumheight = 12
+o.cmdheight = 0 -- modern minimal cmdline
 
 -- Folding
 o.foldmethod = "indent"
@@ -149,20 +140,16 @@ o.encoding = "utf-8"
 -- Misc
 o.title = true
 o.backspace = { "start", "eol", "indent" }
-o.confirm = true -- ask to save changes instead of erroring
+o.confirm = true
 
--- =========================
---  UI HIGHLIGHTS & APPEARANCE
--- =========================
-
+-- UI highlights
 local set_hl = vim.api.nvim_set_hl
 local normal = vim.api.nvim_get_hl(0, { name = "Normal" })
-
 set_hl(0, "NormalFloat", { bg = normal.bg, fg = normal.fg })
 set_hl(0, "FloatBorder", { bg = normal.bg, fg = "#565f89" })
-set_hl(0, "IndentLine", { bg = nil, fg = "#565f89" })
 
--- Plugin-specific borders
+-- Plugin/UI-specific highlights
+set_hl(0, "IndentLine", { fg = "#565f89" })
 set_hl(0, "FzfLuaBorder", { bg = normal.bg, fg = "#565f89" })
 set_hl(0, "FzfLuaNormal", { bg = normal.bg, fg = normal.fg })
 set_hl(0, "BlinkCmpMenu", { bg = normal.bg, fg = "#565f89" })
@@ -176,20 +163,16 @@ set_hl(0, "NoiceCmdline", { bg = normal.bg, fg = "#565f89" })
 set_hl(0, "NoiceCmdlinePopup", { bg = normal.bg })
 set_hl(0, "NoiceCmdlinePopupBorder", { bg = normal.bg, fg = "#565f89" })
 
--- =========================
---  AUTOCOMMANDS & DIAGNOSTICS
--- =========================
-
--- Disable LSP signature help popup
+-- LSP: disable signature help popups
 vim.lsp.handlers["textDocument/signatureHelp"] = function() end
 
--- Terminal: hide numbers & sign column
+-- Terminal windows: hide gutters
 vim.api.nvim_create_autocmd("TermOpen", {
   pattern = "*",
   command = "setlocal nonumber norelativenumber signcolumn=no",
 })
 
--- Diagnostics icons & sorting
+-- Diagnostics: stable signs and ordering
 vim.diagnostic.config({
   severity_sort = true,
   signs = {

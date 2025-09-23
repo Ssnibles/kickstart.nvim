@@ -1,10 +1,6 @@
 -- core/lazy.lua
 -- Bootstrap and configure lazy.nvim, injecting the active theme spec.
 
--- Set leader keys
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local out = vim.fn.system({
@@ -28,14 +24,12 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
---- Setup function for lazy.nvim
 ---@param active_theme_spec table
 return function(active_theme_spec)
   require("lazy").setup({
     spec = {
       active_theme_spec,
       { import = "plugins" },
-      -- { import = "plugins.langs" },
     },
     change_detection = { notify = false },
     install = { colorscheme = { "rose-pine" } },
@@ -43,20 +37,16 @@ return function(active_theme_spec)
     performance = {
       rtp = {
         disabled_plugins = {
-          "netrw",
-          "netrwPlugin",
+          "gzip",
+          -- "matchit",
+          -- "matchparen",
+          -- "netrwPlugin",
           "tarPlugin",
-          "zipPlugin",
+          "tohtml",
           "tutor",
-          "rplugin",
-          "syntax",
-          "synmenu",
-          "optwin",
-          "compiler",
-          "matchit",
+          "zipPlugin",
         },
       },
     },
-    -- dev = { path = "~/projects/" },
   })
 end

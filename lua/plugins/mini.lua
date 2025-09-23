@@ -1,34 +1,25 @@
 return {
   "echasnovski/mini.nvim",
-  version = false, -- Always use the latest git branch
+  version = false, -- track main
   event = "VeryLazy",
   config = function()
-    -- Core text editing modules
-    require("mini.ai").setup({
-      mappings = { around = "a", inside = "i" },
-    })
-    require("mini.align").setup({
-      mappings = { start = "ga", start_with_preview = "gA" },
-    })
-    require("mini.surround").setup({
-      mappings = { add = "sa", delete = "sd" },
-    })
-    require("mini.move").setup({
-      mappings = {
-        left = "<M-h>",
-        right = "<M-l>",
-        down = "<M-j>",
-        up = "<M-k>",
-      },
-    })
+    -- Text objects, align, surround, move
+    require("mini.ai").setup({ mappings = { around = "a", inside = "i" } })
+    require("mini.align").setup({ mappings = { start = "ga", start_with_preview = "gA" } })
+    require("mini.surround").setup({ mappings = { add = "sa", delete = "sd", replace = "sr" } })
+    require("mini.move").setup({ mappings = { left = "<M-h>", right = "<M-l>", down = "<M-j>", up = "<M-k>" } })
 
-    -- Quality-of-life modules, simple defaults
+    -- Lightweight QoL
     require("mini.comment").setup()
     require("mini.cursorword").setup()
-    require("mini.starter").setup()
-    require("mini.icons").setup()
 
-    -- Keybinding hints
+    -- Starter: keep installed but don’t auto-open (Alpha handles the dashboard)
+    require("mini.starter").setup({ autoopen = false })
+
+    -- Icons provider (lets other plugins prefer mini.icons over devicons)
+    require("mini.icons").setup({ style = "glyph" })
+
+    -- Keybinding hints (concise groups + rounded border)
     require("mini.clue").setup({
       clues = {
         { mode = "n", keys = "<Leader>", desc = "+leader" },
@@ -52,13 +43,11 @@ return {
         { mode = "n", keys = "[" },
         { mode = "n", keys = "s" },
       },
-      window = {
-        delay = 300,
-        config = { border = "rounded" },
-      },
+      window = { delay = 300, config = { border = "rounded" } },
     })
 
-    -- Highlight key words and hex colors
+    -- Highlight keywords + hex colors
+    local hip = require("mini.hipatterns")
     require("mini.hipatterns").setup({
       highlighters = {
         fixme = { pattern = "%f[%w]()FIXME()%f[%W]", group = "MiniHipatternsFixme" },
@@ -71,7 +60,7 @@ return {
         note = { pattern = "%f[%w]()NOTE()%f[%W]", group = "MiniHipatternsNote" },
         info = { pattern = "%f[%w]()INFO()%f[%W]", group = "MiniHipatternsNote" },
         hint = { pattern = "%f[%w]()HINT()%f[%W]", group = "MiniHipatternsNote" },
-        hex_color = require("mini.hipatterns").gen_highlighter.hex_color(),
+        hex_color = hip.gen_highlighter.hex_color(),
       },
     })
   end,

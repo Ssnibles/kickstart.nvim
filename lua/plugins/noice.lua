@@ -1,17 +1,24 @@
 return {
   "folke/noice.nvim",
-  dependencies = { "MunifTanjim/nui.nvim" },
   event = "VeryLazy",
+  dependencies = { "MunifTanjim/nui.nvim" },
   opts = {
-    -- Custom views for a clean and modern look
+    -- Cmdline popup: centered, rounded, minimal chrome
     views = {
       cmdline_popup = {
         size = { width = 60, height = "auto" },
         border = { style = "rounded", padding = { 0, 1 } },
         position = { row = 0.3, col = "50%" },
+        win_options = {
+          winhighlight = {
+            Normal = "NormalFloat",
+            FloatBorder = "FloatBorder",
+          },
+        },
       },
     },
 
+    -- Cmdline formats
     cmdline = {
       enabled = true,
       format = {
@@ -28,9 +35,14 @@ return {
     messages = { enabled = true },
     command = { history = { view = "split" } },
 
+    -- Avoid handler conflicts; fidget/others can handle these
     lsp = {
       hover = { enabled = false },
       signature = { enabled = false },
+      progress = { enabled = false },
     },
+
+    -- Leave notifications to fidget or nvim-notify
+    notify = { enabled = false },
   },
 }

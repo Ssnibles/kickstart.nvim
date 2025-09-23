@@ -1,10 +1,14 @@
 return {
-  -- Edit files as sudo (writes with :SudaWrite)
+  -- Edit as sudo (transparent write/read)
   {
     "lambdalisue/vim-suda",
     cmd = { "SudaRead", "SudaWrite" },
+    init = function()
+      vim.g.suda_smart_edit = 1 -- reopen with sudo on write if needed
+    end,
   },
-  -- Smart window splits: move/resize with <C-hjkl> and <C-S-hjkl>
+
+  -- Smart split navigation & resizing
   {
     "mrjones2014/smart-splits.nvim",
     keys = {
@@ -13,28 +17,28 @@ return {
         function()
           require("smart-splits").move_cursor_left()
         end,
-        desc = "Move to left split",
+        desc = "Move left",
       },
       {
         "<C-j>",
         function()
           require("smart-splits").move_cursor_down()
         end,
-        desc = "Move to below split",
+        desc = "Move down",
       },
       {
         "<C-k>",
         function()
           require("smart-splits").move_cursor_up()
         end,
-        desc = "Move to above split",
+        desc = "Move up",
       },
       {
         "<C-l>",
         function()
           require("smart-splits").move_cursor_right()
         end,
-        desc = "Move to right split",
+        desc = "Move right",
       },
       {
         "<C-S-h>",
@@ -65,10 +69,16 @@ return {
         desc = "Resize right",
       },
     },
+    opts = {
+      default_amount = 3,
+      multiplexer_integration = nil, -- enable if using wezterm/kitty/tmux later
+    },
   },
-  -- CSV viewer with friendly navigation
+
+  -- CSV viewer (lazy on csv)
   {
     "hat0uma/csvview.nvim",
+    ft = { "csv" },
     cmd = { "CsvViewEnable", "CsvViewDisable", "CsvViewToggle" },
     opts = {
       parser = { comments = { "#", "//" } },
@@ -80,31 +90,32 @@ return {
       },
     },
   },
-  -- Toggleable terminal (horizontal/vertical/float)
+
+  -- Toggleable terminal (float by default; no dim backdrop)
   {
     "akinsho/toggleterm.nvim",
     keys = {
-      { "<C-\\>", "<cmd>ToggleTerm<cr>", desc = "Toggle Terminal" },
+      { [[<C-\>]], "<cmd>ToggleTerm<cr>", desc = "Toggle Terminal" },
       {
         "<leader>th",
         function()
           require("toggleterm").toggle(1, nil, nil, "horizontal")
         end,
-        desc = "Horizontal Terminal",
+        desc = "Terminal horizontal",
       },
       {
         "<leader>tv",
         function()
           require("toggleterm").toggle(1, nil, nil, "vertical")
         end,
-        desc = "Vertical Terminal",
+        desc = "Terminal vertical",
       },
       {
         "<leader>tf",
         function()
           require("toggleterm").toggle(1, nil, nil, "float")
         end,
-        desc = "Floating Terminal",
+        desc = "Terminal float",
       },
     },
     opts = {
@@ -112,8 +123,10 @@ return {
         return term.direction == "horizontal" and 15 or math.floor(vim.o.columns * 0.4)
       end,
       open_mapping = nil,
+      start_in_insert = true,
       direction = "float",
       close_on_exit = true,
+      persist_size = false,
       shell = vim.o.shell,
       float_opts = {
         border = "curved",
@@ -124,18 +137,21 @@ return {
           return math.floor(vim.o.lines * 0.8)
         end,
         winblend = 0,
+        highlights = { border = "FloatBorder", background = "Normal" },
       },
-      winbar = { enabled = false },
+      hide_numbers = true,
       shade_terminals = false,
     },
   },
-  -- ZincOxide: tab/session manager
+
+  -- ZincOxide tabs/sessions
   {
     "thunder-coding/zincoxide",
     cmd = { "Z", "Zg", "Zt", "Zw" },
     opts = { behaviour = "tabs" },
   },
-  -- Auto-close unused buffers
+
+  -- Auto-close inactive buffers
   {
     "chrisgrieser/nvim-early-retirement",
     event = "VeryLazy",
@@ -143,15 +159,14 @@ return {
       retirementAgeMins = 10,
       ignoreAltFile = true,
       deleteBufferWhenFileDeleted = true,
+      notificationOnAutoClose = false,
     },
   },
-  -- Centered editing with a left scratchpad buffer (norg ft)
+
+  -- Centered editing with left scratchpad
   {
     "shortcuts/no-neck-pain.nvim",
-    lazy = false,
-    keys = {
-      { "<leader>nn", "<cmd>NoNeckPain<cr>", desc = "Toggle NoNeckPain" },
-    },
+    keys = { { "<leader>nn", "<cmd>NoNeckPain<cr>", desc = "Toggle NoNeckPain" } },
     opts = {
       width = 100,
       autocmds = {

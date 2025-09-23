@@ -28,11 +28,7 @@ return {
     },
     sections = {
       lualine_a = {
-        {
-          "mode",
-          separator = { left = "" },
-          right_padding = 2,
-        },
+        { "mode", right_padding = 2 },
         {
           function()
             local reg = vim.fn.reg_recording()
@@ -43,51 +39,37 @@ return {
       },
       lualine_b = {
         { "branch", icon = "" },
-        {
-          "diff",
-          symbols = { added = "+", modified = "~", removed = "-" },
-          colored = true,
-        },
+        { "diff", symbols = { added = "+", modified = "~", removed = "-" }, colored = true },
       },
       lualine_c = {
         {
           "filename",
           path = 1,
-          symbols = {
-            modified = "●",
-            readonly = "",
-            unnamed = "[No Name]",
-          },
+          symbols = { modified = "●", readonly = "", unnamed = "[No Name]" },
         },
         {
           "diagnostics",
           sources = { "nvim_diagnostic" },
-          symbols = {
-            error = " ",
-            warn = " ",
-            info = " ",
-            hint = "󰌵 ",
-          },
+          symbols = { error = " ", warn = " ", info = " ", hint = "󰌵 " },
           colored = true,
           update_in_insert = false,
         },
       },
       lualine_x = {
-        -- {
-        --   function()
-        --     local clients = vim.lsp.get_clients({ bufnr = 0 })
-        --     if #clients == 0 then
-        --       return ""
-        --     end
-        --     local names = {}
-        --     for _, client in ipairs(clients) do
-        --       table.insert(names, client.name)
-        --     end
-        --     return " " .. table.concat(names, ", ")
-        --   end,
-        --   color = { gui = "italic" },
-        -- },
-        { "lsp_status" },
+        {
+          function()
+            local clients = vim.lsp.get_clients({ bufnr = 0 })
+            if #clients == 0 then
+              return ""
+            end
+            local names = {}
+            for _, c in ipairs(clients) do
+              names[#names + 1] = c.name
+            end
+            return " " .. table.concat(names, ", ")
+          end,
+          color = { gui = "italic" },
+        },
         { "filetype", colored = true, icon_only = false },
       },
       lualine_y = {
@@ -95,13 +77,7 @@ return {
         { "location", padding = { left = 0, right = 1 } },
       },
       lualine_z = {
-        {
-          function()
-            return " " .. os.date("%H:%M")
-          end,
-          separator = { right = "" },
-          left_padding = 2,
-        },
+        { "datetime", style = "%H:%M" },
       },
     },
     inactive_sections = {

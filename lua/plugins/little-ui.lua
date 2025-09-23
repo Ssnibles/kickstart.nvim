@@ -1,36 +1,47 @@
 return {
+  -- Status column with right-aligned relative numbers
   {
     "luukvbaal/statuscol.nvim",
     event = { "BufReadPre", "BufNewFile" },
     opts = {
-      relculright = true, -- Relative numbers on the right (modern look)
+      relculright = true, -- right-align current line number with relativenumber
     },
   },
+
+  -- Compact inline diagnostics; disable default virtual_text
   {
     "rachartier/tiny-inline-diagnostic.nvim",
     event = "LspAttach",
     opts = {
+      preset = "modern",
+      hi = {
+        background = "CursorLine", -- subtle row background
+        mixing_color = "Normal", -- blend with theme background
+      },
       options = {
-        use_icons_from_diagnostic = true, -- Use LSP diagnostic icons
-        multilines = { enabled = true }, -- Show on all lines with diagnostics
+        use_icons_from_diagnostic = true,
+        multilines = { enabled = true, always_show = false },
+        enable_on_insert = false,
+        throttle = 20,
       },
     },
+    config = function(_, opts)
+      require("tiny-inline-diagnostic").setup(opts)
+      vim.diagnostic.config({ virtual_text = false }) -- avoid duplicate inline text
+    end,
   },
+
+  -- LSP progress + notifications; unobtrusive, no dark backdrop
   {
     "j-hui/fidget.nvim",
-    lazy = false, -- Load on startup for instant LSP feedback
+    event = "LspAttach",
     opts = {
       notification = {
         override_vim_notify = true,
         window = {
-          normal_hl = "Comment",
-          winblend = 100,
           border = "none",
+          winblend = 0, -- solid; no dim/alpha
           zindex = 45,
-          max_width = 0,
-          max_height = 0,
-          x_padding = 1,
-          y_padding = 0,
           align = "bottom",
           relative = "editor",
         },
@@ -40,13 +51,25 @@ return {
         ignore_done_already = true,
       },
     },
-    integration = {
-      ["nvim-tree"] = { enable = true },
-    },
   },
+
+  -- Sticky Treesitter context with a clean separator
   {
     "nvim-treesitter/nvim-treesitter-context",
     event = "BufReadPost",
-    opts = {},
+    opts = {
+      max_lines = 3,
+      multiline_threshold = 1,
+      trim_scope = "inner",
+      mode = "cursor",
+      separator = "─",
+      zindex = 20,
+    },
+    config = function(_, opts)
+      require("treesitter-context").setup(opts)
+      -- Link to float styling so it matches the theme
+      vim.api.nvim_set_hl(0, "TreesitterContext", { link = "NormalFloat" })
+      vim.api.nvim_set_hl(0, "TreesitterContextSeparator", { link = "FloatBorder" })
+    end,
   },
 }
