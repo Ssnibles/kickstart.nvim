@@ -50,8 +50,11 @@ o.autoindent = true
 o.breakindent = true
 
 -- Wrapping
-o.wrap = false
-o.linebreak = true -- used when wrap is toggled on
+o.wrap = true -- soft-wrap long lines instead of horizontal scrolling
+o.linebreak = true -- wrap at word boundaries
+o.breakindent = true -- keep visual indent on wrapped lines
+o.breakindentopt = "shift:2,sbr" -- small extra indent; place showbreak before extra indent
+o.showbreak = "↳ " -- indicator at the start of wrapped screen lines
 
 -- Line numbers & cursor
 o.number = true
@@ -71,7 +74,7 @@ o.listchars = {
   nbsp = "␣",
   extends = "»",
   precedes = "«",
-  eol = "↲",
+  -- eol = "",
 }
 o.fillchars = {
   eob = " ",
@@ -150,6 +153,7 @@ set_hl(0, "FloatBorder", { bg = normal.bg, fg = "#565f89" })
 
 -- Plugin/UI-specific highlights
 set_hl(0, "IndentLine", { fg = "#565f89" })
+set_hl(0, "TreesitterContextLineNumber", { bg = normal.float })
 set_hl(0, "FzfLuaBorder", { bg = normal.bg, fg = "#565f89" })
 set_hl(0, "FzfLuaNormal", { bg = normal.bg, fg = normal.fg })
 set_hl(0, "BlinkCmpMenu", { bg = normal.bg, fg = "#565f89" })

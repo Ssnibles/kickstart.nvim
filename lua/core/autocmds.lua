@@ -149,20 +149,20 @@ acmd("BufWinEnter", {
 })
 
 -- cd to the file's directory for normal buffers
-acmd("BufEnter", {
-  group = group,
-  callback = function(args)
-    local b = args.buf
-    if not vim.api.nvim_buf_is_valid(b) or is_special(b) then
-      return
-    end
-    local name = vim.api.nvim_buf_get_name(b)
-    if name == "" then
-      return
-    end
-    local dir = vim.fn.fnamemodify(name, ":h")
-    if vim.fn.isdirectory(dir) == 1 and dir ~= vim.fn.getcwd() then
-      pcall(vim.cmd.lcd, vim.fn.fnameescape(dir))
-    end
-  end,
-})
+-- acmd("BufEnter", {
+--   group = group,
+--   callback = function(args)
+--     local b = args.buf
+--     if not vim.api.nvim_buf_is_valid(b) or is_special(b) then
+--       return
+--     end
+--     local name = vim.api.nvim_buf_get_name(b)
+--     if name == "" then
+--       return
+--     end
+--     local dir = vim.fn.fnamemodify(name, ":h")
+--     if vim.fn.isdirectory(dir) == 1 and dir ~= vim.fn.getcwd() then
+--       pcall(vim.cmd.lcd, vim.fn.fnameescape(dir))
+--     end
+--   end,
+-- })

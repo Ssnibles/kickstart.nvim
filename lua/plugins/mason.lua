@@ -31,7 +31,7 @@ return {
         "jsonls",
         "lua_ls",
         "marksman",
-        "pyright",
+        -- "pyright",
         "rust_analyzer",
         "taplo",
         "texlab",
@@ -215,18 +215,18 @@ return {
           -- },
         },
 
-        pyright = {
-          settings = {
-            python = {
-              analysis = {
-                autoSearchPaths = true,
-                diagnosticMode = "openFilesOnly",
-                useLibraryCodeForTypes = true,
-                typeCheckingMode = "basic",
-              },
-            },
-          },
-        },
+        -- pyright = {
+        --   settings = {
+        --     python = {
+        --       analysis = {
+        --         autoSearchPaths = true,
+        --         diagnosticMode = "openFilesOnly",
+        --         useLibraryCodeForTypes = true,
+        --         typeCheckingMode = "basic",
+        --       },
+        --     },
+        --   },
+        -- },
 
         rust_analyzer = {
           settings = {

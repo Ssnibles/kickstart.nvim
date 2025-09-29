@@ -23,7 +23,8 @@ return {
     -- Prefer "prettierd" when available (then stop), fall back to "prettier"
     formatters_by_ft = {
       lua = { "stylua" },
-      python = { "isort", "black" },
+      -- python = { "isort", "black" },
+      python = { "prettierd", "prettier", stop_after_first = true },
       javascript = { "prettierd", "prettier", stop_after_first = true },
       typescript = { "prettierd", "prettier", stop_after_first = true },
       javascriptreact = { "prettierd", "prettier", stop_after_first = true },
